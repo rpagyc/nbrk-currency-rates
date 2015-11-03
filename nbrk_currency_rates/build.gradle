@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.1.1'
+    }
+}
+apply plugin: 'com.android.application'
+
+repositories {
+    jcenter()
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        applicationId "com.nbrk.rates"
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 40000002
+        versionName "4.2"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.google.android.gms:play-services-ads:8.1.0'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile('com.squareup.retrofit:converter-simplexml:1.8.0') {
+        exclude module: 'stax'
+        exclude module: 'stax-api'
+        exclude module: 'xpp3'
+    }
+    compile('org.simpleframework:simple-xml:2.7.1') {
+        exclude module: 'stax'
+        exclude module: 'stax-api'
+        exclude module: 'xpp3'
+    }
+    compile 'de.greenrobot:eventbus:3.0.0-beta1'
+    compile 'nl.qbusict:cupboard:2.1.2'
+    compile 'com.github.lecho:hellocharts-library:1.5.7@aar'
+}
