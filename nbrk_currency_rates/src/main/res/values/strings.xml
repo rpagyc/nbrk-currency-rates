@@ -58,4 +58,7 @@
     <string name="x_axis_name">time</string>
     <string name="y_axis_name">tenge</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3269683304908157/5160774424</string>
+    <string name="widget_currency_display">Display Currency on Widget</string>
+    <string name="widget_config">Widget Settings</string>
+    <string name="last_updated">Updated:</string>
 </resources>

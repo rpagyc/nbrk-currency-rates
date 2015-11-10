@@ -57,4 +57,7 @@
     <string name="chart_title">График курсов</string>
     <string name="x_axis_name">время</string>
     <string name="y_axis_name">тенге</string>
+    <string name="widget_currency_display">Отображать валюту на виджете</string>
+    <string name="widget_config">Настрокий виджета</string>
+    <string name="last_updated">Обновлено:</string>
 </resources>

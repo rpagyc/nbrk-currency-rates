@@ -6,7 +6,7 @@
         <CheckBoxPreference android:summary="@string/AUD" android:key="pref_key_show_AUD" android:title="AUD" android:defaultValue="true" android:icon="@drawable/aud"/>
         <CheckBoxPreference android:summary="@string/GBP" android:key="pref_key_show_GBP" android:title="GBP" android:defaultValue="true" android:icon="@drawable/gbp"/>
         <CheckBoxPreference android:summary="@string/BYR" android:key="pref_key_show_BYR" android:title="BYR" android:defaultValue="true" android:icon="@drawable/byr"/>
-        <CheckBoxPreference android:summary="@string/BRL" android:key="pref_key_show_BRL" android:title="DRL" android:defaultValue="true" android:icon="@drawable/brl"/>
+        <CheckBoxPreference android:summary="@string/BRL" android:key="pref_key_show_BRL" android:title="BRL" android:defaultValue="true" android:icon="@drawable/brl"/>
         <CheckBoxPreference android:summary="@string/HUF" android:key="pref_key_show_HUF" android:title="HUF" android:defaultValue="true" android:icon="@drawable/huf"/>
         <CheckBoxPreference android:summary="@string/HKD" android:key="pref_key_show_HKD" android:title="HKD" android:defaultValue="true" android:icon="@drawable/hkd"/>
         <CheckBoxPreference android:summary="@string/DKK" android:key="pref_key_show_DKK" android:title="DKK" android:defaultValue="true" android:icon="@drawable/dkk"/>
