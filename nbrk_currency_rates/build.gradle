@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.1'
+        classpath 'com.android.tools.build:gradle:2.0.0-alpha1'
     }
 }
 apply plugin: 'com.android.application'
@@ -19,7 +19,7 @@ android {
     defaultConfig {
         applicationId "com.nbrk.rates"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 40000003
         versionName "4.3"
     }
