@@ -1,63 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Курс Валют НБРК</string>
-    <string name="no_network_connection">Нет интернет соединения</string>
-    <string name="no_data_received">Не удалось загрузить курсы</string>
-    <string name="refresh">Обновить</string>
-    <string name="date">Дата</string>
-    <string name="settings">Настройки</string>
-    <string name="settings_display_currency">Отображать валюту</string>
-    <string name="loading">Загрузка...</string>
-    <string name="select">Курсы валют за дату</string>
-    <string name="title">Курсы на</string>
-    <string name="AUD">АВСТРАЛИЙСКИЙ ДОЛЛАР</string>
-    <string name="GBP">АНГЛИЙСКИЙ ФУНТ СТЕРЛИНГОВ</string>
-    <string name="BYR">БЕЛОРУССКИЙ РУБЛЬ</string>
-    <string name="BRL">БРАЗИЛЬСКИЙ РЕАЛ</string>
-    <string name="HUF">ВЕНГЕРСКИЙ ФОРИНТ</string>
-    <string name="HKD">ГОНКОНГСКИЙ ДОЛЛАР</string>
-    <string name="DKK">ДАТСКАЯ КРОНА</string>
-    <string name="AED">ДИРХАМ ОАЭ</string>
-    <string name="USD">ДОЛЛАР США</string>
-    <string name="EUR">ЕВРО</string>
-    <string name="CAD">КАНАДСКИЙ ДОЛЛАР</string>
-    <string name="CNY">КИТАЙСКИЙ ЮАНЬ</string>
-    <string name="KWD">КУВЕЙТСКИЙ ДИНАР</string>
-    <string name="KGS">КЫРГЫЗСКИЙ СОМ</string>
-    <string name="LVL">ЛАТВИЙСКИЙ ЛАТ</string>
-    <string name="LTL">ЛИТОВСКИЙ ЛИТ</string>
-    <string name="MDL">МОЛДАВСКИЙ ЛЕЙ</string>
-    <string name="MYR">МАЛАЗИЙСКИЙ РИНГГИТ</string>
-    <string name="NOK">НОРВЕЖСКАЯ КРОНА</string>
-    <string name="PLN">ПОЛЬСКИЙ ЗЛОТЫЙ</string>
-    <string name="SAR">РИЯЛ САУДОВСКОЙ АРАВИИ</string>
-    <string name="RUB">РОССИЙСКИЙ РУБЛЬ</string>
-    <string name="XDR">СДР</string>
-    <string name="SGD">СИНГАПУРСКИЙ ДОЛЛАР</string>
-    <string name="TJS">ТАДЖИКСКИЙ СОМОНИ</string>
-    <string name="TRY">ТУРЕЦКАЯ ЛИРА</string>
-    <string name="UZS">УЗБЕКСКИЙ СУМ</string>
-    <string name="UAH">УКРАИНСКАЯ ГРИВНА</string>
-    <string name="CZK">ЧЕШСКАЯ КРОНА</string>
-    <string name="SEK">ШВЕДСКАЯ КРОНА</string>
-    <string name="CHF">ШВЕЙЦАРСКИЙ ФРАНК</string>
-    <string name="ZAR">ЮЖНО-АФРИКАНСКИЙ РАНД</string>
-    <string name="KRW">ЮЖНО-КОРЕЙСКИХ ВОН</string>
-    <string name="JPY">ЯПОНСКАЯ ЙЕНА</string>
-    <string name="EEK">ЭСТОНСКАЯ КРОНА</string>
-    <string name="AZN">АЗЕРБАЙДЖАНСКИЙ МАНАТ</string>
-    <string name="THB">ТАЙСКИЙ БАТ</string>
-    <string name="INR">ИНДИЙСКАЯ РУПИЯ</string>
-    <string name="AMD">АРМЯНСКИЙ ДРАМ</string>
-    <string name="IRR">ИРАНСКИЙ РИАЛ</string>
-    <string name="GEL">ГРУЗИНСКИЙ ЛАРИ</string>
-    <string name="MXN">МЕКСИКАНСКИЙ ПЕСО</string>
-    <string name="convert">Конвертация</string>
-    <string name="conversion_title">Конвертация валюты</string>
-    <string name="chart_title">График курсов</string>
-    <string name="x_axis_name">время</string>
-    <string name="y_axis_name">тенге</string>
-    <string name="widget_currency_display">Отображать валюту на виджете</string>
-    <string name="widget_config">Настрокий виджета</string>
-    <string name="last_updated">Обновлено:</string>
+  <string name="app_name">Курс валют НБРК</string>
+  <string name="no_network_connection">Нет интернет соединения</string>
+  <string name="no_data_received">Не удалось загрузить курсы</string>
+  <string name="refresh">Обновить</string>
+  <string name="date">Дата</string>
+  <string name="settings">Настройки</string>
+  <string name="settings_display_currency">Отображать валюту</string>
+  <string name="loading">Загрузка...</string>
+  <string name="select">Курсы валют за дату</string>
+  <string name="title">Курсы на</string>
+  <string name="AUD">АВСТРАЛИЙСКИЙ ДОЛЛАР</string>
+  <string name="GBP">АНГЛИЙСКИЙ ФУНТ СТЕРЛИНГОВ</string>
+  <string name="BYR">БЕЛОРУССКИЙ РУБЛЬ</string>
+  <string name="BRL">БРАЗИЛЬСКИЙ РЕАЛ</string>
+  <string name="HUF">ВЕНГЕРСКИЙ ФОРИНТ</string>
+  <string name="HKD">ГОНКОНГСКИЙ ДОЛЛАР</string>
+  <string name="DKK">ДАТСКАЯ КРОНА</string>
+  <string name="AED">ДИРХАМ ОАЭ</string>
+  <string name="USD">ДОЛЛАР США</string>
+  <string name="EUR">ЕВРО</string>
+  <string name="CAD">КАНАДСКИЙ ДОЛЛАР</string>
+  <string name="CNY">КИТАЙСКИЙ ЮАНЬ</string>
+  <string name="KWD">КУВЕЙТСКИЙ ДИНАР</string>
+  <string name="KGS">КЫРГЫЗСКИЙ СОМ</string>
+  <string name="LVL">ЛАТВИЙСКИЙ ЛАТ</string>
+  <string name="LTL">ЛИТОВСКИЙ ЛИТ</string>
+  <string name="MDL">МОЛДАВСКИЙ ЛЕЙ</string>
+  <string name="MYR">МАЛАЗИЙСКИЙ РИНГГИТ</string>
+  <string name="NOK">НОРВЕЖСКАЯ КРОНА</string>
+  <string name="PLN">ПОЛЬСКИЙ ЗЛОТЫЙ</string>
+  <string name="SAR">РИЯЛ САУДОВСКОЙ АРАВИИ</string>
+  <string name="RUB">РОССИЙСКИЙ РУБЛЬ</string>
+  <string name="XDR">СДР</string>
+  <string name="SGD">СИНГАПУРСКИЙ ДОЛЛАР</string>
+  <string name="TJS">ТАДЖИКСКИЙ СОМОНИ</string>
+  <string name="TRY">ТУРЕЦКАЯ ЛИРА</string>
+  <string name="UZS">УЗБЕКСКИЙ СУМ</string>
+  <string name="UAH">УКРАИНСКАЯ ГРИВНА</string>
+  <string name="CZK">ЧЕШСКАЯ КРОНА</string>
+  <string name="SEK">ШВЕДСКАЯ КРОНА</string>
+  <string name="CHF">ШВЕЙЦАРСКИЙ ФРАНК</string>
+  <string name="ZAR">ЮЖНО-АФРИКАНСКИЙ РАНД</string>
+  <string name="KRW">ЮЖНО-КОРЕЙСКИХ ВОН</string>
+  <string name="JPY">ЯПОНСКАЯ ЙЕНА</string>
+  <string name="EEK">ЭСТОНСКАЯ КРОНА</string>
+  <string name="AZN">АЗЕРБАЙДЖАНСКИЙ МАНАТ</string>
+  <string name="THB">ТАЙСКИЙ БАТ</string>
+  <string name="INR">ИНДИЙСКАЯ РУПИЯ</string>
+  <string name="AMD">АРМЯНСКИЙ ДРАМ</string>
+  <string name="IRR">ИРАНСКИЙ РИАЛ</string>
+  <string name="GEL">ГРУЗИНСКИЙ ЛАРИ</string>
+  <string name="MXN">МЕКСИКАНСКИЙ ПЕСО</string>
+  <string name="convert">Конвертация</string>
+  <string name="conversion_title">Конвертация валюты</string>
+  <string name="chart_title">График курсов</string>
+  <string name="x_axis_name">Время</string>
+  <string name="y_axis_name">Тенге</string>
+  <string name="widget_currency_display">Отображать валюту на виджете</string>
+  <string name="widget_config">Настройки виджета</string>
+  <string name="last_updated">Обновлено:</string>
+  <string name="background_color_title">Цвет Фона</string>
+  <string name="background_title">Фон виджета</string>
+  <string name="opacity_title">Прозрачность</string>
+
+  <string-array name="period">
+    <item>Неделя</item>
+    <item>Месяц</item>
+    <item>Год</item>
+  </string-array>
+
+  <string-array name="widgetBackgroundLabels">
+    <item>Белый</item>
+    <item>Черный</item>
+  </string-array>
+
+  <string-array name="widgetBackgroundValues">
+    <item>#00ffffff</item>
+    <item>#00000000</item>
+  </string-array>
 </resources>

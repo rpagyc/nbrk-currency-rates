@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+  <ImageView
+    android:id="@+id/flag"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="16dp"
+    android:scaleType="fitCenter"
+    android:src="@drawable/aud"
+    />
+
+  <TextView
+    android:id="@+id/tvCurrencyCode"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_toRightOf="@+id/flag"
+    android:paddingLeft="16dp"
+    android:textSize="24dp"
+    tools:text="AUD"/>
+
+  <TextView
+    android:id="@+id/tvCurrencyName"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvCurrencyCode"
+    android:layout_marginBottom="8dp"
+    android:layout_marginRight="16dp"
+    android:layout_toRightOf="@+id/flag"
+    android:paddingLeft="16dp"
+    android:singleLine="true"
+    tools:text="1 австралийский доллар"/>
+  <!-- price -->
+  <TextView
+    android:id="@+id/tvPrice"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@id/tvCurrencyCode"
+    android:layout_toLeftOf="@+id/tvChange"
+    android:textSize="24dp"
+    tools:text="147.77"/>
+
+  <TextView
+    android:id="@+id/tvChange"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@id/tvCurrencyCode"
+    android:layout_alignParentRight="true"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="16dp"
+    android:singleLine="true"
+    tools:text="+12.345"/>
+
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_alignParentBottom="true"
+    android:background="?android:attr/listDivider"
+    />
+</RelativeLayout>

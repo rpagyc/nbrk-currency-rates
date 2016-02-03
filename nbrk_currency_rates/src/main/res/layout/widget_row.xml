@@ -2,49 +2,60 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
-    <ImageView android:id="@+id/flag"
-               android:layout_width="40dp"
-               android:layout_height="40dp"
-               android:scaleType="fitCenter"
-               android:src="@drawable/aud"
-               android:layout_centerVertical="true"/>
-    <TextView android:id="@+id/fc"
-              android:paddingLeft="16dp"
-              android:layout_height="wrap_content"
-              android:layout_width="wrap_content"
-              android:textColor="@color/material_grey_600"
-              android:textSize="20dp"
-              android:text="AUD"
-              android:layout_toRightOf="@+id/flag"/>
-    <TextView android:id="@+id/fc_label"
-              android:layout_height="wrap_content"
-              android:layout_width="wrap_content"
-              android:textColor="@color/material_grey_600"
-              android:paddingLeft="16dp"
-              android:textSize="12dp"
-              android:text="1 австралийский доллар"
-              android:layout_toRightOf="@+id/flag"
-              android:layout_below="@id/fc"
-              android:gravity="center_vertical"
-              android:singleLine="true"/>
-    <!-- price -->
-    <TextView android:id="@+id/price"
-              android:layout_height="wrap_content"
-              android:layout_width="wrap_content"
-              android:textColor="@color/material_grey_600"
-              android:text="147.77"
-              android:textSize="20dp"
-              android:layout_toLeftOf="@+id/price_difference"
-              android:gravity="center_vertical|right"/>
-    <TextView android:id="@+id/price_difference"
-              android:layout_height="wrap_content"
-              android:textColor="@color/material_grey_600"
-              android:layout_width="40dp"
-              android:layout_alignParentRight="true"
-              android:layout_alignBaseline="@+id/price"
-              android:text="+12.34"
-              android:gravity="right"
-              android:singleLine="true" android:textSize="12dp"/>
+
+  <ImageView
+    android:id="@+id/flag"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_centerVertical="true"
+    android:scaleType="fitCenter"
+    tools:src="@drawable/aud"/>
+
+  <TextView
+    android:id="@+id/tvCurrencyCode"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toRightOf="@+id/flag"
+    android:paddingLeft="16dp"
+    tools:text="AUD"
+    android:textColor="@color/material_grey_600"
+    android:textSize="20dp"/>
+
+  <TextView
+    android:id="@+id/tvCurrencyName"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvCurrencyCode"
+    android:layout_toRightOf="@+id/flag"
+    android:gravity="center_vertical"
+    android:paddingLeft="16dp"
+    android:singleLine="true"
+    tools:text="1 австралийский доллар"
+    android:textColor="@color/material_grey_600"
+    android:textSize="12dp"/>
+  <!-- price -->
+  <TextView
+    android:id="@+id/tvPrice"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toLeftOf="@+id/tvChange"
+    android:gravity="center_vertical|right"
+    tools:text="147.77"
+    android:textColor="@color/material_grey_600"
+    android:textSize="20dp"/>
+
+  <TextView
+    android:id="@+id/tvChange"
+    android:layout_width="40dp"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/tvPrice"
+    android:layout_alignParentRight="true"
+    android:gravity="right"
+    android:singleLine="true"
+    android:text="+12.34"
+    android:textColor="@color/material_grey_600"
+    android:textSize="12dp"/>
 </RelativeLayout>
