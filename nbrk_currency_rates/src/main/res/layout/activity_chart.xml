@@ -53,12 +53,6 @@
       android:layout_margin="16dp"
       />
 
-    <!--<lecho.lib.hellocharts.view.LineChartView-->
-    <!--android:id="@+id/chart"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:padding="16dp"-->
-    <!--/>-->
   </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

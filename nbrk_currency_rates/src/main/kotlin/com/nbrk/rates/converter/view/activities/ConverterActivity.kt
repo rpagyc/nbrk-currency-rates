@@ -85,7 +85,7 @@ class ConverterActivity : NucleusActivity<ConverterPresenter>(), ToolbarManager 
   }
 
   fun showRates(rates: Rates) {
-    this.rates = rates.rates.toArrayList()
+    this.rates = rates.rates.toCollection(arrayListOf<RatesItem>())
     this.rates.add(kzt)
     spinnerAdapter.setData(this.rates)
     spToCurrency.setSelection(this.rates.size - 1)

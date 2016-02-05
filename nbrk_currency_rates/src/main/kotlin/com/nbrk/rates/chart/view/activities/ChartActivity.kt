@@ -73,7 +73,7 @@ class ChartActivity : NucleusActivity<ChartPresenter>(),
   }
 
   fun showCurrency(rates: Rates) {
-    currencyList = rates.rates.toArrayList()
+    currencyList = rates.rates.toCollection(arrayListOf<RatesItem>())
     spinnerAdapter.setData(currencyList)
   }
 

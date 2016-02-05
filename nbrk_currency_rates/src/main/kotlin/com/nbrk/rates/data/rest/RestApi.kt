@@ -1,16 +1,16 @@
 package com.nbrk.rates.data.rest
 
-import com.facebook.stetho.okhttp.StethoInterceptor
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.nbrk.rates.BuildConfig
 import com.nbrk.rates.data.rest.entities.CurrencyRates
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.logging.HttpLoggingInterceptor
-import retrofit.Response
-import retrofit.Retrofit
-import retrofit.RxJavaCallAdapterFactory
-import retrofit.SimpleXmlConverterFactory
-import retrofit.http.GET
-import retrofit.http.Query
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
 import rx.Observable
 
 /**
@@ -24,19 +24,20 @@ interface RestApi {
 
       val API_BASE_URL = "http://www.nationalbank.kz/rss/"
 
-      val httpClient = OkHttpClient()
+      val httpClient = OkHttpClient.Builder()
       if (BuildConfig.DEBUG) {
         val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
-        httpClient.interceptors().add(logging)
-        httpClient.networkInterceptors().add(StethoInterceptor());
+        logging.level = HttpLoggingInterceptor.Level.BASIC
+        httpClient.addInterceptor(logging)
+        httpClient.addInterceptor(logging)
+        httpClient.addNetworkInterceptor(StethoInterceptor())
       }
 
       val retrofit = Retrofit.Builder()
         .baseUrl(API_BASE_URL)
         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
         .addConverterFactory(SimpleXmlConverterFactory.create())
-        .client(httpClient)
+        .client(httpClient.build())
         .build()
 
       return retrofit.create(RestApi::class.java)

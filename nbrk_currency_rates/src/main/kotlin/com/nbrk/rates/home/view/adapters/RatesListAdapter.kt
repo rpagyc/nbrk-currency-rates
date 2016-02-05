@@ -38,7 +38,7 @@ class RatesListAdapter : RecyclerView.Adapter<RatesListAdapter.ViewHolder>() {
   }
 
   override fun getItemCount(): Int {
-    return rates.size()
+    return rates.size
   }
 
   class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

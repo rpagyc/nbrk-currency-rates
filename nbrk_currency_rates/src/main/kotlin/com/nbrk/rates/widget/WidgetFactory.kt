@@ -32,8 +32,8 @@ class WidgetFactory(internal var context: Context, intent: Intent) :
       .subscribe(
         { rates ->
           this.rates = rates.rates.filter {
-            sharedPref.getBoolean("widget_show_${it.currencyCode}", true)
-          }.toArrayList()
+                    sharedPref.getBoolean("widget_show_${it.currencyCode}", true)
+                  }.toCollection(arrayListOf<RatesItem>())
         },
         { error -> error(error) }
       )
