@@ -21,9 +21,9 @@ class RatesModel {
   }
 
   fun getRates(date: String): Observable<Rates> {
-    val dbRates = getDbRates(date).take(1)
-    val restRates = getRestRates(date).take(1)
-    return Observable.concat(dbRates, restRates).first()
+    val dbRates = getDbRates(date)
+    val restRates = getRestRates(date)
+    return Observable.merge(dbRates, restRates).first()
   }
 
   fun getDbRates(date: String): Observable<Rates> {

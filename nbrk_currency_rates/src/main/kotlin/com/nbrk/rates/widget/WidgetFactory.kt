@@ -8,10 +8,7 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.nbrk.rates.App
 import com.nbrk.rates.R
-import com.nbrk.rates.extensions.applySchedulers
-import com.nbrk.rates.extensions.error
-import com.nbrk.rates.extensions.getDrawable
-import com.nbrk.rates.extensions.toDateString
+import com.nbrk.rates.extensions.*
 import com.nbrk.rates.home.model.RatesModel
 import com.nbrk.rates.home.model.entities.RatesItem
 import java.util.*
@@ -30,8 +27,7 @@ class WidgetFactory(internal var context: Context, intent: Intent) :
     RatesModel.instance.getRates(date)
       .applySchedulers()
       .subscribe(
-        { rates ->
-          this.rates = rates.rates.filter {
+        { rates -> this.rates = rates.rates.filter {
                     sharedPref.getBoolean("widget_show_${it.currencyCode}", true)
                   }.toCollection(arrayListOf<RatesItem>())
         },
@@ -40,7 +36,6 @@ class WidgetFactory(internal var context: Context, intent: Intent) :
   }
 
   override fun onCreate() {
-    setRates()
   }
 
   override fun onDataSetChanged() {
@@ -56,7 +51,6 @@ class WidgetFactory(internal var context: Context, intent: Intent) :
 
   override fun getViewAt(position: Int): RemoteViews {
     val remoteViews = RemoteViews(context.packageName, R.layout.widget_row)
-
     if (position < rates.size) {
       val ratesItem = rates[position]
       remoteViews.setTextViewText(R.id.tvCurrencyCode, ratesItem.currencyCode)
