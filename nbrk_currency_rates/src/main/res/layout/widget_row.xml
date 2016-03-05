@@ -22,7 +22,7 @@
     android:paddingLeft="16dp"
     tools:text="AUD"
     android:textColor="@color/material_grey_600"
-    android:textSize="20dp"/>
+    android:textSize="20sp"/>
 
   <TextView
     android:id="@+id/tvCurrencyName"
@@ -35,7 +35,7 @@
     android:singleLine="true"
     tools:text="1 австралийский доллар"
     android:textColor="@color/material_grey_600"
-    android:textSize="12dp"/>
+    android:textSize="12sp"/>
   <!-- price -->
   <TextView
     android:id="@+id/tvPrice"
@@ -45,7 +45,7 @@
     android:gravity="center_vertical|right"
     tools:text="147.77"
     android:textColor="@color/material_grey_600"
-    android:textSize="20dp"/>
+    android:textSize="20sp"/>
 
   <TextView
     android:id="@+id/tvChange"
@@ -57,5 +57,5 @@
     android:singleLine="true"
     android:text="+12.34"
     android:textColor="@color/material_grey_600"
-    android:textSize="12dp"/>
+    android:textSize="12sp"/>
 </RelativeLayout>

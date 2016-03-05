@@ -21,7 +21,7 @@
     android:layout_marginTop="8dp"
     android:layout_toRightOf="@+id/flag"
     android:paddingLeft="16dp"
-    android:textSize="24dp"
+    android:textSize="24sp"
     tools:text="AUD"/>
 
   <TextView
@@ -42,7 +42,7 @@
     android:layout_height="wrap_content"
     android:layout_alignBaseline="@id/tvCurrencyCode"
     android:layout_toLeftOf="@+id/tvChange"
-    android:textSize="24dp"
+    android:textSize="24sp"
     tools:text="147.77"/>
 
   <TextView

@@ -1,11 +1,11 @@
 buildscript {
-  ext.kotlin_version = '1.0.0-rc-1036'
+  ext.kotlin_version = '1.0.0'
   repositories {
     jcenter()
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.0.0-beta2'
+    classpath 'com.android.tools.build:gradle:2.0.0-beta6'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
 }
@@ -35,6 +35,9 @@ android {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
+    debug {
+      testCoverageEnabled = true
+    }
   }
   sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
@@ -43,6 +46,8 @@ android {
 
 dependencies {
   compile fileTree(include: ['*.jar'], dir: 'libs')
+
+  testCompile 'junit:junit:4.12'
 
   compile 'com.android.support:appcompat-v7:23.1.1'
   compile 'com.android.support:recyclerview-v7:23.1.1'

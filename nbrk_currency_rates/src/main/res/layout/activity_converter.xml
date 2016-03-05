@@ -41,7 +41,7 @@
         android:gravity="right"
         android:inputType="number|numberDecimal"
         android:selectAllOnFocus="true"
-        android:textSize="24dp"
+        android:textSize="24sp"
         tools:text="100.00"/>
 
       <Spinner
@@ -80,7 +80,7 @@
         android:gravity="right"
         android:inputType="number|numberDecimal"
         android:selectAllOnFocus="true"
-        android:textSize="24dp"
+        android:textSize="24sp"
         tools:text="100.00"/>
 
       <Spinner

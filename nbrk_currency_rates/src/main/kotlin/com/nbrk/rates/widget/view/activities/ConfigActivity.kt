@@ -46,7 +46,7 @@ class ConfigActivity : NucleusActivity<ConfigPresenter>(),
     val widgetIds = widgetManager.getAppWidgetIds(widgetComponent)
     val update = Intent(this,WidgetProvider::class.java)
     update.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
-    update.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+    update.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
     sendBroadcast(update)
     finish()
   }
