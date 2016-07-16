@@ -36,7 +36,7 @@ class RatesModel {
 
   fun getRestRates(date: String): Observable<Rates> {
     return App.restApi.getCurrencyRates(date)
-      .filter { it.isSuccess }
+      .filter { it.isSuccessful }
       .map { it.body().toDomain() }
       .doOnNext { putRates(it) }
   }
@@ -51,7 +51,7 @@ class RatesModel {
         .whereArgs(date.toDateLong())
         .build())
       .prepare()
-      .createObservable()
+      .asRxObservable()
   }
 
     fun getRatesItems(date: String, range: Int, currency: String): Observable<List<RatesItem>> {
@@ -66,7 +66,7 @@ class RatesModel {
           .whereArgs(startDate.timeInMillis, date.toDateLong(), currency)
           .build())
         .prepare()
-        .createObservable()
+        .asRxObservable()
     }
 
   fun putRates(rates: Rates): PutResults<RatesItem> {

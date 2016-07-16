@@ -17,10 +17,10 @@
       android:title="GBP"/>
     <CheckBoxPreference
       android:defaultValue="true"
-      android:icon="@drawable/byr"
-      android:key="pref_key_show_BYR"
-      android:summary="@string/BYR"
-      android:title="BYR"/>
+      android:icon="@drawable/byn"
+      android:key="pref_key_show_BYN"
+      android:summary="@string/BYN"
+      android:title="BYN"/>
     <CheckBoxPreference
       android:defaultValue="true"
       android:icon="@drawable/brl"

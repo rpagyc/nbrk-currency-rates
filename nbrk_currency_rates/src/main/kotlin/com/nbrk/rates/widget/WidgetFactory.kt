@@ -8,7 +8,9 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.nbrk.rates.App
 import com.nbrk.rates.R
-import com.nbrk.rates.extensions.*
+import com.nbrk.rates.extensions.error
+import com.nbrk.rates.extensions.getDrawable
+import com.nbrk.rates.extensions.toDateString
 import com.nbrk.rates.home.model.RatesModel
 import com.nbrk.rates.home.model.entities.RatesItem
 import java.util.*
@@ -16,7 +18,7 @@ import java.util.*
 /**
  * Created by rpagyc on 30.10.2015.
  */
-class WidgetFactory(internal var context: Context, intent: Intent) :
+class WidgetFactory(val context: Context, intent: Intent) :
   RemoteViewsService.RemoteViewsFactory {
 
   var rates = ArrayList<RatesItem>()
@@ -25,7 +27,7 @@ class WidgetFactory(internal var context: Context, intent: Intent) :
   fun setRates() {
     val date = Calendar.getInstance().toDateString()
     RatesModel.instance.getRates(date)
-      .applySchedulers()
+      //.applySchedulers()
       .subscribe(
         { rates -> this.rates = rates.rates.filter {
                     sharedPref.getBoolean("widget_show_${it.currencyCode}", true)
