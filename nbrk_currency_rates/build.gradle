@@ -5,10 +5,13 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.2.0-alpha5'
+    classpath 'com.android.tools.build:gradle:2.1.2'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
   }
+}
+plugins {
+  id 'com.gladed.androidgitversion' version '0.2.20'
 }
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -29,8 +32,10 @@ android {
     applicationId "com.nbrk.rates"
     minSdkVersion 15
     targetSdkVersion 22
-    versionCode 40000006
-    versionName "4.6"
+    //versionCode 40 000 006
+    //versionName "4.6"
+    versionName androidGitVersion.name()
+    versionCode androidGitVersion.code()
   }
   buildTypes {
     release {

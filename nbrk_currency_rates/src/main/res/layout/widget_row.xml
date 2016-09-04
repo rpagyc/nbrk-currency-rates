@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,12 +29,12 @@
     android:layout_height="wrap_content"
     android:layout_below="@id/tvCurrencyCode"
     android:layout_toRightOf="@+id/flag"
-    android:gravity="center_vertical"
     android:paddingLeft="16dp"
-    android:singleLine="true"
     tools:text="1 австралийский доллар"
     android:textColor="@color/material_grey_600"
-    android:textSize="12sp"/>
+    android:textSize="12sp"
+    android:maxLines="1"
+    />
   <!-- price -->
   <TextView
     android:id="@+id/tvPrice"
@@ -54,8 +53,9 @@
     android:layout_alignBaseline="@+id/tvPrice"
     android:layout_alignParentRight="true"
     android:gravity="right"
-    android:singleLine="true"
     android:text="+12.34"
     android:textColor="@color/material_grey_600"
-    android:textSize="12sp"/>
+    android:textSize="12sp"
+    android:maxLines="1"
+    />
 </RelativeLayout>

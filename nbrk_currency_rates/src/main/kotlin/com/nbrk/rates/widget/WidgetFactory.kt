@@ -27,11 +27,11 @@ class WidgetFactory(val context: Context, intent: Intent) :
   fun setRates() {
     val date = Calendar.getInstance().toDateString()
     RatesModel.instance.getRates(date)
-      //.applySchedulers()
       .subscribe(
-        { rates -> this.rates = rates.rates.filter {
-                    sharedPref.getBoolean("widget_show_${it.currencyCode}", true)
-                  }.toCollection(arrayListOf<RatesItem>())
+        { rates ->
+          this.rates = rates.rates.filter {
+            sharedPref.getBoolean("widget_show_${it.currencyCode}", true)
+          }.toCollection(arrayListOf<RatesItem>())
         },
         { error -> error(error) }
       )

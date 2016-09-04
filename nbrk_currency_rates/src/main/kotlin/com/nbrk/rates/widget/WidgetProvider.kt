@@ -19,7 +19,7 @@ import java.util.*
 /**
  * Created by rpagyc on 29.10.2015.
  */
-class WidgetProvider : AppWidgetProvider() {
+class   WidgetProvider : AppWidgetProvider() {
 
   var date = Calendar.getInstance()
   var time = SimpleDateFormat("HH:mm")
