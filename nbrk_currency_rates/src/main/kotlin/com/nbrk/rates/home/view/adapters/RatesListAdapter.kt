@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.nbrk.rates.App
 import com.nbrk.rates.R
+import com.nbrk.rates.extensions.debug
 import com.nbrk.rates.extensions.getDrawable
 import com.nbrk.rates.home.model.entities.Rates
 import com.nbrk.rates.home.model.entities.RatesItem
@@ -48,14 +49,18 @@ class RatesListAdapter : RecyclerView.Adapter<RatesListAdapter.ViewHolder>() {
       itemView.tvCurrencyName.text = "${ratesItem.quantity} ${ratesItem.currencyName.toLowerCase()}"
       itemView.tvPrice.text = ratesItem.price.toString()
       itemView.tvChange.text = ratesItem.change.toString()
+      itemView.imgChange.visibility = View.VISIBLE
 
       if (ratesItem.index.equals("UP")) {
-        itemView.tvChange.setTextColor(Color.rgb(90, 150, 55));
+        itemView.tvChange.setTextColor(Color.rgb(90, 150, 55))
         itemView.tvChange.text = "+${itemView.tvChange.text}"
+        itemView.imgChange.setImageResource(R.mipmap.ic_up)
       } else if (ratesItem.index.equals("DOWN")) {
-        itemView.tvChange.setTextColor(Color.RED);
+        itemView.tvChange.setTextColor(Color.RED)
+        itemView.imgChange.setImageResource(R.mipmap.ic_down)
       } else {
-        itemView.tvChange.setTextColor(Color.LTGRAY);
+        itemView.tvChange.setTextColor(Color.LTGRAY)
+        itemView.imgChange.visibility = View.GONE
       }
     }
   }

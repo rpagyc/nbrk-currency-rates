@@ -8,7 +8,8 @@
     android:id="@+id/flag"
     android:layout_width="48dp"
     android:layout_height="48dp"
-    android:layout_centerVertical="true"
+    android:layout_alignParentLeft="true"
+    android:layout_centerInParent="true"
     android:layout_marginLeft="16dp"
     android:scaleType="fitCenter"
     android:src="@drawable/aud"
@@ -41,7 +42,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignBaseline="@id/tvCurrencyCode"
-    android:layout_toLeftOf="@+id/tvChange"
+    android:layout_alignParentRight="true"
+    android:layout_marginRight="16dp"
     android:textSize="24sp"
     tools:text="147.77"/>
 
@@ -49,12 +51,21 @@
     android:id="@+id/tvChange"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignBaseline="@id/tvCurrencyCode"
     android:layout_alignParentRight="true"
+    android:layout_below="@+id/tvPrice"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="16dp"
     android:singleLine="true"
-    tools:text="+12.345"/>
+    tools:text="12.345"/>
+
+  <ImageView
+    android:id="@+id/imgChange"
+    android:layout_width="20dp"
+    android:layout_height="20dp"
+    tools:src="@mipmap/ic_up"
+    android:layout_below="@+id/tvPrice"
+    android:layout_toLeftOf="@+id/tvChange"
+    />
 
   <View
     android:layout_width="match_parent"

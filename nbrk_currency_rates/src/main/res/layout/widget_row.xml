@@ -1,17 +1,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingRight="16dp"
+  >
 
   <ImageView
     android:id="@+id/flag"
     android:layout_width="40dp"
     android:layout_height="40dp"
-    android:layout_centerVertical="true"
+    android:layout_alignParentLeft="true"
+    android:layout_centerInParent="true"
     android:scaleType="fitCenter"
-    tools:src="@drawable/aud"/>
+    tools:src="@drawable/aud"
+    />
 
   <TextView
     android:id="@+id/tvCurrencyCode"
@@ -19,9 +22,10 @@
     android:layout_height="wrap_content"
     android:layout_toRightOf="@+id/flag"
     android:paddingLeft="16dp"
-    tools:text="AUD"
     android:textColor="@color/material_grey_600"
-    android:textSize="20sp"/>
+    android:textSize="20sp"
+    tools:text="AUD"
+    />
 
   <TextView
     android:id="@+id/tvCurrencyName"
@@ -29,33 +33,43 @@
     android:layout_height="wrap_content"
     android:layout_below="@id/tvCurrencyCode"
     android:layout_toRightOf="@+id/flag"
+    android:maxLines="1"
     android:paddingLeft="16dp"
-    tools:text="1 австралийский доллар"
     android:textColor="@color/material_grey_600"
     android:textSize="12sp"
-    android:maxLines="1"
+    tools:text="1 австралийский доллар"
     />
   <!-- price -->
   <TextView
     android:id="@+id/tvPrice"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_toLeftOf="@+id/tvChange"
-    android:gravity="center_vertical|right"
-    tools:text="147.77"
+    android:layout_alignBaseline="@id/tvCurrencyCode"
+    android:layout_alignParentRight="true"
     android:textColor="@color/material_grey_600"
-    android:textSize="20sp"/>
+    android:textSize="20sp"
+    tools:text="147.77"
+    />
 
   <TextView
     android:id="@+id/tvChange"
-    android:layout_width="40dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignBaseline="@+id/tvPrice"
     android:layout_alignParentRight="true"
-    android:gravity="right"
-    android:text="+12.34"
+    android:layout_below="@+id/tvPrice"
+    android:layout_marginLeft="8dp"
+    android:maxLines="1"
     android:textColor="@color/material_grey_600"
     android:textSize="12sp"
-    android:maxLines="1"
+    tools:text="12.345"
+    />
+
+  <ImageView
+    android:id="@+id/imgChange"
+    android:layout_width="16dp"
+    android:layout_height="16dp"
+    android:layout_below="@+id/tvPrice"
+    android:layout_toLeftOf="@+id/tvChange"
+    android:src="@mipmap/ic_up"
     />
 </RelativeLayout>

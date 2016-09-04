@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.preference.PreferenceManager
+import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.nbrk.rates.App
@@ -60,13 +61,17 @@ class WidgetFactory(val context: Context, intent: Intent) :
       remoteViews.setTextViewText(R.id.tvPrice, ratesItem.price.toString())
       remoteViews.setTextViewText(R.id.tvChange, ratesItem.change.toString())
       remoteViews.setImageViewResource(R.id.flag, ratesItem.currencyCode.getDrawable())
+      remoteViews.setViewVisibility(R.id.imgChange, View.VISIBLE)
       if (ratesItem.index.equals("UP")) {
+        remoteViews.setImageViewResource(R.id.imgChange, R.mipmap.ic_up)
         remoteViews.setTextColor(R.id.tvChange, Color.rgb(90, 150, 55));
         remoteViews.setTextViewText(R.id.tvChange, "+${ratesItem.change.toString()}")
       } else if (ratesItem.index.equals("DOWN")) {
         remoteViews.setTextColor(R.id.tvChange, Color.RED);
+        remoteViews.setImageViewResource(R.id.imgChange, R.mipmap.ic_down)
       } else {
         remoteViews.setTextColor(R.id.tvChange, Color.LTGRAY);
+        remoteViews.setViewVisibility(R.id.imgChange, View.GONE)
       }
     }
     return remoteViews
