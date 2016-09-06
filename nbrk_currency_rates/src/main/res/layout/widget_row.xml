@@ -1,9 +1,10 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:paddingLeft="16dp"
+  android:paddingRight="16dp"
   >
 
   <ImageView
@@ -57,7 +58,7 @@
     android:layout_height="wrap_content"
     android:layout_alignParentRight="true"
     android:layout_below="@+id/tvPrice"
-    android:layout_marginLeft="8dp"
+    android:layout_marginLeft="4dp"
     android:maxLines="1"
     android:textColor="@color/material_grey_600"
     android:textSize="12sp"

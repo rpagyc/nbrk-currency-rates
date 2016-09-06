@@ -1,18 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  >
 
   <ImageView
     android:id="@+id/flag"
     android:layout_width="48dp"
     android:layout_height="48dp"
     android:layout_alignParentLeft="true"
-    android:layout_centerInParent="true"
     android:layout_marginLeft="16dp"
+    android:layout_centerInParent="true"
     android:scaleType="fitCenter"
-    android:src="@drawable/aud"
+    tools:src="@drawable/aud"
     />
 
   <TextView
@@ -23,7 +24,8 @@
     android:layout_toRightOf="@+id/flag"
     android:paddingLeft="16dp"
     android:textSize="24sp"
-    tools:text="AUD"/>
+    tools:text="AUD"
+    />
 
   <TextView
     android:id="@+id/tvCurrencyName"
@@ -34,8 +36,9 @@
     android:layout_marginRight="16dp"
     android:layout_toRightOf="@+id/flag"
     android:paddingLeft="16dp"
-    android:singleLine="true"
-    tools:text="1 австралийский доллар"/>
+    tools:text="1 австралийский доллар"
+    android:maxLines="1"
+    />
   <!-- price -->
   <TextView
     android:id="@+id/tvPrice"
@@ -45,7 +48,8 @@
     android:layout_alignParentRight="true"
     android:layout_marginRight="16dp"
     android:textSize="24sp"
-    tools:text="147.77"/>
+    tools:text="147.77"
+    />
 
   <TextView
     android:id="@+id/tvChange"
@@ -53,24 +57,24 @@
     android:layout_height="wrap_content"
     android:layout_alignParentRight="true"
     android:layout_below="@+id/tvPrice"
-    android:layout_marginLeft="8dp"
+    android:layout_marginLeft="4dp"
     android:layout_marginRight="16dp"
-    android:singleLine="true"
-    tools:text="12.345"/>
+    tools:text="12.345"
+    android:maxLines="1"
+    />
 
   <ImageView
     android:id="@+id/imgChange"
     android:layout_width="20dp"
     android:layout_height="20dp"
-    tools:src="@mipmap/ic_up"
     android:layout_below="@+id/tvPrice"
     android:layout_toLeftOf="@+id/tvChange"
+    tools:src="@mipmap/ic_up"
     />
 
   <View
     android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:layout_alignParentBottom="true"
+    android:layout_height="0.5dp"
     android:background="?android:attr/listDivider"
     />
 </RelativeLayout>
