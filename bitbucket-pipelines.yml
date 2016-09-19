@@ -1,0 +1,8 @@
+image: uber/android-build-environment:latest
+
+pipelines:
+  default:
+    - step:
+        script:
+          - echo y | android update sdk --filter "extra-android-m2repository" --no-ui -a # Grab the Android Support Repo which isn't included in the container
+          - ./gradlew assembleDebug
