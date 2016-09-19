@@ -1,4 +1,4 @@
-image: openjdk:alpine
+image: alpine-glibc:latest
 
 variables:
   ANDROID_TARGET_SDK: "24"
