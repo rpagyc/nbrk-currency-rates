@@ -5,12 +5,12 @@ variables:
   ANDROID_SDK_TOOLS: "24.4.1"
 before_script:
   - apk add --no-cache curl ca-certificates bash && mkdir -p /opt && curl -L https://dl.google.com/android/android-sdk_r${ANDROID_SDK_TOOLS}-linux.tgz | tar zxv -C /opt
-  - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter android-${ANDROID_TARGET_SDK}
-  - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter platform-tools
-  - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter build-tools-${ANDROID_BUILD_TOOLS}
-  - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter extra-android-m2repository
-  - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter extra-google-google_play_services
-  - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter extra-google-m2repository
+  - echo y | /opt/android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter android-${ANDROID_TARGET_SDK}
+  - echo y | /opt/android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter platform-tools
+  - echo y | /opt/android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter build-tools-${ANDROID_BUILD_TOOLS}
+  - echo y | /opt/android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter extra-android-m2repository
+  - echo y | /opt/android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter extra-google-google_play_services
+  - echo y | /opt/android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter extra-google-m2repository
   - export ANDROID_HOME=/opt/android-sdk-linux
   - chmod +x ./gradlew
 build:
