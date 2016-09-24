@@ -1,4 +1,4 @@
-image: registry.gitlab.com/rpagyc/NBRK_CURRENCY_RATES:latest
+image: registry.gitlab.com/rpagyc/nbrk_currency_rates:latest
 before_script:
   - chmod +x ./gradlew
 build:
