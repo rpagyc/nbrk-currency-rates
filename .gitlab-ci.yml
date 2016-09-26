@@ -1,6 +1,5 @@
-image: registry.gitlab.com/rpagyc/nbrk_currency_rates:latest
+image: registry.gitlab.com/rpagyc/android-build-image:latest
 before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   - chmod +x ./gradlew
 build:
   script:
