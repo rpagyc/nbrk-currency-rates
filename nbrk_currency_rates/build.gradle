@@ -5,7 +5,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.1.2'
+    classpath 'com.android.tools.build:gradle:2.2.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
   }
@@ -31,9 +31,7 @@ android {
   defaultConfig {
     applicationId "com.nbrk.rates"
     minSdkVersion 15
-    targetSdkVersion 22
-    //versionCode 40 000 006
-    //versionName "4.6"
+    targetSdkVersion 24
     versionName androidGitVersion.name()
     versionCode androidGitVersion.code()
   }
