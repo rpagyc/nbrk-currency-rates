@@ -21,8 +21,8 @@
       android:layout_height="250dp"
       app:contentScrim="?attr/colorPrimary"
       app:expandedTitleTextAppearance="@style/CollapseToolbarTitle"
-      app:expandedTitleMarginBottom="16dp"
-      app:expandedTitleMarginStart="16dp"
+      app:expandedTitleGravity="top|center_horizontal"
+      app:expandedTitleMarginTop="-12dp"
       app:layout_scrollFlags="scroll|exitUntilCollapsed"
       android:fitsSystemWindows="true"
       >

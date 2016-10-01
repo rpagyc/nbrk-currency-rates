@@ -25,7 +25,7 @@
   <style name="CollapseToolbarTitle" parent="@android:style/TextAppearance">
     <item name="android:textColor">@color/primary_dark</item>
     <item name="android:textStyle">bold</item>
-    <item name="android:textSize">20sp</item>
+    <item name="android:textSize">24sp</item>
   </style>
 
   <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog" tools:targetApi="lollipop">
