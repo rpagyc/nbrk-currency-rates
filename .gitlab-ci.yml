@@ -3,7 +3,7 @@ before_script:
   - chmod +x ./gradlew
 build:
   script:
-    - ./gradlew assembleDebug
+    - ./gradlew helloWorld
   artifacts:
     paths:
     - nbrk_currency_rates/build/outputs/
