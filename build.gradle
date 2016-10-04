@@ -19,3 +19,7 @@ allprojects {
     jcenter()
   }
 }
+
+task helloWorld << {
+    println System.getenv("HELLO_WORLD")
+}
