@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Currency Rates</string>
+  <string name="app_name">Currency Rates KZ</string>
   <string name="no_network_connection">No network connection available</string>
   <string name="no_data_received">Could not receive rates</string>
   <string name="refresh">Refresh</string>

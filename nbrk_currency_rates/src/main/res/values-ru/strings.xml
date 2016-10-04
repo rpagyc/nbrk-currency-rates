@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Курсы валют НБРК</string>
+  <string name="app_name">Курсы валют KZ</string>
   <string name="no_network_connection">Нет интернет соединения</string>
   <string name="no_data_received">Не удалось загрузить курсы</string>
   <string name="refresh">Обновить</string>
