@@ -6,4 +6,4 @@ build:
     - ./gradlew assembleDebug
   artifacts:
     paths:
-    - app/build/outputs/
+    - nbrk_currency_rates/build/outputs/
