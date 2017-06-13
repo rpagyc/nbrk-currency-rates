@@ -3,15 +3,14 @@ package com.nbrk.rates.data.rest
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.nbrk.rates.BuildConfig
 import com.nbrk.rates.data.rest.entities.CurrencyRates
+import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import rx.Observable
 
 /**
  * Created by rpagyc on 15-Jan-16.
@@ -34,7 +33,7 @@ interface RestApi {
 
       val retrofit = Retrofit.Builder()
         .baseUrl(API_BASE_URL)
-        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(SimpleXmlConverterFactory.create())
         .client(httpClient.build())
         .build()
@@ -44,5 +43,5 @@ interface RestApi {
   }
 
   @GET("get_rates.cfm")
-  fun getCurrencyRates(@Query("fdate") date: String): Observable<Response<CurrencyRates>>
+  fun getCurrencyRates(@Query("fdate") date: String): Single<CurrencyRates>
 }

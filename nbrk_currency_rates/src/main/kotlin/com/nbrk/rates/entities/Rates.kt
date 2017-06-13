@@ -1,4 +1,4 @@
-package com.nbrk.rates.home.model.entities
+package com.nbrk.rates.entities
 
 /**
  * Created by rpagyc on 15-Jan-16.

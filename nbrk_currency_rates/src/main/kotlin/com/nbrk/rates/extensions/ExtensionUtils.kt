@@ -8,16 +8,16 @@ import java.util.*
 /**
  * Created by rpagyc on 16-Jan-16.
  */
-fun String.toDateLong(sdf: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy")): Long {
+fun String.toDateLong(sdf: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())): Long {
   val date = sdf.parse(this)
   return date.time
 }
 
-fun Long.toDateString(sdf: SimpleDateFormat = SimpleDateFormat("d MMM yyyy")): String {
+fun Long.toDateString(sdf: SimpleDateFormat = SimpleDateFormat("d MMM yyyy", Locale.getDefault())): String {
   return sdf.format(this)
 }
 
-fun Calendar.toDateString(sdf: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy")): String {
+fun Calendar.toDateString(sdf: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())): String {
   return sdf.format(this.time)
 }
 

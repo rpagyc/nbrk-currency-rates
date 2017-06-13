@@ -7,8 +7,8 @@ import com.nbrk.rates.App
 val View.ctx: Context
   get() = context
 
-fun String.getDrawable(): Int {
+fun String?.getDrawable(): Int {
   val ctx = App.instance
-  return ctx.resources.getIdentifier(this.replace("TRY", "YTL").toLowerCase(), "drawable", ctx.packageName)
+  return ctx.resources.getIdentifier(this?.replace("TRY", "YTL")?.toLowerCase(), "drawable", ctx.packageName)
 }
 

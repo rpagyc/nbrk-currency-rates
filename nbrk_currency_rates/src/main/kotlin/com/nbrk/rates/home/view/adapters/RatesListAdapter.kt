@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.nbrk.rates.App
 import com.nbrk.rates.R
-import com.nbrk.rates.extensions.debug
 import com.nbrk.rates.extensions.getDrawable
-import com.nbrk.rates.home.model.entities.Rates
-import com.nbrk.rates.home.model.entities.RatesItem
+import com.nbrk.rates.entities.Rates
+import com.nbrk.rates.entities.RatesItem
 import kotlinx.android.synthetic.main.list_item_rates.view.*
 import org.jetbrains.anko.layoutInflater
 
@@ -46,7 +45,7 @@ class RatesListAdapter : RecyclerView.Adapter<RatesListAdapter.ViewHolder>() {
     fun bind(ratesItem: RatesItem) {
       itemView.flag.setImageResource(ratesItem.currencyCode.getDrawable())
       itemView.tvCurrencyCode.text = ratesItem.currencyCode
-      itemView.tvCurrencyName.text = "${ratesItem.quantity} ${ratesItem.currencyName.toLowerCase()}"
+      itemView.tvCurrencyName.text = "${ratesItem.quantity} ${ratesItem.currencyName?.toLowerCase()}"
       itemView.tvPrice.text = ratesItem.price.toString()
       itemView.tvChange.text = ratesItem.change.toString()
       itemView.imgChange.visibility = View.VISIBLE

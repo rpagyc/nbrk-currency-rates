@@ -5,26 +5,27 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:fitsSystemWindows="true">
+  android:fitsSystemWindows="true"
+  >
 
   <android.support.design.widget.AppBarLayout
     android:id="@+id/base_appbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/AppToolbar"
     android:fitsSystemWindows="true"
+    android:theme="@style/AppToolbar"
     >
 
     <android.support.design.widget.CollapsingToolbarLayout
       android:id="@+id/main.collapsing"
       android:layout_width="match_parent"
       android:layout_height="250dp"
+      android:fitsSystemWindows="true"
       app:contentScrim="?attr/colorPrimary"
-      app:expandedTitleTextAppearance="@style/CollapseToolbarTitle"
       app:expandedTitleGravity="top|center_horizontal"
       app:expandedTitleMarginTop="-12dp"
+      app:expandedTitleTextAppearance="@style/CollapseToolbarTitle"
       app:layout_scrollFlags="scroll|exitUntilCollapsed"
-      android:fitsSystemWindows="true"
       >
 
       <ImageView
@@ -56,23 +57,24 @@
       android:layout_width="fill_parent"
       android:layout_height="28dp"
       android:gravity="center"
-      tools:text="Обновлено: 21 янв. 2016 (12:27)"/>
+      tools:text="Обновлено: 21 янв. 2016 (12:27)"
+      />
 
     <com.google.android.gms.ads.AdView
-      android:id="@+id/adView"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:layout_centerHorizontal="true"
-      app:adSize="BANNER"
-      app:adUnitId="@string/banner_ad_unit_id">
-    </com.google.android.gms.ads.AdView>
+    android:id="@+id/adView"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    app:adSize="BANNER"
+    app:adUnitId="@string/banner_ad_unit_id"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
       android:id="@+id/refresh"
       xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="match_parent"
+      >
 
       <android.support.v7.widget.RecyclerView
         android:id="@+id/rvRatesList"

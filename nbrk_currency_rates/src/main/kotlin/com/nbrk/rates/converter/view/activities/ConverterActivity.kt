@@ -6,10 +6,10 @@ import com.nbrk.rates.R
 import com.nbrk.rates.base.ToolbarManager
 import com.nbrk.rates.converter.presenter.ConverterPresenter
 import com.nbrk.rates.converter.view.adapters.RatesSpinnerAdapter
+import com.nbrk.rates.entities.Rates
+import com.nbrk.rates.entities.RatesItem
 import com.nbrk.rates.extensions.error
 import com.nbrk.rates.extensions.toDateString
-import com.nbrk.rates.home.model.entities.Rates
-import com.nbrk.rates.home.model.entities.RatesItem
 import kotlinx.android.synthetic.main.activity_converter.*
 import nucleus.factory.RequiresPresenter
 import nucleus.view.NucleusActivity
@@ -24,13 +24,13 @@ class ConverterActivity : NucleusActivity<ConverterPresenter>(), ToolbarManager 
   var rates = ArrayList<RatesItem>()
 
   val kzt = RatesItem(
-    Calendar.getInstance().timeInMillis,
-    "KZT",
-    "ТЕНГЕ",
-    1.00,
-    1,
-    "",
-    0.00
+    date = Calendar.getInstance().timeInMillis,
+    currencyCode = "KZT",
+    currencyName = "ТЕНГЕ",
+    price = 1.00,
+    quantity = 1,
+    index = "",
+    change = 0.00
   )
 
   val date = Calendar.getInstance().toDateString()
@@ -68,10 +68,10 @@ class ConverterActivity : NucleusActivity<ConverterPresenter>(), ToolbarManager 
 
   fun convert() {
     if (rates.isNotEmpty()) {
-      val price1 = rates[spFromCurrency.selectedItemPosition].price
-      val quant1 = rates[spFromCurrency.selectedItemPosition].quantity
-      val price2 = rates[spToCurrency.selectedItemPosition].price
-      val quant2 = rates[spToCurrency.selectedItemPosition].quantity
+      val price1 = rates[spFromCurrency.selectedItemPosition].price?.toDouble()!!
+      val quant1 = rates[spFromCurrency.selectedItemPosition].quantity?.toInt()!!
+      val price2 = rates[spToCurrency.selectedItemPosition].price?.toDouble()!!
+      val quant2 = rates[spToCurrency.selectedItemPosition].quantity?.toInt()!!
 
       if (etFromAmount.text.toString().isNotBlank()) {
         val amount = etFromAmount.text.toString().toDouble()

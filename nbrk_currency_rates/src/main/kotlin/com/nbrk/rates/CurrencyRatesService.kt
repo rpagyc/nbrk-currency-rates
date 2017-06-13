@@ -38,8 +38,6 @@ class CurrencyRatesService : IntentService(TAG) {
 
   fun loadRatesForDate() {
     RatesModel.instance.getRestRates(date)
-      .take(1)
-      .doOnNext { RatesModel.instance.putRates(it) }
       .subscribe(
         { rates -> debug(rates) },
         { error -> error(error) }
@@ -53,7 +51,7 @@ class CurrencyRatesService : IntentService(TAG) {
     RatesModel.instance.getRatesItems(date, period, currency)
       .take(1)
       .filter { it.size < period }
-      .map { it.map { it.date.toDateString(SimpleDateFormat("dd.MM.yyyy")) } }
+      .map { it.map { it.date?.toDateString(SimpleDateFormat("dd.MM.yyyy")) } }
       .flatMap {
         dbDates ->
         Observable.from(1..period)
@@ -61,11 +59,7 @@ class CurrencyRatesService : IntentService(TAG) {
             startDate.add(Calendar.DATE, 1)
             startDate.toDateString() !in dbDates
           }
-          .flatMap {
-            RatesModel.instance.getRestRates(startDate.toDateString())
-          }
       }
-      .doOnNext { RatesModel.instance.putRates(it) }
       .subscribe(
         { rates -> debug(rates) },
         { error -> error(error) }

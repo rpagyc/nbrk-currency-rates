@@ -9,11 +9,11 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.nbrk.rates.App
 import com.nbrk.rates.R
+import com.nbrk.rates.entities.RatesItem
 import com.nbrk.rates.extensions.error
 import com.nbrk.rates.extensions.getDrawable
 import com.nbrk.rates.extensions.toDateString
 import com.nbrk.rates.home.model.RatesModel
-import com.nbrk.rates.home.model.entities.RatesItem
 import java.util.*
 
 /**
@@ -57,10 +57,10 @@ class WidgetFactory(val context: Context, intent: Intent) :
     if (position < rates.size) {
       val ratesItem = rates[position]
       remoteViews.setTextViewText(R.id.tvCurrencyCode, ratesItem.currencyCode)
-      remoteViews.setTextViewText(R.id.tvCurrencyName, "${ratesItem.quantity} ${ratesItem.currencyName.toLowerCase()}")
+      remoteViews.setTextViewText(R.id.tvCurrencyName, "${ratesItem.quantity} ${ratesItem.currencyName?.toLowerCase()}")
       remoteViews.setTextViewText(R.id.tvPrice, ratesItem.price.toString())
       remoteViews.setTextViewText(R.id.tvChange, ratesItem.change.toString())
-      remoteViews.setImageViewResource(R.id.flag, ratesItem.currencyCode.getDrawable())
+      remoteViews.setImageViewResource(R.id.flag, ratesItem.currencyCode?.getDrawable()!!)
       remoteViews.setViewVisibility(R.id.imgChange, View.VISIBLE)
       if (ratesItem.index.equals("UP")) {
         remoteViews.setImageViewResource(R.id.imgChange, R.mipmap.ic_up)

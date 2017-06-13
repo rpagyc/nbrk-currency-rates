@@ -11,21 +11,19 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.formatter.YAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.nbrk.rates.CurrencyRatesService
 import com.nbrk.rates.R
 import com.nbrk.rates.base.ToolbarManager
 import com.nbrk.rates.chart.presenter.ChartPresenter
 import com.nbrk.rates.converter.view.adapters.RatesSpinnerAdapter
+import com.nbrk.rates.entities.Rates
+import com.nbrk.rates.entities.RatesItem
 import com.nbrk.rates.extensions.error
 import com.nbrk.rates.extensions.toDateString
-import com.nbrk.rates.home.model.entities.Rates
-import com.nbrk.rates.home.model.entities.RatesItem
 import kotlinx.android.synthetic.main.activity_chart.*
 import nucleus.factory.RequiresPresenter
 import nucleus.view.NucleusActivity
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onItemSelectedListener
-import org.jetbrains.anko.startService
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -85,7 +83,7 @@ class ChartActivity : NucleusActivity<ChartPresenter>(),
     val mFormat = DecimalFormat("###,###,##0.##")
 
     val valsRates = rates.sortedBy { it.date }
-      .mapIndexed { index, ratesItem -> Entry(ratesItem.price.toFloat(), index) }
+      .mapIndexed { index, ratesItem -> Entry(ratesItem.price?.toFloat()!!, index) }
 
     var legend = ""
     if (spCurrency.selectedItemPosition >= 0) {
@@ -120,21 +118,21 @@ class ChartActivity : NucleusActivity<ChartPresenter>(),
     chart.setDrawGridBackground(false)
     chart.setDescription("")
 
-    chart.data = data;
-    chart.invalidate(); // refresh
+    chart.data = data
+    chart.invalidate() // refresh
   }
 
   fun load() {
     if (currencyList.isNotEmpty()) {
-      startService<CurrencyRatesService>(
-        CurrencyRatesService.KEY_DATE to date,
-        CurrencyRatesService.KEY_PERIOD to periodDays[spPeriod.selectedItemPosition],
-        CurrencyRatesService.KEY_CURRENCY to currencyList[spCurrency.selectedItemPosition].currencyCode
-      )
+//      startService<CurrencyRatesService>(
+//        CurrencyRatesService.KEY_DATE to date,
+//        CurrencyRatesService.KEY_PERIOD to periodDays[spPeriod.selectedItemPosition],
+//        CurrencyRatesService.KEY_CURRENCY to currencyList[spCurrency.selectedItemPosition].currencyCode
+//      )
 
       presenter.loadRates(date,
         periodDays[spPeriod.selectedItemPosition],
-        currencyList[spCurrency.selectedItemPosition].currencyCode)
+        currencyList[spCurrency.selectedItemPosition].currencyCode!!)
     }
   }
 }

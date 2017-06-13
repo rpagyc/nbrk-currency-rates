@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.nbrk.rates.R
+import com.nbrk.rates.entities.RatesItem
 import com.nbrk.rates.extensions.getDrawable
-import com.nbrk.rates.home.model.entities.RatesItem
 import kotlinx.android.synthetic.main.spinner_item_rates.view.*
 
 /**

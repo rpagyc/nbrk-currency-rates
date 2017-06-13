@@ -15,7 +15,7 @@ import com.nbrk.rates.chart.view.activities.ChartActivity
 import com.nbrk.rates.converter.view.activities.ConverterActivity
 import com.nbrk.rates.extensions.error
 import com.nbrk.rates.extensions.toDateString
-import com.nbrk.rates.home.model.entities.Rates
+import com.nbrk.rates.entities.Rates
 import com.nbrk.rates.home.presenter.MainPresenter
 import com.nbrk.rates.home.view.adapters.RatesListAdapter
 import com.nbrk.rates.settings.view.activities.SettingsActivity
