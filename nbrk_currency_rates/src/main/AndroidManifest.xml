@@ -12,7 +12,7 @@
     android:theme="@style/AppTheme"
     >
     <activity
-      android:name=".rates.RatesActivity"
+      android:name=".MainActivity"
       android:label="@string/app_name"
       >
       <intent-filter>
@@ -63,12 +63,6 @@
     </receiver>
     <!-- Widget -->
 
-    <activity
-      android:name=".BaseActivity"
-      android:label="@string/title_activity_base"
-      android:theme="@style/AppTheme"
-      >
-    </activity>
   </application>
 
 </manifest>

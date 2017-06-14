@@ -3,13 +3,13 @@ package com.nbrk.rates.home.presenter
 import android.os.Bundle
 import com.nbrk.rates.extensions.applySchedulers
 import com.nbrk.rates.home.model.RatesModel
-import com.nbrk.rates.home.view.activities.MainActivity
+import com.nbrk.rates.home.view.activities.MainActivityOld
 import nucleus.presenter.RxPresenter
 
 /**
  * Created by rpagyc on 15-Jan-16.
  */
-class MainPresenter : RxPresenter<MainActivity>() {
+class MainPresenter : RxPresenter<MainActivityOld>() {
 
   var date = ""
   val LOAD_RATES = 1

@@ -13,13 +13,13 @@ import com.nbrk.rates.R
 import com.nbrk.rates.base.ToolbarManager
 import com.nbrk.rates.chart.view.activities.ChartActivity
 import com.nbrk.rates.converter.view.activities.ConverterActivity
+import com.nbrk.rates.entities.Rates
 import com.nbrk.rates.extensions.error
 import com.nbrk.rates.extensions.toDateString
-import com.nbrk.rates.entities.Rates
 import com.nbrk.rates.home.presenter.MainPresenter
 import com.nbrk.rates.home.view.adapters.RatesListAdapter
 import com.nbrk.rates.settings.view.activities.SettingsActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main_old.*
 import nucleus.factory.RequiresPresenter
 import nucleus.view.NucleusActivity
 import org.jetbrains.anko.find
@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @RequiresPresenter(MainPresenter::class)
-class MainActivity : NucleusActivity<MainPresenter>(), ToolbarManager {
+class MainActivityOld : NucleusActivity<MainPresenter>(), ToolbarManager {
 
   var date = Calendar.getInstance()
   var sTitle = ""
@@ -70,7 +70,7 @@ class MainActivity : NucleusActivity<MainPresenter>(), ToolbarManager {
 
   public override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+    setContentView(R.layout.activity_main_old)
 
     initToolbar()
     toolbarTitle = getString(R.string.app_name)
