@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nbrk.rates.entities.Rates
-import com.nbrk.rates.extensions.debug
 import com.nbrk.rates.extensions.toDateString
 import com.nbrk.rates.rates.RatesAdapter
 import com.nbrk.rates.rates.RatesViewModel
@@ -28,36 +27,23 @@ class RatesFragment : LifecycleFragment(), SwipeRefreshLayout.OnRefreshListener 
     val TAG = "RatesViewModel"
   }
   
-  //private val viewModel by lazy {  ViewModelProviders.of(this).get(RatesViewModel::class.java) }
-  lateinit var viewModel: RatesViewModel
-  val adapter = RatesAdapter()
+  private val viewModel by lazy {  ViewModelProviders.of(this).get(RatesViewModel::class.java) }
+  private val adapter = RatesAdapter()
 
   override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    debug("onCreateView")
-    viewModel = ViewModelProviders.of(this).get(RatesViewModel::class.java)
     return inflater?.inflate(R.layout.fragment_rates, container, false)
   }
 
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-    debug("onViewCreated")
     super.onViewCreated(view, savedInstanceState)
     rv.setHasFixedSize(true)
     rv.adapter = adapter
     lRefresh.setOnRefreshListener(this)
-  }
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-  }
-
-  override fun onActivityCreated(savedInstanceState: Bundle?) {
-    super.onActivityCreated(savedInstanceState)
     viewModel.setDate(Calendar.getInstance().toDateString())
     observeLiveData()
   }
 
   fun observeLiveData() {
-    debug("observeLiveData")
     viewModel.isLoadingLiveData.observe(this, Observer<Boolean> {
       it?.let { lRefresh.isRefreshing = it }
     })

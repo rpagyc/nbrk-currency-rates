@@ -13,7 +13,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
-    android:theme="@style/AppToolbar"
     >
 
     <android.support.design.widget.CollapsingToolbarLayout
@@ -21,10 +20,8 @@
       android:layout_width="match_parent"
       android:layout_height="250dp"
       android:fitsSystemWindows="true"
-      app:contentScrim="?attr/colorPrimary"
       app:expandedTitleGravity="top|center_horizontal"
       app:expandedTitleMarginTop="-12dp"
-      app:expandedTitleTextAppearance="@style/CollapseToolbarTitle"
       app:layout_scrollFlags="scroll|exitUntilCollapsed"
       >
 

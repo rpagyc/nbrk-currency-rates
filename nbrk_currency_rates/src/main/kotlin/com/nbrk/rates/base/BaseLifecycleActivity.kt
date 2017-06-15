@@ -12,19 +12,11 @@ import android.support.v7.app.AppCompatActivity
  * DigitTonic Studio
  * support@digittonic.com
  */
-abstract class BaseLifecycleActivity<T: AndroidViewModel> : AppCompatActivity(), LifecycleRegistryOwner {
-
-  abstract val viewModelClass: Class<T>
-
-  protected lateinit var viewModel: T
+@Suppress("LeakingThis")
+abstract class BaseLifecycleActivity : AppCompatActivity(), LifecycleRegistryOwner {
 
   private val registry = LifecycleRegistry(this)
 
   override fun getLifecycle(): LifecycleRegistry = registry
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    viewModel = ViewModelProviders.of(this).get(viewModelClass)
-  }
 
 }
