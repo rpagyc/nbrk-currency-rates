@@ -3,6 +3,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
+  android:background="@color/white"
   >
 
   <ImageView
@@ -10,8 +11,8 @@
     android:layout_width="48dp"
     android:layout_height="48dp"
     android:layout_alignParentLeft="true"
-    android:layout_marginLeft="16dp"
     android:layout_centerInParent="true"
+    android:layout_marginLeft="16dp"
     android:scaleType="fitCenter"
     tools:src="@drawable/aud"
     />
@@ -35,9 +36,9 @@
     android:layout_marginBottom="8dp"
     android:layout_marginRight="16dp"
     android:layout_toRightOf="@+id/flag"
+    android:maxLines="1"
     android:paddingLeft="16dp"
     tools:text="1 австралийский доллар"
-    android:maxLines="1"
     />
   <!-- price -->
   <TextView
@@ -55,20 +56,21 @@
     android:id="@+id/tvChange"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignParentRight="true"
     android:layout_below="@+id/tvPrice"
-    android:layout_marginLeft="4dp"
-    android:layout_marginRight="16dp"
-    tools:text="12.345"
+    android:layout_toLeftOf="@+id/imgChange"
+    android:background="@color/white"
     android:maxLines="1"
+    tools:text="12.345"
     />
 
   <ImageView
     android:id="@+id/imgChange"
     android:layout_width="20dp"
     android:layout_height="20dp"
+    android:layout_alignParentRight="true"
     android:layout_below="@+id/tvPrice"
-    android:layout_toLeftOf="@+id/tvChange"
+    android:layout_marginRight="16dp"
+    android:background="@color/white"
     tools:src="@mipmap/ic_up"
     />
 

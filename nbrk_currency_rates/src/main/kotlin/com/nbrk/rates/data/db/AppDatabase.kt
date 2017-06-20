@@ -2,6 +2,8 @@ package com.nbrk.rates.data.db
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
+import android.arch.persistence.room.TypeConverters
+import com.nbrk.rates.data.db.converter.DateConverter
 import com.nbrk.rates.data.db.dao.RatesDao
 import com.nbrk.rates.entities.RatesItem
 
@@ -11,6 +13,7 @@ import com.nbrk.rates.entities.RatesItem
  * support@digittonic.com
  */
 @Database(entities = arrayOf(RatesItem::class), version = 1, exportSchema = false)
+@TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
   abstract fun ratesDao() : RatesDao

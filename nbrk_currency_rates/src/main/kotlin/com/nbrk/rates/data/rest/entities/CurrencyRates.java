@@ -6,7 +6,7 @@ import org.simpleframework.xml.Root;
 
 import java.util.List;
 
-@Root(name = "rates")
+@Root(name = "dataSource")
 public class CurrencyRates {
   @Element
   public String date = "";

@@ -1,7 +1,9 @@
 package com.nbrk.rates.extensions
 
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.util.Log
 import com.nbrk.rates.BuildConfig
+import com.nbrk.rates.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -13,6 +15,15 @@ fun String.toDateLong(sdf: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy", Loc
   return date.time
 }
 
+fun String.toDate(sdf: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())): Date {
+  return sdf.parse(this)
+}
+
+fun Date.toDateString(sdf: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())): String {
+  this.toString()
+  return sdf.format(this)
+}
+
 fun Long.toDateString(sdf: SimpleDateFormat = SimpleDateFormat("d MMM yyyy", Locale.getDefault())): String {
   return sdf.format(this)
 }
@@ -21,15 +32,14 @@ fun Calendar.toDateString(sdf: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy",
   return sdf.format(this.time)
 }
 
-val Any.TAG: String
-  get() = this.javaClass.simpleName
+fun Any.TAG(): String = this.javaClass.simpleName
 
 fun <T> Any.debug(item: T) {
   if (BuildConfig.DEBUG)
-    Log.d(TAG, item.toString())
+    Log.d(this.TAG(), item.toString())
 }
 
 fun <T> Any.error(item: T) {
   if (BuildConfig.DEBUG)
-    Log.e(TAG, item.toString())
+    Log.e(this.TAG(), item.toString())
 }

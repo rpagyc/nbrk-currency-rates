@@ -6,6 +6,7 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.nbrk.rates.entities.RatesItem
 import io.reactivex.Flowable
+import java.util.*
 
 /**
  * Created by Roman Shakirov on 11-Jun-17.
@@ -15,8 +16,8 @@ import io.reactivex.Flowable
 @Dao
 interface RatesDao {
 
-  @Query("select * from rates where date >= :arg0 and date <= :arg1")
-  fun getRates(startDate: Long, endDate: Long = startDate): Flowable<List<RatesItem>>
+  @Query("select * from dataSource where date = :arg0")
+  fun getRates(startDate: Date): Flowable<List<RatesItem>>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   fun saveRates(rates: List<RatesItem>): Unit

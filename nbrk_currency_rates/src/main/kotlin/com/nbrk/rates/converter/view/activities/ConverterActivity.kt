@@ -24,7 +24,8 @@ class ConverterActivity : NucleusActivity<ConverterPresenter>(), ToolbarManager 
   var rates = ArrayList<RatesItem>()
 
   val kzt = RatesItem(
-    date = Calendar.getInstance().timeInMillis,
+    id = 0,
+    date = Calendar.getInstance().time,
     currencyCode = "KZT",
     currencyName = "ТЕНГЕ",
     price = 1.00,
@@ -62,21 +63,20 @@ class ConverterActivity : NucleusActivity<ConverterPresenter>(), ToolbarManager 
     }
 
     if (savedInstanceState == null) {
-      presenter.loadRates(date);
+      presenter.loadRates(date)
     }
   }
 
   fun convert() {
     if (rates.isNotEmpty()) {
-      val price1 = rates[spFromCurrency.selectedItemPosition].price?.toDouble()!!
-      val quant1 = rates[spFromCurrency.selectedItemPosition].quantity?.toInt()!!
-      val price2 = rates[spToCurrency.selectedItemPosition].price?.toDouble()!!
-      val quant2 = rates[spToCurrency.selectedItemPosition].quantity?.toInt()!!
+      val price1 = rates[spFromCurrency.selectedItemPosition].price
+      val quant1 = rates[spFromCurrency.selectedItemPosition].quantity
+      val price2 = rates[spToCurrency.selectedItemPosition].price
+      val quant2 = rates[spToCurrency.selectedItemPosition].quantity
 
       if (etFromAmount.text.toString().isNotBlank()) {
         val amount = etFromAmount.text.toString().toDouble()
         etToAmount.setText("%.2f".format(amount * (price1 / quant1) / (price2 / quant2))
-          .toString()
           .replace(",", "."))
       } else {
         etToAmount.setText("")
@@ -85,9 +85,9 @@ class ConverterActivity : NucleusActivity<ConverterPresenter>(), ToolbarManager 
   }
 
   fun showRates(rates: Rates) {
-    this.rates = rates.rates.toCollection(arrayListOf<RatesItem>())
+    this.rates = rates.rates as ArrayList<RatesItem>
     this.rates.add(kzt)
-    spinnerAdapter.setData(this.rates)
+    spinnerAdapter.dataSource = rates.rates
     spToCurrency.setSelection(this.rates.size - 1)
   }
 

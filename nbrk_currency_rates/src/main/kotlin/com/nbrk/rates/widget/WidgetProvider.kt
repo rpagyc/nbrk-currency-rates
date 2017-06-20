@@ -23,7 +23,7 @@ class   WidgetProvider : AppWidgetProvider() {
 
   var date = Calendar.getInstance()
   var time = SimpleDateFormat("HH:mm")
-  val APP_WIDGET_UPDATE = "com.nbrk.rates.MY_APPWIDGET_UPDATE"
+  val APP_WIDGET_UPDATE = "com.nbrk.dataSource.MY_APPWIDGET_UPDATE"
 
   override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
     super.onUpdate(context, appWidgetManager, appWidgetIds)

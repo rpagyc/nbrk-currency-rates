@@ -63,6 +63,7 @@
   <string name="background_color_title">Цвет Фона</string>
   <string name="background_title">Фон виджета</string>
   <string name="opacity_title">Прозрачность</string>
+  <string name="rates">Курсы</string>
 
   <string-array name="period">
     <item>Неделя</item>
@@ -79,4 +80,10 @@
     <item>#00ffffff</item>
     <item>#00000000</item>
   </string-array>
+  <string name="history">История</string>
+  <string name="chart">График</string>
+  <string name="communicate">Дополнительно</string>
+  <string name="share">Поделиться</string>
+  <string name="rate">Оценить</string>
+  <string name="about">О приложении</string>
 </resources>

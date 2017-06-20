@@ -28,6 +28,7 @@ class RatesAdapter : BaseAdapter<RatesItem, RatesAdapter.RatesViewHolder>() {
       itemView.tvPrice.text = "${item.price}"
       itemView.tvChange.text = "${item.change}"
       itemView.imgChange.visibility = View.VISIBLE
+      itemView.tvChange.visibility = View.VISIBLE
 
       if (item.index.equals("UP")) {
         itemView.tvChange.setTextColor(Color.rgb(90, 150, 55))
@@ -39,6 +40,7 @@ class RatesAdapter : BaseAdapter<RatesItem, RatesAdapter.RatesViewHolder>() {
       } else {
         itemView.tvChange.setTextColor(Color.LTGRAY)
         itemView.imgChange.visibility = View.GONE
+        itemView.tvChange.visibility = View.GONE
       }
     }
   }

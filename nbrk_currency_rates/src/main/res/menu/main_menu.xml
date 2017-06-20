@@ -4,17 +4,17 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
     android:id="@+id/menu_refresh"
-    android:icon="@drawable/ic_action_refresh"
+    android:icon="@drawable/ic_action_rates"
     android:title="@string/refresh"
     app:showAsAction="ifRoom|withText"/>
   <item
     android:id="@+id/menu_date"
-    android:icon="@drawable/ic_action_go_to_today"
+    android:icon="@drawable/ic_action_history"
     android:title="@string/date"
     app:showAsAction="ifRoom|withText"/>
   <item
     android:id="@+id/menu_converter"
-    android:icon="@drawable/ic_action_import_export"
+    android:icon="@drawable/ic_action_chart"
     android:title="@string/convert"
     app:showAsAction="ifRoom|withText"/>
   <item

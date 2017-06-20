@@ -1,7 +1,7 @@
 package com.nbrk.rates.home.model
 
 import com.nbrk.rates.App
-import com.nbrk.rates.data.rest.mappers.toDomain
+import com.nbrk.rates.data.rest.mappers.toEntity
 import com.nbrk.rates.entities.Rates
 import com.nbrk.rates.entities.RatesItem
 import io.reactivex.Single
@@ -27,13 +27,13 @@ class RatesModel {
     return getRatesItems(date)
       .filter { it.isNotEmpty() }
       .map { ratesItems -> ratesItems.groupBy { it.date } }
-      .map { groupedRates -> groupedRates.entries.map { Rates(it.key, it.value) } }
+      .map { it.map { Rates(it.key, it.value) } }
       .map { it[0] }
   }
 
   fun getRestRates(date: String): Single<Rates> {
     return App.restApi.getCurrencyRates(date)
-      .map { it.toDomain() }
+      .map { it.toEntity() }
       //.doOnNext { putRates(it) }
   }
 

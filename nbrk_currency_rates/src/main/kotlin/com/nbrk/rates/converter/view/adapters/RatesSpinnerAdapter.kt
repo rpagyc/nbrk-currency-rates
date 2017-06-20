@@ -14,22 +14,21 @@ import kotlinx.android.synthetic.main.spinner_item_rates.view.*
  */
 class RatesSpinnerAdapter : BaseAdapter() {
 
-  var rates = emptyList<RatesItem>()
-
-  fun setData(rates: List<RatesItem>) {
-    this.rates = rates
-    notifyDataSetChanged()
-  }
+  var dataSource : List<RatesItem> = emptyList()
+    set(value) {
+      field = value
+      notifyDataSetChanged()
+    }
 
   override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
     val itemView = LayoutInflater.from(parent.context).inflate(R.layout.spinner_item_rates, parent, false)
-    itemView.flag.setImageResource(rates[position].currencyCode.getDrawable())
-    itemView.tvCurrencyCode.text = rates[position].currencyCode
+    itemView.flag.setImageResource(dataSource[position].currencyCode.getDrawable())
+    itemView.tvCurrencyCode.text = dataSource[position].currencyCode
     return itemView
   }
 
   override fun getItem(position: Int): Any {
-    return rates[position]
+    return dataSource[position]
   }
 
   override fun getItemId(position: Int): Long {
@@ -37,7 +36,7 @@ class RatesSpinnerAdapter : BaseAdapter() {
   }
 
   override fun getCount(): Int {
-    return rates.size
+    return dataSource.size
   }
 
 }

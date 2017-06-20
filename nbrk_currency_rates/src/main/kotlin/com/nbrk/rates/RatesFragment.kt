@@ -4,16 +4,16 @@ import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nbrk.rates.entities.Rates
+import com.nbrk.rates.extensions.debug
 import com.nbrk.rates.extensions.toDateString
 import com.nbrk.rates.rates.RatesAdapter
 import com.nbrk.rates.rates.RatesViewModel
 import kotlinx.android.synthetic.main.fragment_rates.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -21,13 +21,10 @@ import java.util.*
  * DigitTonic Studio
  * support@digittonic.com
  */
-class RatesFragment : LifecycleFragment(), SwipeRefreshLayout.OnRefreshListener {
+class RatesFragment : LifecycleFragment() {
 
-  companion object {
-    val TAG = "RatesViewModel"
-  }
-  
-  private val viewModel by lazy {  ViewModelProviders.of(this).get(RatesViewModel::class.java) }
+  private val viewModel by lazy { ViewModelProviders.of(activity).get(RatesViewModel::class.java) }
+  private val title by lazy { resources.getString(R.string.last_updated) }
   private val adapter = RatesAdapter()
 
   override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -38,8 +35,12 @@ class RatesFragment : LifecycleFragment(), SwipeRefreshLayout.OnRefreshListener 
     super.onViewCreated(view, savedInstanceState)
     rv.setHasFixedSize(true)
     rv.adapter = adapter
-    lRefresh.setOnRefreshListener(this)
-    viewModel.setDate(Calendar.getInstance().toDateString())
+
+    lRefresh.setOnRefreshListener { viewModel.setDate(Calendar.getInstance().time) }
+    if (savedInstanceState == null) {
+      viewModel.setDate(Calendar.getInstance().time)
+    }
+
     observeLiveData()
   }
 
@@ -49,16 +50,23 @@ class RatesFragment : LifecycleFragment(), SwipeRefreshLayout.OnRefreshListener 
     })
 
     viewModel.ratesLiveData.observe(this, Observer<Rates> {
-      it?.let { adapter.dataSource = it.rates }
+      it?.let {
+        adapter.dataSource = it.rates
+      }
     })
 
     viewModel.throwableLiveData.observe(this, Observer<Throwable> {
-      it?.let { Snackbar.make(rv, it.localizedMessage, Snackbar.LENGTH_LONG).show() }
+      it?.let {
+        //Snackbar.make(rv, it.localizedMessage, Snackbar.LENGTH_LONG).show()
+        debug(it.localizedMessage)
+      }
     })
-  }
 
-  override fun onRefresh() {
-    viewModel.setDate(Calendar.getInstance().toDateString())
+    viewModel.dateLiveData.observe(this, Observer<Date> {
+      it?.let {
+        tvTitle.text = "$title ${it.toDateString(SimpleDateFormat("dd MMM HH:mm", Locale.getDefault()))}"
+      }
+    })
   }
 
 }

@@ -29,10 +29,10 @@ class ConfigActivity : NucleusActivity<ConfigPresenter>(),
     toolbarTitle = getString(R.string.widget_config)
     enableHomeAsUp { onBackPressed() }
     // display the fragment as the main content
-    fragmentManager.beginTransaction().replace(R.id.content_frame, SettingsFragment()).commit()
+    fragmentManager.beginTransaction().replace(R.id.content_frame, SettingsFragmentOld()).commit()
   }
 
-  class SettingsFragment : PreferenceFragment() {
+  class SettingsFragmentOld : PreferenceFragment() {
     override fun onCreate(paramBundle: Bundle?) {
       super.onCreate(paramBundle)
       addPreferencesFromResource(R.xml.widget_config)

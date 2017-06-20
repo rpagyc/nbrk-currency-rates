@@ -80,16 +80,23 @@
     <item>#00ffffff</item>
     <item>#00000000</item>
   </string-array>
-  <string name="title_activity_base">BaseActivity</string>
+  <string name="title_activity_base" translatable="false">BaseActivity</string>
 
-  <string name="title_section1">Section 1</string>
-  <string name="title_section2">Section 2</string>
-  <string name="title_section3">Section 3</string>
+  <string name="title_section1" translatable="false">Section 1</string>
+  <string name="title_section2" translatable="false">Section 2</string>
+  <string name="title_section3" translatable="false">Section 3</string>
 
-  <string name="navigation_drawer_open">Open navigation drawer</string>
-  <string name="navigation_drawer_close">Close navigation drawer</string>
+  <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+  <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
-  <string name="action_example">Example action</string>
+  <string name="action_example" translatable="false">Example action</string>
 
-  <string name="action_settings">Settings</string>
+  <string name="action_settings" translatable="false">Settings</string>
+  <string name="rates">Rates</string>
+  <string name="history">History</string>
+  <string name="chart">Chart</string>
+  <string name="communicate">Advanced</string>
+  <string name="share">Share</string>
+  <string name="rate">Rate</string>
+  <string name="about">About</string>
 </resources>

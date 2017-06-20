@@ -5,33 +5,43 @@
 
   <group android:checkableBehavior="single">
     <item
-      android:id="@+id/nav_camera"
+      android:id="@+id/nav_rates"
+      android:icon="@drawable/ic_action_rates"
+      android:title="@string/rates"/>
+    <item
+      android:id="@+id/nav_history"
+      android:icon="@drawable/ic_action_history"
+      android:title="@string/history"/>
+    <item
+      android:id="@+id/nav_chart"
+      android:icon="@drawable/ic_action_chart"
+      android:title="@string/chart"/>
+    <item
+      android:id="@+id/nav_convert"
+      android:icon="@drawable/ic_action_convert"
+      android:title="@string/convert"
+      />
+    <item
+      android:id="@+id/nav_settings"
       android:icon="@drawable/ic_action_settings"
-      android:title="Import"/>
-    <item
-      android:id="@+id/nav_gallery"
-      android:icon="@drawable/ic_action_refresh"
-      android:title="Gallery"/>
-    <item
-      android:id="@+id/nav_slideshow"
-      android:icon="@drawable/ic_action_go_to_today"
-      android:title="Slideshow"/>
-    <item
-      android:id="@+id/nav_manage"
-      android:icon="@drawable/ic_action_settings"
-      android:title="Tools"/>
+      android:title="@string/settings"/>
   </group>
 
-  <item android:title="Communicate">
+  <item android:title="@string/communicate">
     <menu>
       <item
         android:id="@+id/nav_share"
-        android:icon="@drawable/ic_action_settings"
-        android:title="Share"/>
+        android:icon="@drawable/ic_action_share"
+        android:title="@string/share"/>
       <item
         android:id="@+id/nav_send"
-        android:icon="@drawable/ic_action_settings"
-        android:title="Send"/>
+        android:icon="@drawable/ic_action_rating"
+        android:title="@string/rate"/>
+      <item
+        android:id="@+id/nav_about"
+        android:icon="@drawable/ic_action_about"
+        android:title="@string/about"
+        />
     </menu>
   </item>
 

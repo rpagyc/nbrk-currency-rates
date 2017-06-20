@@ -6,6 +6,7 @@ import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import com.nbrk.rates.data.RatesRepository
 import com.nbrk.rates.entities.Rates
+import java.util.*
 
 /**
  * Created by Roman Shakirov on 11-Jun-17.
@@ -16,9 +17,9 @@ class RatesViewModel(application: Application?) : AndroidViewModel(application) 
 
   private val ratesRepository = RatesRepository()
 
-  private val dateLiveData = MutableLiveData<String>()
+  val dateLiveData = MutableLiveData<Date>()
 
-  val resultLiveData = RatesLiveData(ratesRepository)
+  private val resultLiveData = RatesLiveData(ratesRepository)
   init {
     resultLiveData.addSource(dateLiveData) {
       it?.let { resultLiveData.date = it }
@@ -46,7 +47,7 @@ class RatesViewModel(application: Application?) : AndroidViewModel(application) 
     }
   }
 
-  fun setDate(date: String) {
+  fun setDate(date: Date) {
     dateLiveData.value = date
     isLoadingLiveData.value = true
   }
