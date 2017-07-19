@@ -7,7 +7,7 @@ import java.util.*
 /**
  * Created by rpagyc on 15-Jan-16.
  */
-@Entity(tableName = "dataSource")
+@Entity(tableName = "rates")
 data class RatesItem(
   @PrimaryKey(autoGenerate = true)
   var id: Long = 0,

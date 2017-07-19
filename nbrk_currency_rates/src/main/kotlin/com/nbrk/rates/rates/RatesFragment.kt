@@ -1,4 +1,4 @@
-package com.nbrk.rates
+package com.nbrk.rates.rates
 
 import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
@@ -7,11 +7,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.nbrk.rates.R
 import com.nbrk.rates.entities.Rates
 import com.nbrk.rates.extensions.debug
 import com.nbrk.rates.extensions.toDateString
-import com.nbrk.rates.rates.RatesAdapter
-import com.nbrk.rates.rates.RatesViewModel
 import kotlinx.android.synthetic.main.fragment_rates.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,6 +41,9 @@ class RatesFragment : LifecycleFragment() {
     if (savedInstanceState == null) {
       viewModel.setDate(Calendar.getInstance().time)
     }
+
+    val adRequest = AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build()
+    adView.loadAd(adRequest)
 
     observeLiveData()
   }

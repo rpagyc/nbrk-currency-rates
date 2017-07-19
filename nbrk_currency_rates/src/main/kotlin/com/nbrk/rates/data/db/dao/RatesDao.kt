@@ -16,8 +16,11 @@ import java.util.*
 @Dao
 interface RatesDao {
 
-  @Query("select * from dataSource where date = :arg0")
+  @Query("select * from rates where date = :arg0")
   fun getRates(startDate: Date): Flowable<List<RatesItem>>
+
+  @Query("select * from rates where date between :arg0 and :arg1 and currencyCode = :arg2")
+  fun getRates(startDate: Date, endDate: Date, currency: String): Flowable<List<RatesItem>>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   fun saveRates(rates: List<RatesItem>): Unit

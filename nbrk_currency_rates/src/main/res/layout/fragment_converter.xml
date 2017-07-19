@@ -9,7 +9,7 @@
 
   <EditText
     android:id="@+id/etFromAmount"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"
     android:layout_marginTop="16dp"
@@ -20,6 +20,10 @@
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     tools:text="100.00"
+    app:layout_constraintEnd_toStartOf="@+id/spFromCurrency"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
     />
 
   <TextView
@@ -36,7 +40,7 @@
 
   <EditText
     android:id="@+id/etToAmount"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"
     android:layout_marginTop="16dp"
@@ -47,6 +51,10 @@
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/tvEqual"
     tools:text="200.00"
+    app:layout_constraintEnd_toStartOf="@+id/spToCurrency"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
     />
 
   <Spinner
@@ -55,7 +63,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     android:layout_marginEnd="8dp"
-    android:layout_marginStart="16dp"
+    android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     app:layout_constraintBottom_toBottomOf="@+id/etFromAmount"
     app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +77,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     android:layout_marginEnd="8dp"
-    android:layout_marginStart="16dp"
+    android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     app:layout_constraintBottom_toBottomOf="@+id/etToAmount"
     app:layout_constraintEnd_toEndOf="parent"

@@ -12,7 +12,6 @@ import android.preference.PreferenceManager
 import android.widget.RemoteViews
 import com.nbrk.rates.App
 import com.nbrk.rates.R
-import com.nbrk.rates.widget.view.activities.ConfigActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,7 +22,7 @@ class   WidgetProvider : AppWidgetProvider() {
 
   var date = Calendar.getInstance()
   var time = SimpleDateFormat("HH:mm")
-  val APP_WIDGET_UPDATE = "com.nbrk.dataSource.MY_APPWIDGET_UPDATE"
+  val APP_WIDGET_UPDATE = "com.nbrk.rates.MY_APPWIDGET_UPDATE"
 
   override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
     super.onUpdate(context, appWidgetManager, appWidgetIds)
@@ -41,7 +40,6 @@ class   WidgetProvider : AppWidgetProvider() {
     val opacity = sharedPref.getInt("sbOpacity", 100) * 255 / 100 * 0x01000000
     val widgetBackground = Color.parseColor(color) + opacity
 
-    val config = Intent(context, ConfigActivity::class.java)
     val update = Intent(context, WidgetProvider::class.java)
 
     update.action = APP_WIDGET_UPDATE
@@ -55,7 +53,6 @@ class   WidgetProvider : AppWidgetProvider() {
     widget.setRemoteAdapter(R.id.lv_widget_rates, svcIntent)
 
     widget.setTextViewText(R.id.widget_time, time.format(date.time))
-    widget.setOnClickPendingIntent(R.id.widget_config, PendingIntent.getActivity(context, 0, config, 0))
     widget.setOnClickPendingIntent(R.id.widget_update, PendingIntent.getBroadcast(context, 0, update, PendingIntent.FLAG_UPDATE_CURRENT))
 
     appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.lv_widget_rates)

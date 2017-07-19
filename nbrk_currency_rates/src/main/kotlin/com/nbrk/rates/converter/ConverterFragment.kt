@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nbrk.rates.R
-import com.nbrk.rates.converter.view.adapters.RatesSpinnerAdapter
 import com.nbrk.rates.entities.Rates
 import com.nbrk.rates.entities.RatesItem
 import com.nbrk.rates.rates.RatesViewModel

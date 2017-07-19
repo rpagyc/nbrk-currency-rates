@@ -4,6 +4,8 @@
   >
 
   <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
   <application
     android:name=".App"
@@ -18,32 +20,9 @@
       >
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
-
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <activity
-      android:name=".settings.view.activities.SettingsActivity"
-      android:label="@string/settings"
-      />
-    <activity
-      android:name=".widget.view.activities.ConfigActivity"
-      android:label="@string/widget_config"
-      />
-    <activity
-      android:name=".converter.view.activities.ConverterActivity"
-      android:label="@string/conversion_title"
-      />
-    <activity
-      android:name=".chart.view.activities.ChartActivity"
-      android:label="@string/chart_title"
-      />
-
-    <service android:name=".CurrencyRatesService"/>
-    <service
-      android:name=".widget.WidgetService"
-      android:permission="android.permission.BIND_REMOTEVIEWS"
-      />
 
     <!-- Widget -->
     <receiver
@@ -62,6 +41,10 @@
         android:resource="@xml/widget_provider"
         />
     </receiver>
+    <service
+      android:name=".widget.WidgetService"
+      android:permission="android.permission.BIND_REMOTEVIEWS"
+      />
     <!-- Widget -->
 
   </application>

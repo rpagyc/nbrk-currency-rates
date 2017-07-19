@@ -1,4 +1,4 @@
-package com.nbrk.rates.converter.view.adapters
+package com.nbrk.rates.converter
 
 import android.view.LayoutInflater
 import android.view.View
