@@ -24,6 +24,7 @@ interface RestApi {
       val API_BASE_URL = "http://www.nationalbank.kz/rss/"
 
       val httpClient = OkHttpClient.Builder()
+
       if (BuildConfig.DEBUG) {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BASIC

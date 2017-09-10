@@ -82,7 +82,7 @@ class WidgetFactory(val context: Context, intent: Intent) :
       }
     }
     return remoteViews
-  }
+  }                                                                                   
 
   override fun getLoadingView(): RemoteViews? {
     return null

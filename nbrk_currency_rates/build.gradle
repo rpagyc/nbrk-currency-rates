@@ -10,7 +10,7 @@ android {
   buildToolsVersion '26.0.0'
   defaultConfig {
     applicationId "com.nbrk.rates"
-    minSdkVersion 21
+    minSdkVersion 15
     targetSdkVersion 26
     multiDexEnabled true
     versionName androidGitVersion.name()
