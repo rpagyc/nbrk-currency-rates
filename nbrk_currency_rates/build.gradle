@@ -48,7 +48,7 @@ dependencies {
   kapt 'android.arch.lifecycle:compiler:' + rootProject.archLifecycleVersion
   kapt 'android.arch.persistence.room:compiler:' + rootProject.archRoomVersion
 
-  implementation 'com.google.android.gms:play-services-ads:11.0.0'
+  implementation 'com.google.android.gms:play-services-ads:8.4.0'
 
   implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 
