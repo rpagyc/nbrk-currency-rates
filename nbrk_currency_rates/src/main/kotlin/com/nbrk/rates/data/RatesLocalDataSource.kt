@@ -14,7 +14,7 @@ import java.util.*
  */
 class RatesLocalDataSource : RatesDataSource {
 
-  val ratesDao = DatabaseCreator.database.ratesDao()
+  private val ratesDao = DatabaseCreator.database.ratesDao()
 
   override fun getRates(date: Date): Single<Rates> =
     ratesDao

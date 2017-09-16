@@ -1,9 +1,9 @@
 package com.nbrk.rates.chart
 
-import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +22,7 @@ import com.nbrk.rates.entities.RatesItem
 import com.nbrk.rates.extensions.debug
 import com.nbrk.rates.rates.RatesViewModel
 import kotlinx.android.synthetic.main.fragment_chart.*
-import org.jetbrains.anko.onItemSelectedListener
+import org.jetbrains.anko.sdk25.listeners.onItemSelectedListener
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,7 +32,7 @@ import java.util.*
  * DigitTonic Studio
  * support@digittonic.com
  */
-class ChartFragment : LifecycleFragment() {
+class ChartFragment : Fragment() {
 
   private val chartViewModel by lazy { ViewModelProviders.of(activity).get(ChartViewModel::class.java) }
   private val ratesViewModel by lazy { ViewModelProviders.of(activity).get(RatesViewModel::class.java) }
@@ -49,6 +49,7 @@ class ChartFragment : LifecycleFragment() {
     super.onViewCreated(view, savedInstanceState)
 
     spCurrency.adapter = adapter
+
     spCurrency.onItemSelectedListener { onItemSelected { _, _, _, _ -> load() } }
 
     val period = resources.getStringArray(R.array.period)

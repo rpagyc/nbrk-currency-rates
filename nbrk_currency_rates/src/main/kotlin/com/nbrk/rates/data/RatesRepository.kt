@@ -1,7 +1,6 @@
 package com.nbrk.rates.data
 
-import android.preference.PreferenceManager
-import com.nbrk.rates.App
+import android.content.SharedPreferences
 import com.nbrk.rates.entities.Rates
 import com.nbrk.rates.entities.RatesItem
 import io.reactivex.Flowable
@@ -15,11 +14,10 @@ import java.util.*
  * DigitTonic Studio
  * support@digittonic.com
  */
-class RatesRepository : RatesDataSource {
+class RatesRepository(private val sharedPrefs: SharedPreferences) : RatesDataSource {
 
-  val remoteDataSource = RatesRemoteDataSource()
-  val localDataSource = RatesLocalDataSource()
-  val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(App.instance)
+  private val remoteDataSource = RatesRemoteDataSource()
+  private val localDataSource = RatesLocalDataSource()
 
   override fun getRates(date: Date): Single<Rates> =
     localDataSource

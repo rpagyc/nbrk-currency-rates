@@ -3,38 +3,51 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               xmlns:tools="http://schemas.android.com/tools"
+              android:background="@android:color/transparent"
               android:orientation="vertical">
 
-  <RelativeLayout
-    android:id="@+id/widget_update"
+  <LinearLayout
+    android:id="@+id/widget_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="right"
-    android:padding="8dp">
+    android:gravity="bottom">
 
     <TextView
       android:id="@+id/widget_title"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      style="@style/HeaderCurrentDate"
       android:text="@string/last_updated"
-      android:textColor="@color/material_grey_600"/>
+      android:layout_width="0dp"
+      android:gravity="center_vertical"
+      android:paddingTop="4dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"/>
 
-    <TextView
-      android:id="@+id/widget_time"
+    <ImageView
+      android:id="@+id/widget_update"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_toRightOf="@+id/widget_title"
-      android:paddingLeft="5dp"
-      tools:text="12:00"
-      android:textColor="@color/material_grey_600"/>
+      android:layout_marginRight="8dp"
+      android:layout_weight="0"
+      android:src="@drawable/ic_action_refresh_light" />
 
-  </RelativeLayout>
+  </LinearLayout>
 
-  <ListView
-    android:id="@+id/lv_widget_rates"
+  <FrameLayout
+    android:id="@+id/widget_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+    <ImageView
+      android:id="@+id/background_image"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:src="@drawable/widget_background"
+      tools:ignore="ContentDescription" />
+    <ListView
+    android:id="@+id/lv_widget_rates"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
   </ListView>
-
+  </FrameLayout>
 </LinearLayout>

@@ -1,9 +1,9 @@
 package com.nbrk.rates.converter
 
-import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +12,8 @@ import com.nbrk.rates.entities.Rates
 import com.nbrk.rates.entities.RatesItem
 import com.nbrk.rates.rates.RatesViewModel
 import kotlinx.android.synthetic.main.fragment_converter.*
-import org.jetbrains.anko.onItemSelectedListener
-import org.jetbrains.anko.textChangedListener
+import org.jetbrains.anko.sdk25.listeners.onItemSelectedListener
+import org.jetbrains.anko.sdk25.listeners.textChangedListener
 import java.util.*
 
 /**
@@ -21,7 +21,7 @@ import java.util.*
  * DigitTonic Studio
  * support@digittonic.com
  */
-class ConverterFragment : LifecycleFragment() {
+class ConverterFragment : Fragment() {
 
   private val ratesViewModel by lazy { ViewModelProviders.of(activity).get(RatesViewModel::class.java) }
   private val adapter = RatesSpinnerAdapter()

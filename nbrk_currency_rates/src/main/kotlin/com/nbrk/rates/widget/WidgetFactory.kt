@@ -13,6 +13,7 @@ import com.nbrk.rates.R
 import com.nbrk.rates.data.RatesLocalDataSource
 import com.nbrk.rates.data.RatesRemoteDataSource
 import com.nbrk.rates.entities.RatesItem
+import com.nbrk.rates.extensions.debug
 import com.nbrk.rates.extensions.getDrawable
 import java.util.*
 
@@ -22,34 +23,25 @@ import java.util.*
 class WidgetFactory(val context: Context, intent: Intent) :
   RemoteViewsService.RemoteViewsFactory {
 
-  var rates = ArrayList<RatesItem>()
+  var rates = listOf<RatesItem>()
   val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.instance)
   val remoteDataSource = RatesRemoteDataSource()
   val localDataSource = RatesLocalDataSource()
-
-  fun setRates() {
-    val date = Calendar.getInstance().time
-    localDataSource
-      .getRates(date)
-      .onErrorResumeNext {
-        remoteDataSource.getRates(date)
-          .doOnSuccess { localDataSource.saveRates(it) }
-      }
-      .subscribe(
-        { it ->
-          rates = it.rates.filter {
-                        sharedPref.getBoolean("widget_show_${it.currencyCode}", true)
-          } as ArrayList<RatesItem>
-        },
-        { error -> error(error) }
-      )
-  }
 
   override fun onCreate() {
   }
 
   override fun onDataSetChanged() {
-    setRates()
+    val date = Calendar.getInstance().time
+    rates = localDataSource
+      .getRates(date)
+      .onErrorResumeNext {
+        remoteDataSource.getRates(date)
+          .doOnSuccess { localDataSource.saveRates(it) }
+      }
+      .blockingGet()
+      .rates
+      .filter { sharedPref.getBoolean("widget_show_${it.currencyCode}", true) }
   }
 
   override fun onDestroy() {

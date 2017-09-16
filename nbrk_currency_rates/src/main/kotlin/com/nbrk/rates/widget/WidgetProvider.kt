@@ -3,10 +3,10 @@ package com.nbrk.rates.widget
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Color.alpha
 import android.net.Uri
 import android.preference.PreferenceManager
 import android.widget.RemoteViews
@@ -22,54 +22,51 @@ class   WidgetProvider : AppWidgetProvider() {
 
   var date = Calendar.getInstance()
   var time = SimpleDateFormat("HH:mm")
-  val APP_WIDGET_UPDATE = "com.nbrk.rates.MY_APPWIDGET_UPDATE"
 
   override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
     super.onUpdate(context, appWidgetManager, appWidgetIds)
     for (appWidgetId in appWidgetIds) {
-      updateAppWidget(context, appWidgetManager, appWidgetId)
+      val widget = RemoteViews(context.packageName, R.layout.widget_layout)
+      configureBackground(widget)
+      configureRefresh(context, widget, appWidgetIds)
+      configureTitle(context, widget)
+      configureList(context, widget, appWidgetId)
+      appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.lv_widget_rates)
+      appWidgetManager.updateAppWidget(appWidgetId, widget)
     }
   }
 
-  fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-    val svcIntent = Intent(context, WidgetService::class.java)
-    val widget = RemoteViews(context.packageName, R.layout.widget_layout)
-
+  private fun configureBackground(rv: RemoteViews) {
     val sharedPref = PreferenceManager.getDefaultSharedPreferences(App.instance)
     val color = sharedPref.getString("widgetBackgroundColor", "#ffffff")
     val opacity = sharedPref.getInt("sbOpacity", 100) * 255 / 100 * 0x01000000
     val widgetBackground = Color.parseColor(color) + opacity
-
-    val update = Intent(context, WidgetProvider::class.java)
-
-    update.action = APP_WIDGET_UPDATE
-    update.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-    //update.data = Uri.parse(update.toUri(Intent.URI_INTENT_SCHEME))
-
-    svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-    svcIntent.data = Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME))
-
-    widget.setInt(R.id.widgetRates, "setBackgroundColor", widgetBackground)
-    widget.setRemoteAdapter(R.id.lv_widget_rates, svcIntent)
-
-    widget.setTextViewText(R.id.widget_time, time.format(date.time))
-    widget.setOnClickPendingIntent(R.id.widget_update, PendingIntent.getBroadcast(context, 0, update, PendingIntent.FLAG_UPDATE_CURRENT))
-
-    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.lv_widget_rates)
-    appWidgetManager.updateAppWidget(appWidgetId, widget)
+    rv.setInt(R.id.background_image, "setColorFilter", widgetBackground)
+    rv.setInt(R.id.background_image, "setAlpha", alpha(widgetBackground))
   }
 
-  override fun onReceive(context: Context, intent: Intent) {
-    if (APP_WIDGET_UPDATE.equals(intent.action)) {
-      val thisAppWidget = ComponentName(context, WidgetProvider::class.java)
-      val appWidgetManager = AppWidgetManager.getInstance(context)
-      val appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget)
-      for (appWidgetId in appWidgetIds) {
-        updateAppWidget(context, appWidgetManager, appWidgetId)
-      }
-    } else {
-      super.onReceive(context, intent)
-    }
+  private fun configureRefresh(context: Context, rv: RemoteViews, widgetIds: IntArray) {
+    val intent = Intent(context, WidgetProvider::class.java)
+    intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
+    val pIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    rv.setOnClickPendingIntent(R.id.widget_update, pIntent)
+  }
+
+  private fun configureTitle(context: Context, rv: RemoteViews) {
+    val widgetTitle = context.resources.getString(R.string.last_updated)
+    rv.setTextViewText(R.id.widget_title, "$widgetTitle ${time.format(date.time)}")
+  }
+
+  private fun configureList(context: Context, rv: RemoteViews, widgetId: Int) {
+    val intent = Intent(context, WidgetService::class.java)
+    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
+    intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
+    rv.setRemoteAdapter(R.id.lv_widget_rates, intent)
+  }
+
+  override fun onReceive(context: Context?, intent: Intent?) {
+    super.onReceive(context, intent)
   }
 
 }

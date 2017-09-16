@@ -1,7 +1,6 @@
 package com.nbrk.rates.base
 
 import android.arch.lifecycle.LifecycleRegistry
-import android.arch.lifecycle.LifecycleRegistryOwner
 import android.support.v7.app.AppCompatActivity
 
 /**
@@ -10,7 +9,7 @@ import android.support.v7.app.AppCompatActivity
  * support@digittonic.com
  */
 @Suppress("LeakingThis")
-abstract class BaseLifecycleActivity: AppCompatActivity(), LifecycleRegistryOwner {
+abstract class BaseLifecycleActivity: AppCompatActivity() {
 
   private val registry = LifecycleRegistry(this)
 

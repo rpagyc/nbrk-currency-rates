@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
+import android.preference.PreferenceManager
 import com.nbrk.rates.data.RatesRepository
 import com.nbrk.rates.entities.RatesItem
 
@@ -14,7 +15,7 @@ import com.nbrk.rates.entities.RatesItem
  */
 class ChartViewModel(application: Application?) : AndroidViewModel(application) {
 
-  private val ratesRepository = RatesRepository()
+  private val ratesRepository = RatesRepository(PreferenceManager.getDefaultSharedPreferences(application))
 
   val currencyAndPeriod = MutableLiveData<Pair<String, Int>>()
 
