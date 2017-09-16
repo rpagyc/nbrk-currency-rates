@@ -1,9 +1,21 @@
-image: registry.gitlab.com/rpagyc/android-build-image:latest
+image: registry.gitlab.com/showcheap/android-ci:T25-B25.0.3
+
+stages:
+- build
+
 before_script:
-  - chmod +x ./gradlew
+- export GRADLE_USER_HOME=$(pwd)/.gradle
+- chmod +x ./gradlew
+
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+  - .gradle/
+
 build:
+  stage: build
   script:
-    - ./gradlew assembleDebug
+  - ./gradlew assembleDebug
   artifacts:
     paths:
     - nbrk_currency_rates/build/outputs/
