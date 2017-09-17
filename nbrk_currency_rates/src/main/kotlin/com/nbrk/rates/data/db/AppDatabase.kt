@@ -12,7 +12,7 @@ import com.nbrk.rates.entities.RatesItem
  * DigitTonic Studio
  * support@digittonic.com
  */
-@Database(entities = arrayOf(RatesItem::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(RatesItem::class), version = 2, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 

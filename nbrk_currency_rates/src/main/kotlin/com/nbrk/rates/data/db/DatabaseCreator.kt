@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 object DatabaseCreator {
 
-  val isDatabaseCreated = MutableLiveData<Boolean>()
+  private val isDatabaseCreated = MutableLiveData<Boolean>()
 
   lateinit var database: AppDatabase
 
@@ -30,7 +30,9 @@ object DatabaseCreator {
     isDatabaseCreated.value = false
 
     Completable.fromAction {
-      database = Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME).build()
+      database = Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+        .fallbackToDestructiveMigration()
+        .build()
     }
       .subscribeOn(Schedulers.computation())
       .observeOn(AndroidSchedulers.mainThread())
