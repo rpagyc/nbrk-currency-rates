@@ -10,8 +10,10 @@ import com.nbrk.rates.extensions.getDrawable
 import kotlinx.android.synthetic.main.spinner_item_rates.view.*
 
 /**
- * Created by rpagyc on 25-Jan-16.
- */
+* Created by Roman Shakirov on 25-Jan-16.
+* DigitTonic Studio
+* support@digittonic.com
+*/
 class RatesSpinnerAdapter : BaseAdapter() {
 
   var dataSource : List<RatesItem> = emptyList()

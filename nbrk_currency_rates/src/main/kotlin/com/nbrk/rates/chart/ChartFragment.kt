@@ -17,9 +17,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IValueFormatter
 import com.nbrk.rates.R
 import com.nbrk.rates.converter.RatesSpinnerAdapter
-import com.nbrk.rates.entities.Rates
 import com.nbrk.rates.entities.RatesItem
-import com.nbrk.rates.extensions.debug
 import com.nbrk.rates.rates.RatesViewModel
 import kotlinx.android.synthetic.main.fragment_chart.*
 import org.jetbrains.anko.sdk25.listeners.onItemSelectedListener
@@ -34,7 +32,6 @@ import java.util.*
  */
 class ChartFragment : Fragment() {
 
-  private val chartViewModel by lazy { ViewModelProviders.of(activity).get(ChartViewModel::class.java) }
   private val ratesViewModel by lazy { ViewModelProviders.of(activity).get(RatesViewModel::class.java) }
 
   private val adapter = RatesSpinnerAdapter()
@@ -49,45 +46,43 @@ class ChartFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
 
     spCurrency.adapter = adapter
-
+    spCurrency.setSelection(0, false)
     spCurrency.onItemSelectedListener { onItemSelected { _, _, _, _ -> load() } }
 
     val period = resources.getStringArray(R.array.period)
+
     spPeriod.adapter = ArrayAdapter(activity, R.layout.spinner_item_period, period)
+    spPeriod.setSelection(0, false)
     spPeriod.onItemSelectedListener { onItemSelected { _, _, _, _ -> load() } }
 
     observeLiveData()
   }
 
-  fun load() {
+  private fun load() {
     if (currencies.size > 0) {
       val currency = currencies[spCurrency.selectedItemPosition].currencyCode
       val period = periodDays[spPeriod.selectedItemPosition]
 
-      chartViewModel.setCurrencyAndPeriod(Pair(currency, period))
+      ratesViewModel.currencyAndPeriod.value = Pair(currency, period)
     }
   }
 
-  fun observeLiveData() {
-    chartViewModel.chartLiveData.observe(this, Observer<List<RatesItem>> {
+  private fun observeLiveData() {
+    ratesViewModel.rates.observe(this, Observer<List<RatesItem>> {
+      it?.let {
+        adapter.dataSource = it
+        currencies = it as ArrayList<RatesItem>
+      }
+    })
+
+    ratesViewModel.chartRates.observe(this, Observer<List<RatesItem>> {
       it?.let {
         showRates(it)
       }
     })
-
-    chartViewModel.throwableLiveData.observe(this, Observer<Throwable> {
-      it?.let { debug(it) }
-    })
-
-    ratesViewModel.ratesLiveData.observe(this, Observer<Rates> {
-      it?.let {
-        adapter.dataSource = it.rates
-        currencies = it.rates as ArrayList<RatesItem>
-      }
-    })
   }
 
-  fun showRates(rates: List<RatesItem>) {
+  private fun showRates(rates: List<RatesItem>) {
 
     val mFormat = DecimalFormat("###,###,##0.##")
 

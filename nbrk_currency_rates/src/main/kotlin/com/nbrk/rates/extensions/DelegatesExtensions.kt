@@ -1,12 +1,15 @@
 package com.nbrk.rates.extensions
 
 import android.content.Context
+import android.content.SharedPreferences
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
- * Created by rpagyc on 14-Jan-16.
- */
+* Created by Roman Shakirov on 14-Jan-16.
+* DigitTonic Studio
+* support@digittonic.com
+*/
 object DelegatesExt {
 
   fun <T> notNullSingleValue(): ReadWriteProperty<Any?, T> = NotNullSingleValue()
@@ -16,7 +19,7 @@ object DelegatesExt {
 
 }
 
-private class NotNullSingleValue<T>() : ReadWriteProperty<Any?, T> {
+private class NotNullSingleValue<T> : ReadWriteProperty<Any?, T> {
 
   private var value: T? = null
 
@@ -33,7 +36,7 @@ private class NotNullSingleValue<T>() : ReadWriteProperty<Any?, T> {
 
 class Preference<T>(val context: Context, val name: String, val default: T) : ReadWriteProperty<Any?, T> {
 
-  val prefs by lazy {
+  private val prefs: SharedPreferences by lazy {
     context.getSharedPreferences("default", Context.MODE_PRIVATE)
   }
 

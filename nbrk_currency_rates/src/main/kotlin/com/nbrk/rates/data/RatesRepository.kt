@@ -1,43 +1,30 @@
 package com.nbrk.rates.data
 
-import android.content.SharedPreferences
-import com.nbrk.rates.entities.Rates
 import com.nbrk.rates.entities.RatesItem
 import io.reactivex.Flowable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 /**
- * Created by Roman Shakirov on 11-Jun-17.
+ * Created by Roman Shakirov on 24-Sep-17.
  * DigitTonic Studio
  * support@digittonic.com
  */
-class RatesRepository(private val sharedPrefs: SharedPreferences) : RatesDataSource {
+class RatesRepository {
 
-  private val remoteDataSource = RatesRemoteDataSource()
-  private val localDataSource = RatesLocalDataSource()
+  private val localDataSource = LocalDataSource()
+  private val remoteDataSource = RemoteDataSource()
 
-  override fun getRates(date: Date): Single<Rates> =
-    localDataSource
-      .getRates(date)
-      .onErrorResumeNext {
-        remoteDataSource.getRates(date)
-          .doOnSuccess { localDataSource.saveRates(it) }
-      }
-      .map {
-        Rates(it.date, it.rates.filter { sharedPrefs.getBoolean("pref_key_show_${it.currencyCode}", true) })
-      }
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
+  fun getRates(date: Date): Flowable<List<RatesItem>> = Flowable.concat(
+    localDataSource.getRates(date).takeWhile { it.isNotEmpty() },
+    remoteDataSource.getRates(date).doOnNext { localDataSource.saveRates(it) })
+    .distinctUntilChanged()
 
-  fun getRates(currency: String, period: Int): Single<List<RatesItem>> {
+  fun getChartRates(currency: String, period: Int): Flowable<List<RatesItem>> {
 
     val startDate = Calendar.getInstance()
     startDate.add(Calendar.DATE, -period)
 
-    val dates = Flowable
+    return Flowable
       .fromIterable(1..period)
       .map {
         startDate.add(Calendar.DATE, 1)
@@ -49,35 +36,9 @@ class RatesRepository(private val sharedPrefs: SharedPreferences) : RatesDataSou
         }
         startDate.time
       }
-
-    val localRates = localDataSource
-      .getRates(currency, period)
-      .take(1)
-      .flatMapIterable { it }
-
-    val rates = dates
-      .flatMap { date ->
-        localRates
-          .any { it.date == date }
-          .toFlowable()
-          .flatMap { exist ->
-            if (exist) {
-              localRates
-                .filter { it.date == date }
-            } else {
-              remoteDataSource
-                .getRates(date)
-                .doOnSuccess { localDataSource.saveRates(it) }
-                .map { it.rates.single { it.currencyCode == currency } }
-                .toFlowable()
-            }
-          }
-      }
+      .flatMap { getRates(it).take(1) }
+      .map { it.first { it.currencyCode == currency } }
       .toList()
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-
-    return rates
+      .toFlowable()
   }
-
 }

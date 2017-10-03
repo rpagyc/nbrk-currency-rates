@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nbrk.rates.R
-import com.nbrk.rates.entities.Rates
 import com.nbrk.rates.entities.RatesItem
 import com.nbrk.rates.rates.RatesViewModel
 import kotlinx.android.synthetic.main.fragment_converter.*
@@ -27,10 +26,14 @@ class ConverterFragment : Fragment() {
   private val adapter = RatesSpinnerAdapter()
   private var rates = ArrayList<RatesItem>()
   private val kzt = RatesItem(
+    id = 0,
     currencyCode = "KZT",
     currencyName = "ТЕНГЕ",
     price = 1.0,
-    quantity = 1
+    quantity = 1,
+    date = Calendar.getInstance().time,
+    index = "",
+    change = 0.0
   )
 
   override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,17 +53,17 @@ class ConverterFragment : Fragment() {
     observeLiveData()
   }
 
-  fun observeLiveData() {
-    ratesViewModel.ratesLiveData.observe(this, Observer<Rates> {
+  private fun observeLiveData() {
+    ratesViewModel.rates.observe(this, Observer<List<RatesItem>> {
       it?.let {
-        rates = it.rates as ArrayList<RatesItem>
+        rates = it as ArrayList<RatesItem>
         rates.add(kzt)
-        adapter.dataSource = it.rates
+        adapter.dataSource = it
       }
     })
   }
 
-  fun convert() {
+  private fun convert() {
     if (rates.isNotEmpty()) {
       val price1 = rates[spFromCurrency.selectedItemPosition].price
       val quant1 = rates[spFromCurrency.selectedItemPosition].quantity
@@ -69,7 +72,7 @@ class ConverterFragment : Fragment() {
 
       if (etFromAmount.text.toString().isNotBlank()) {
         val amount = etFromAmount.text.toString().toDouble()
-        etToAmount.setText("${"%.2f".format(amount * (price1 / quant1) / (price2 / quant2))}")
+        etToAmount.setText("%.2f".format(amount * (price1 / quant1) / (price2 / quant2)))
       } else {
         etToAmount.setText("")
       }

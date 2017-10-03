@@ -8,7 +8,7 @@ import android.view.View
  * DigitTonic Studio
  * support@digittonic.com
  */
-abstract class BaseViewHolder<D>(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+abstract class BaseViewHolder<in D>(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
   abstract fun onBind(item: D)
 

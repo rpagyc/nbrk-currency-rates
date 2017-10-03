@@ -13,13 +13,13 @@ import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.support.v7.preference.PreferenceScreen
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.nbrk.rates.about.AboutFragment
-import com.nbrk.rates.base.BaseLifecycleActivity
 import com.nbrk.rates.chart.ChartFragment
 import com.nbrk.rates.converter.ConverterFragment
 import com.nbrk.rates.extensions.TAG
@@ -38,9 +38,10 @@ import java.util.*
  * DigitTonic Studio
  * support@digittonic.com
  */
-class MainActivity : BaseLifecycleActivity(), PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
+class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
 
   private val ratesViewModel: RatesViewModel by lazy { ViewModelProviders.of(this).get(RatesViewModel::class.java) }
+
   companion object {
     const val REQUEST_STORAGE = 1
   }
@@ -49,15 +50,12 @@ class MainActivity : BaseLifecycleActivity(), PreferenceFragmentCompat.OnPrefere
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
-//    val toolbar = findViewById(R.id.toolbar) as Toolbar
     setSupportActionBar(toolbar)
 
-//    val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
     val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
     drawer_layout.addDrawerListener(toggle)
     toggle.syncState()
 
-//    val navigationView = findViewById(R.id.nav_view) as NavigationView
     nav_view.setNavigationItemSelectedListener(listener)
 
     if (savedInstanceState == null) {
@@ -71,7 +69,6 @@ class MainActivity : BaseLifecycleActivity(), PreferenceFragmentCompat.OnPrefere
   }
 
   override fun onBackPressed() {
-//    val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
     if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
       drawer_layout.closeDrawer(GravityCompat.START)
     } else {
@@ -98,7 +95,7 @@ class MainActivity : BaseLifecycleActivity(), PreferenceFragmentCompat.OnPrefere
     return true
   }
 
-  val listener: (MenuItem) -> Boolean = {
+  private val listener: (MenuItem) -> Boolean = {
     when (it.itemId) {
       R.id.nav_rates -> {
         title = getString(R.string.rates)
@@ -113,7 +110,7 @@ class MainActivity : BaseLifecycleActivity(), PreferenceFragmentCompat.OnPrefere
         val calendar = Calendar.getInstance()
         DatePickerDialog(this, { _, y, m, d ->
           calendar.set(y, m, d)
-          ratesViewModel.setDate(calendar.time)
+          ratesViewModel.date.value = calendar.time
         },
           calendar.get(Calendar.YEAR),
           calendar.get(Calendar.MONTH),
@@ -180,7 +177,7 @@ class MainActivity : BaseLifecycleActivity(), PreferenceFragmentCompat.OnPrefere
     }
   }
 
-  fun shareScreenshot() {
+  private fun shareScreenshot() {
     val bm = screenShot(findViewById(R.id.content_main))
     val file = saveBitmap(bm, "screenshot.png")
     val uri = Uri.fromFile(File(file.absolutePath))

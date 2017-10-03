@@ -5,17 +5,19 @@ import android.arch.persistence.room.PrimaryKey
 import java.util.*
 
 /**
- * Created by rpagyc on 15-Jan-16.
- */
+* Created by Roman Shakirov on 15-Jan-16.
+* DigitTonic Studio
+* support@digittonic.com
+*/
 @Entity(tableName = "rates")
 data class RatesItem(
   @PrimaryKey(autoGenerate = true)
-  var id: Long = 0,
-  var date: Date = Calendar.getInstance().time,
-  var currencyCode: String = "",
-  var currencyName: String = "",
-  var price: Double = .0,
-  var quantity: Int = 0,
-  var index: String = "",
-  var change: Double = .0
+  val id: Long,
+  val date: Date,
+  val currencyCode: String,
+  val currencyName: String,
+  val price: Double,
+  val quantity: Int,
+  val index: String,
+  val change: Double
 )

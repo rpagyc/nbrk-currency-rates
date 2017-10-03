@@ -7,8 +7,10 @@ import com.nbrk.rates.data.db.DatabaseCreator
 import com.nbrk.rates.extensions.DelegatesExt
 
 /**
- * Created by rpagyc on 14-Jan-16.
- */
+* Created by Roman Shakirov on 14-Jan-16.
+* DigitTonic Studio
+* support@digittonic.com
+*/
 class App : Application() {
 
   companion object {

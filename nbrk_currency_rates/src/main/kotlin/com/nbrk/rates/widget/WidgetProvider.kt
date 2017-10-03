@@ -16,11 +16,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Created by rpagyc on 29.10.2015.
- */
+* Created by Roman Shakirov on 29.10.2015.
+* DigitTonic Studio
+* support@digittonic.com
+*/
 class   WidgetProvider : AppWidgetProvider() {
 
-  var date = Calendar.getInstance()
+  var date: Calendar = Calendar.getInstance()
   var time = SimpleDateFormat("HH:mm")
 
   override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
@@ -63,10 +65,6 @@ class   WidgetProvider : AppWidgetProvider() {
     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
     intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
     rv.setRemoteAdapter(R.id.lv_widget_rates, intent)
-  }
-
-  override fun onReceive(context: Context?, intent: Intent?) {
-    super.onReceive(context, intent)
   }
 
 }

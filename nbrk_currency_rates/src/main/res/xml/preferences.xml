@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:sample="http://schemas.android.com/apk/res-auto"
                   android:key="key_root">
   <PreferenceScreen
     android:icon="@drawable/ic_action_app"

@@ -6,20 +6,10 @@ import org.simpleframework.xml.Root;
 
 import java.util.List;
 
-@Root(name = "rates")
+@Root(name = "rates", strict = false)
 public class CurrencyRates {
   @Element
-  public String date = "";
+  public String date;
   @ElementList(inline = true)
   public List<CurrencyRatesItem> currencyRatesItemList;
-  @Element
-  String generator = "";
-  @Element
-  String title = "";
-  @Element
-  String link = "";
-  @Element
-  String description = "";
-  @Element
-  String copyright = "";
 }

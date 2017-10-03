@@ -10,37 +10,32 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.nbrk.rates.App
 import com.nbrk.rates.R
-import com.nbrk.rates.data.RatesLocalDataSource
-import com.nbrk.rates.data.RatesRemoteDataSource
+import com.nbrk.rates.data.RatesRepository
 import com.nbrk.rates.entities.RatesItem
-import com.nbrk.rates.extensions.debug
 import com.nbrk.rates.extensions.getDrawable
 import java.util.*
 
 /**
- * Created by rpagyc on 30.10.2015.
- */
+* Created by Roman Shakirov on 30.10.2015.
+* DigitTonic Studio
+* support@digittonic.com
+*/
 class WidgetFactory(val context: Context, intent: Intent) :
   RemoteViewsService.RemoteViewsFactory {
 
   var rates = listOf<RatesItem>()
-  val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.instance)
-  val remoteDataSource = RatesRemoteDataSource()
-  val localDataSource = RatesLocalDataSource()
+  private val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.instance)
+  private val repository = RatesRepository()
+
 
   override fun onCreate() {
   }
 
   override fun onDataSetChanged() {
     val date = Calendar.getInstance().time
-    rates = localDataSource
+    rates = repository
       .getRates(date)
-      .onErrorResumeNext {
-        remoteDataSource.getRates(date)
-          .doOnSuccess { localDataSource.saveRates(it) }
-      }
-      .blockingGet()
-      .rates
+      .blockingFirst()
       .filter { sharedPref.getBoolean("widget_show_${it.currencyCode}", true) }
   }
 
@@ -56,21 +51,25 @@ class WidgetFactory(val context: Context, intent: Intent) :
     if (position < rates.size) {
       val ratesItem = rates[position]
       remoteViews.setTextViewText(R.id.tvCurrencyCode, ratesItem.currencyCode)
-      remoteViews.setTextViewText(R.id.tvCurrencyName, "${ratesItem.quantity} ${ratesItem.currencyName?.toLowerCase()}")
+      remoteViews.setTextViewText(R.id.tvCurrencyName, "${ratesItem.quantity} ${ratesItem.currencyName.toLowerCase()}")
       remoteViews.setTextViewText(R.id.tvPrice, ratesItem.price.toString())
       remoteViews.setTextViewText(R.id.tvChange, ratesItem.change.toString())
-      remoteViews.setImageViewResource(R.id.flag, ratesItem.currencyCode?.getDrawable())
+      remoteViews.setImageViewResource(R.id.flag, ratesItem.currencyCode.getDrawable())
       remoteViews.setViewVisibility(R.id.imgChange, View.VISIBLE)
-      if (ratesItem.index.equals("UP")) {
-        remoteViews.setImageViewResource(R.id.imgChange, R.mipmap.ic_up)
-        remoteViews.setTextColor(R.id.tvChange, Color.rgb(90, 150, 55));
-        remoteViews.setTextViewText(R.id.tvChange, "+${ratesItem.change.toString()}")
-      } else if (ratesItem.index.equals("DOWN")) {
-        remoteViews.setTextColor(R.id.tvChange, Color.RED)
-        remoteViews.setImageViewResource(R.id.imgChange, R.mipmap.ic_down)
-      } else {
-        remoteViews.setTextColor(R.id.tvChange, Color.LTGRAY)
-        remoteViews.setViewVisibility(R.id.imgChange, View.GONE)
+      when {
+        ratesItem.index == "UP" -> {
+          remoteViews.setImageViewResource(R.id.imgChange, R.mipmap.ic_up)
+          remoteViews.setTextColor(R.id.tvChange, Color.rgb(90, 150, 55))
+          remoteViews.setTextViewText(R.id.tvChange, "+${ratesItem.change}")
+        }
+        ratesItem.index == "DOWN" -> {
+          remoteViews.setTextColor(R.id.tvChange, Color.RED)
+          remoteViews.setImageViewResource(R.id.imgChange, R.mipmap.ic_down)
+        }
+        else -> {
+          remoteViews.setTextColor(R.id.tvChange, Color.LTGRAY)
+          remoteViews.setViewVisibility(R.id.imgChange, View.GONE)
+        }
       }
     }
     return remoteViews
