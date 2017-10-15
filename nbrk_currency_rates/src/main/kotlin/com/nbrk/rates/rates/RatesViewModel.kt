@@ -24,7 +24,7 @@ class RatesViewModel(app: Application) : AndroidViewModel(app) {
       .switchMap(date) {
         isLoading.value = true
         repository.getRates(it)
-          .map { it.filter { app.defaultSharedPreferences.getBoolean("pref_key_show_${it.currencyCode}", true) }}
+          .map { it.filter { app.defaultSharedPreferences.getBoolean("pref_key_show_${it.currencyCode}", true) } }
           .toLiveData()
       }
 
@@ -36,4 +36,8 @@ class RatesViewModel(app: Application) : AndroidViewModel(app) {
     Transformations.switchMap(currencyAndPeriod) {
       repository.getChartRates(it.first, it.second).toLiveData()
     }
+
+  fun refresh() {
+    date.value = Calendar.getInstance().time
+  }
 }

@@ -27,8 +27,6 @@ class RatesFragment : Fragment() {
   private val title by lazy { resources.getString(R.string.last_updated) }
   private val adapter = RatesAdapter()
 
-  private val date = Calendar.getInstance().time
-
   override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     return inflater?.inflate(R.layout.fragment_rates, container, false)
   }
@@ -39,12 +37,12 @@ class RatesFragment : Fragment() {
     rv.setHasFixedSize(true)
     rv.adapter = adapter
 
-    lRefresh.setOnRefreshListener { ratesViewModel.date.value = date }
+    lRefresh.setOnRefreshListener { ratesViewModel.refresh() }
 
     val adRequest = AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build()
     adView.loadAd(adRequest)
 
-    ratesViewModel.date.value = Calendar.getInstance().time
+    ratesViewModel.refresh()
 
     observeLiveData()
   }

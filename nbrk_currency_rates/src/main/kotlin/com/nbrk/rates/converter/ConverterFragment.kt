@@ -24,7 +24,7 @@ class ConverterFragment : Fragment() {
 
   private val ratesViewModel by lazy { ViewModelProviders.of(activity).get(RatesViewModel::class.java) }
   private val adapter = RatesSpinnerAdapter()
-  private var rates = ArrayList<RatesItem>()
+  private var rates = mutableListOf<RatesItem>()
   private val kzt = RatesItem(
     id = 0,
     currencyCode = "KZT",
@@ -56,9 +56,9 @@ class ConverterFragment : Fragment() {
   private fun observeLiveData() {
     ratesViewModel.rates.observe(this, Observer<List<RatesItem>> {
       it?.let {
-        rates = it as ArrayList<RatesItem>
+        rates = it.toMutableList()
         rates.add(kzt)
-        adapter.dataSource = it
+        adapter.dataSource = rates
       }
     })
   }
