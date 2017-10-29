@@ -1,6 +1,9 @@
 package com.nbrk.rates.data
 
-import com.nbrk.rates.entities.RatesItem
+import com.nbrk.rates.data.local.LocalDataSource
+import com.nbrk.rates.data.local.domain.model.RatesItem
+import com.nbrk.rates.data.local.sharedpref.AppSettings
+import com.nbrk.rates.data.remote.RemoteDataSource
 import io.reactivex.Flowable
 import java.util.*
 
@@ -9,15 +12,19 @@ import java.util.*
  * DigitTonic Studio
  * support@digittonic.com
  */
-class RatesRepository {
+class RatesRepository(
+  private val localDataSource: LocalDataSource = LocalDataSource(),
+  private val remoteDataSource: RemoteDataSource = RemoteDataSource(),
+  private val appSettings: AppSettings = AppSettings()
+) {
 
-  private val localDataSource = LocalDataSource()
-  private val remoteDataSource = RemoteDataSource()
-
-  fun getRates(date: Date): Flowable<List<RatesItem>> = Flowable.concat(
-    localDataSource.getRates(date).takeWhile { it.isNotEmpty() },
-    remoteDataSource.getRates(date).doOnNext { localDataSource.saveRates(it) })
-    .distinctUntilChanged()
+  fun getRates(date: Date): Flowable<List<RatesItem>> {
+    return Flowable.concat(
+      localDataSource.getRates(date).takeWhile { it.isNotEmpty() },
+      remoteDataSource.getRates(date).doOnNext { localDataSource.saveRates(it) })
+      .distinctUntilChanged()
+      .map { it.filter { appSettings.isCurrencyVisibleInApp(it.currencyCode) } }
+  }
 
   fun getChartRates(currency: String, period: Int): Flowable<List<RatesItem>> {
 

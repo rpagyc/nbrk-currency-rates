@@ -16,6 +16,7 @@ android {
     multiDexEnabled true
     versionName androidGitVersion.name()
     versionCode androidGitVersion.code()
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
     release {
@@ -32,14 +33,6 @@ android {
 }
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-  // Test libraries
-  androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
-  testImplementation "junit:junit:$rootProject.junitVersion"
-
   // Support libraries
   implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
   implementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"
@@ -88,5 +81,30 @@ dependencies {
   // Stetho utils
   implementation "com.facebook.stetho:stetho:$rootProject.stethoVersion"
   implementation "com.facebook.stetho:stetho-okhttp3:$rootProject.stethoVersion"
+
+  // Android Testing Support Library's runner and rules   
+  androidTestImplementation "com.android.support.test:runner:1.0.1"
+  androidTestImplementation "com.android.support.test:rules:1.0.1"
+  androidTestImplementation "android.arch.core:core-testing:$rootProject.architectureComponentsVersion"
+  androidTestImplementation "android.arch.persistence.room:testing:$rootProject.architectureComponentsVersion"
+
+  // Dependencies for Android unit tests
+  androidTestImplementation "junit:junit:$rootProject.junitVersion"
+  androidTestCompile "org.mockito:mockito-core:$rootProject.mockito", { exclude group: 'net.bytebuddy' }
+  androidTestCompile "com.linkedin.dexmaker:dexmaker-mockito:$rootProject.dexmaker"
+
+  // Dependencies for local unit tests
+  testImplementation "junit:junit:$rootProject.junitVersion"
+  testImplementation "org.mockito:mockito-all:$rootProject.mockito_all"
+  testImplementation "org.hamcrest:hamcrest-all:$rootProject.hamcrest"
+  testImplementation "android.arch.core:core-testing:$rootProject.architectureComponentsVersion"
+  testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+  testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
+  // Resolve conflicts between main and test APK:
+  androidTestImplementation "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+  androidTestImplementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+  androidTestImplementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+  androidTestImplementation "com.android.support:design:$rootProject.supportLibraryVersion"
 
 }

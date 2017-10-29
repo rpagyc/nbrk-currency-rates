@@ -10,8 +10,8 @@ import android.graphics.Color.alpha
 import android.net.Uri
 import android.preference.PreferenceManager
 import android.widget.RemoteViews
-import com.nbrk.rates.App
 import com.nbrk.rates.R
+import com.nbrk.rates.base.BaseApplication
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,7 +25,8 @@ class   WidgetProvider : AppWidgetProvider() {
   var date: Calendar = Calendar.getInstance()
   var time = SimpleDateFormat("HH:mm")
 
-  override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+  override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager,
+                        appWidgetIds: IntArray) {
     super.onUpdate(context, appWidgetManager, appWidgetIds)
     for (appWidgetId in appWidgetIds) {
       val widget = RemoteViews(context.packageName, R.layout.widget_layout)
@@ -39,7 +40,7 @@ class   WidgetProvider : AppWidgetProvider() {
   }
 
   private fun configureBackground(rv: RemoteViews) {
-    val sharedPref = PreferenceManager.getDefaultSharedPreferences(App.instance)
+    val sharedPref = PreferenceManager.getDefaultSharedPreferences(BaseApplication.INSTANCE)
     val color = sharedPref.getString("widgetBackgroundColor", "#ffffff")
     val opacity = sharedPref.getInt("sbOpacity", 100) * 255 / 100 * 0x01000000
     val widgetBackground = Color.parseColor(color) + opacity
@@ -51,7 +52,8 @@ class   WidgetProvider : AppWidgetProvider() {
     val intent = Intent(context, WidgetProvider::class.java)
     intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
-    val pIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    val pIntent = PendingIntent.getBroadcast(context, 0, intent,
+      PendingIntent.FLAG_UPDATE_CURRENT)
     rv.setOnClickPendingIntent(R.id.widget_update, pIntent)
   }
 

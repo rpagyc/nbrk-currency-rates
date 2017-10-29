@@ -8,11 +8,11 @@ import android.preference.PreferenceManager
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import com.nbrk.rates.App
 import com.nbrk.rates.R
+import com.nbrk.rates.base.BaseApplication
 import com.nbrk.rates.data.RatesRepository
-import com.nbrk.rates.entities.RatesItem
-import com.nbrk.rates.extensions.getDrawable
+import com.nbrk.rates.data.local.domain.model.RatesItem
+import com.nbrk.rates.util.getDrawable
 import java.util.*
 
 /**
@@ -24,7 +24,7 @@ class WidgetFactory(val context: Context, intent: Intent) :
   RemoteViewsService.RemoteViewsFactory {
 
   var rates = listOf<RatesItem>()
-  private val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.instance)
+  private val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(BaseApplication.INSTANCE)
   private val repository = RatesRepository()
 
 
