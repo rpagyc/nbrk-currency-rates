@@ -1,4 +1,4 @@
-image: registry.gitlab.com/showcheap/android-ci:T25-B25.0.3
+image: registry.gitlab.com/rpagyc/android-ci:latest
 
 stages:
 - build
