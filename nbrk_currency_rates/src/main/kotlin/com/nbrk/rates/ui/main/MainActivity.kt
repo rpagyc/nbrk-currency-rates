@@ -31,9 +31,10 @@ import com.nbrk.rates.ui.settings.SettingsFragment
 import com.nbrk.rates.util.TAG
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 import java.io.File
 import java.io.FileOutputStream
-import java.util.*
 
 
 /**
@@ -114,15 +115,18 @@ class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceS
   }
 
   private fun showCalendar() {
-    title = getString(R.string.history)
-    val calendar = Calendar.getInstance()
-    DatePickerDialog(this, { _, y, m, d ->
-      calendar.set(y, m, d)
-      ratesViewModel.date.value = calendar.time
-    },
-      calendar.get(Calendar.YEAR),
-      calendar.get(Calendar.MONTH),
-      calendar.get(Calendar.DAY_OF_MONTH)).show()
+    val today = LocalDate.now()
+
+    DatePickerDialog(this,
+      { _, y, m, d ->
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        val dateTitle = LocalDate.of(y, m + 1, d).format(formatter)
+        title = "${getString(R.string.history)} $dateTitle"
+        ratesViewModel.date.value = LocalDate.of(y, m + 1, d)
+      },
+      today.year,
+      today.monthValue - 1,
+      today.dayOfMonth).show()
   }
 
   private fun rateAppOnMarket() {

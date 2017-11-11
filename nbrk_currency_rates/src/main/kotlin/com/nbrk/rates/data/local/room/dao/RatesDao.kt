@@ -6,7 +6,7 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.nbrk.rates.data.local.room.model.RoomRatesItem
 import io.reactivex.Flowable
-import java.util.*
+import org.threeten.bp.LocalDate
 
 /**
  * Created by Roman Shakirov on 11-Jun-17.
@@ -17,7 +17,7 @@ import java.util.*
 interface RatesDao {
 
   @Query("select * from rates where date = :startDate order by currencyCode")
-  fun getRates(startDate: Date): Flowable<List<RoomRatesItem>>
+  fun getRates(startDate: LocalDate): Flowable<List<RoomRatesItem>>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   fun saveRates(rates: List<RoomRatesItem>)

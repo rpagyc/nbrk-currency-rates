@@ -1,42 +1,33 @@
 package com.nbrk.rates.widget
 
 import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
-import android.preference.PreferenceManager
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import com.nbrk.rates.Injection
 import com.nbrk.rates.R
-import com.nbrk.rates.base.BaseApplication
-import com.nbrk.rates.data.RatesRepository
 import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.util.getDrawable
-import java.util.*
 
 /**
 * Created by Roman Shakirov on 30.10.2015.
 * DigitTonic Studio
 * support@digittonic.com
 */
-class WidgetFactory(val context: Context, intent: Intent) :
+class WidgetFactory(private val context: Context) :
   RemoteViewsService.RemoteViewsFactory {
 
   var rates = listOf<RatesItem>()
-  private val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(BaseApplication.INSTANCE)
-  private val repository = RatesRepository()
-
+  private val repository = Injection.provideRatesRepository(context)
 
   override fun onCreate() {
   }
 
   override fun onDataSetChanged() {
-    val date = Calendar.getInstance().time
     rates = repository
-      .getRates(date)
+      .getWidgetRates()
       .blockingFirst()
-      .filter { sharedPref.getBoolean("widget_show_${it.currencyCode}", true) }
   }
 
   override fun onDestroy() {

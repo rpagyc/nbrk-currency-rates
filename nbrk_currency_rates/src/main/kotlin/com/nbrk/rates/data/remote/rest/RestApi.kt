@@ -3,7 +3,7 @@ package com.nbrk.rates.data.remote.rest
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.nbrk.rates.BuildConfig
 import com.nbrk.rates.data.remote.rest.model.RestRates
-import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,7 +24,7 @@ interface RestApi {
 
   companion object {
 
-    fun create(): RestApi {
+    fun getInstance(): RestApi {
 
       val API_BASE_URL = "http://www.nationalbank.kz/rss/"
 
@@ -50,5 +50,5 @@ interface RestApi {
   }
 
   @GET("get_rates.cfm")
-  fun getCurrencyRates(@Query("fdate") date: String): Flowable<RestRates>
+  fun getRates(@Query("fdate") date: String): Single<RestRates>
 }

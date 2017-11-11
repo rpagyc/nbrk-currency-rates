@@ -8,13 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.ads.AdRequest
+import com.nbrk.rates.Injection
 import com.nbrk.rates.R
 import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.ui.common.RatesViewModel
-import com.nbrk.rates.util.toDateString
 import kotlinx.android.synthetic.main.fragment_rates.*
-import java.text.SimpleDateFormat
-import java.util.*
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 /**
  * Created by Roman Shakirov on 14-Jun-17.
@@ -23,24 +24,28 @@ import java.util.*
  */
 class RatesFragment : Fragment() {
 
+  private val viewModelFactory by lazy { Injection.provideViewModelFactory(activity!!) }
   private val ratesViewModel by lazy {
-    ViewModelProviders.of(activity!!).get(RatesViewModel::class.java)
+    ViewModelProviders.of(activity!!, viewModelFactory).get(RatesViewModel::class.java)
   }
   private val title by lazy { resources.getString(R.string.last_updated) }
   private val adapter = RatesAdapter()
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                             savedInstanceState: Bundle?): View? {
-    return inflater?.inflate(R.layout.fragment_rates, container, false)
+    return inflater.inflate(R.layout.fragment_rates, container, false)
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    rv.setHasFixedSize(true)
-    rv.adapter = adapter
+    ratesList.setHasFixedSize(true)
+    ratesList.adapter = adapter
 
-    lRefresh.setOnRefreshListener { ratesViewModel.refresh() }
+    lRefresh.setOnRefreshListener {
+      activity?.title = getString(R.string.rates)
+      ratesViewModel.refresh()
+    }
 
     val adRequest = AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build()
     adView.loadAd(adRequest)
@@ -62,9 +67,9 @@ class RatesFragment : Fragment() {
       it?.let { lRefresh.isRefreshing = it }
     })
 
-    ratesViewModel.date.observe(this, Observer<Date> {
-      it?.let { tvTitle.text = "$title ${it.toDateString(SimpleDateFormat("dd MMM HH:mm",
-        Locale.getDefault()))}" }
+    val formatter = DateTimeFormatter.ofPattern("dd MMM HH:mm")
+    ratesViewModel.date.observe(this, Observer<LocalDate> {
+      it?.let { tvTitle.text = "$title ${LocalDateTime.now().format(formatter)}" }
     })
 
   }

@@ -1,51 +1,70 @@
 package com.nbrk.rates.data
 
-import com.nbrk.rates.data.local.LocalDataSource
+import android.content.Context
 import com.nbrk.rates.data.local.domain.model.RatesItem
+import com.nbrk.rates.data.local.room.AppDatabase
 import com.nbrk.rates.data.local.sharedpref.AppSettings
-import com.nbrk.rates.data.remote.RemoteDataSource
+import com.nbrk.rates.data.remote.rest.RestApi
+import com.nbrk.rates.util.applySchedulers
 import io.reactivex.Flowable
-import java.util.*
+import io.reactivex.schedulers.Schedulers
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 
 /**
  * Created by Roman Shakirov on 24-Sep-17.
  * DigitTonic Studio
  * support@digittonic.com
  */
-class RatesRepository(
-  private val localDataSource: LocalDataSource = LocalDataSource(),
-  private val remoteDataSource: RemoteDataSource = RemoteDataSource(),
-  private val appSettings: AppSettings = AppSettings()
-) {
+class RatesRepository(context: Context) {
 
-  fun getRates(date: Date): Flowable<List<RatesItem>> {
-    return Flowable.concat(
-      localDataSource.getRates(date).takeWhile { it.isNotEmpty() },
-      remoteDataSource.getRates(date).doOnNext { localDataSource.saveRates(it) })
-      .distinctUntilChanged()
-      .map { it.filter { appSettings.isCurrencyVisibleInApp(it.currencyCode) } }
-  }
+  private val appSettings = AppSettings(context)
+  private val remote = RestApi.getInstance()
+  private val local = AppDatabase.getInstance(context).ratesDao()
+
+  private val mapper = Mapper()
 
   fun getChartRates(currency: String, period: Int): Flowable<List<RatesItem>> {
-
-    val startDate = Calendar.getInstance()
-    startDate.add(Calendar.DATE, -period)
-
-    return Flowable
-      .fromIterable(1..period)
-      .map {
-        startDate.add(Calendar.DATE, 1)
-        startDate.apply {
-          set(Calendar.HOUR_OF_DAY, 0)
-          set(Calendar.MINUTE, 0)
-          set(Calendar.SECOND, 0)
-          set(Calendar.MILLISECOND, 0)
-        }
-        startDate.time
-      }
-      .flatMap { getRates(it).take(1) }
-      .map { it.first { it.currencyCode == currency } }
-      .toList()
-      .toFlowable()
+    return Flowable.range(1, period)
+      .parallel(period)
+      .runOn(Schedulers.io())
+      .map { LocalDate.now().minusDays(it.toLong()) }
+      .flatMap { getAppRates(it) }
+      .map { it.filter { it.currencyCode == currency } }
+      .sequential()
+      .buffer(period)
+      .map { it.flatten() }
   }
+
+  private fun getRatesFromLocal(date: LocalDate): Flowable<List<RatesItem>> {
+    return local.getRates(date)
+      .map { mapper.roomRatesToDomain(it) }
+      .distinctUntilChanged()
+      .compose(applySchedulers())
+  }
+
+  private fun fetchRates(date: LocalDate) {
+    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+    remote.getRates(date.format(formatter))
+      .map { mapper.restRatesToRoom(it) }
+      .doOnSuccess{ local.saveRates(it)}
+      .subscribe()
+  }
+
+  fun getAppRates(date: LocalDate): Flowable<List<RatesItem>> {
+    return getRates(date).map { it.filter { appSettings.isVisibleInApp(it.currencyCode) } }
+  }
+
+  fun getWidgetRates(): Flowable<List<RatesItem>> {
+    val date = LocalDate.now()
+    return getRates(date).map { it.filter { appSettings.isVisibleInWidget(it.currencyCode) } }
+  }
+
+  private fun getRates(date: LocalDate): Flowable<List<RatesItem>> {
+    return getRatesFromLocal(date)
+      .doOnNext { rates ->
+        if (rates.isEmpty()) fetchRates(date)
+      }
+  }
+
 }

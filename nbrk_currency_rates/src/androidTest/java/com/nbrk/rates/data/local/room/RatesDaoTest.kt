@@ -1,13 +1,12 @@
-package com.nbrk.rates
+package com.nbrk.rates.data.local.room
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.support.test.runner.AndroidJUnit4
 import com.nbrk.rates.data.local.domain.model.RatesItem
-import com.nbrk.rates.data.local.room.Mapper
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.*
+import org.threeten.bp.LocalDate
 
 /**
  * Created by Roman Shakirov on 23-Oct-17.
@@ -16,12 +15,12 @@ import java.util.*
  */
 
 @RunWith(AndroidJUnit4::class)
-class RestRatesDaoTest : DbTest() {
+class RatesDaoTest : DbTest() {
 
   @get:Rule
   var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-  private val date = Calendar.getInstance().time
+  private val date = LocalDate.now()
 
   private val kzt = RatesItem(
     currencyCode = "KZT",
@@ -44,7 +43,7 @@ class RestRatesDaoTest : DbTest() {
   @Test
   fun insertAndGetRates() {
     database.ratesDao()
-      .saveRates(listOf(Mapper().transform(kzt)))
+      .saveRates(emptyList())
 
     database.ratesDao()
       .getRates(date)

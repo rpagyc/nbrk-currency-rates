@@ -4,6 +4,10 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
 import io.reactivex.Flowable
+import io.reactivex.FlowableTransformer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+
 
 /**
  * Created by Roman Shakirov on 29-Sep-17.
@@ -23,3 +27,8 @@ fun <T> LiveData<T>.toFlowable(lifecycleOwner: LifecycleOwner): Flowable<T> =
  * Converts a Flowable into LiveData
  */
 fun <T> Flowable<T>.toLiveData(): LiveData<T> = LiveDataReactiveStreams.fromPublisher(this)
+
+fun <T> applySchedulers(): FlowableTransformer<T, T> {
+  return FlowableTransformer { flowable ->
+    flowable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()) }
+}

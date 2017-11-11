@@ -65,11 +65,9 @@
   <string name="background_title">Widget Background</string>
   <string name="opacity_title">Opacity</string>
 
-  <string-array name="period">
-    <item>Week</item>
-    <item>Month</item>
-    <item>Year</item>
-  </string-array>
+  <string name="week">Week</string>
+  <string name="month">Month</string>
+  <string name="year">Year</string>
 
   <string-array name="widgetBackgroundLabels">
     <item>White</item>
@@ -80,20 +78,12 @@
     <item>#00ffffff</item>
     <item>#00000000</item>
   </string-array>
-  <string name="title_activity_base" translatable="false">BaseActivity</string>
-
-  <string name="title_section1" translatable="false">Section 1</string>
-  <string name="title_section2" translatable="false">Section 2</string>
-  <string name="title_section3" translatable="false">Section 3</string>
 
   <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
   <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
-  <string name="action_example" translatable="false">Example action</string>
-
-  <string name="action_settings" translatable="false">Settings</string>
   <string name="rates">Rates</string>
-  <string name="history">History</string>
+  <string name="history">Archive</string>
   <string name="chart">Chart</string>
   <string name="communicate">Advanced</string>
   <string name="share">Share</string>

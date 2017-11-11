@@ -1,8 +1,7 @@
-package com.nbrk.rates
+package com.nbrk.rates.data.local.room
 
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
-import com.nbrk.rates.data.local.room.AppDatabase
 import org.junit.After
 import org.junit.Before
 

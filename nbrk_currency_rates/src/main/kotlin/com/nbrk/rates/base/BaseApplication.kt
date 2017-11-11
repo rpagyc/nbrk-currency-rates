@@ -3,8 +3,8 @@ package com.nbrk.rates.base
 import android.app.Application
 import android.os.StrictMode
 import com.facebook.stetho.Stetho
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.nbrk.rates.BuildConfig
-import com.nbrk.rates.data.local.room.DatabaseCreator
 import com.nbrk.rates.util.DelegatesExt
 
 /**
@@ -21,10 +21,14 @@ class BaseApplication : Application() {
   override fun onCreate() {
     super.onCreate()
     INSTANCE = this
-    DatabaseCreator.createDb(this)
+    AndroidThreeTen.init(this)
     if (BuildConfig.DEBUG) Stetho.initializeWithDefaults(this)
     // Hack for screen share
     val builder = StrictMode.VmPolicy.Builder()
     StrictMode.setVmPolicy(builder.build())
+
+
   }
+
+
 }

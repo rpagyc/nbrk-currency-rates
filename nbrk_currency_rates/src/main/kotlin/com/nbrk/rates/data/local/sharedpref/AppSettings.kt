@@ -1,7 +1,6 @@
 package com.nbrk.rates.data.local.sharedpref
 
 import android.content.Context
-import com.nbrk.rates.base.BaseApplication
 import org.jetbrains.anko.defaultSharedPreferences
 
 /**
@@ -10,14 +9,14 @@ import org.jetbrains.anko.defaultSharedPreferences
  * support@digittonic.com
  */
  
-class AppSettings(private val context: Context = BaseApplication.INSTANCE) {
+class AppSettings(context: Context) {
 
-  fun isCurrencyVisibleInApp(currencyCode: String): Boolean {
-    return context.defaultSharedPreferences.getBoolean("pref_key_show_$currencyCode", true)
-  }
+  private val sharedPref = context.defaultSharedPreferences
 
-  fun isCurrencyVisibleInWidget(currencyCode: String): Boolean {
-    return context.defaultSharedPreferences.getBoolean("widget_show_$currencyCode", true)
-  }
+  fun isVisibleInApp(currencyCode: String): Boolean =
+    sharedPref.getBoolean("pref_key_show_$currencyCode", true)
+
+  fun isVisibleInWidget(currencyCode: String): Boolean =
+    sharedPref.getBoolean("widget_show_$currencyCode", true)
 
 }

@@ -34,5 +34,5 @@ abstract class BaseAdapter<D, VH : BaseViewHolder<D>> : RecyclerView.Adapter<VH>
     holder.onBind(getItem(position))
   }
 
-  fun getItem(position: Int) = dataSource[position]
+  private fun getItem(position: Int) = dataSource[position]
 }

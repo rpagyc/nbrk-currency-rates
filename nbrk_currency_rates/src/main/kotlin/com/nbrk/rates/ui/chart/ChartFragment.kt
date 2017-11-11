@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -16,14 +16,13 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IValueFormatter
 import com.nbrk.rates.R
-import com.nbrk.rates.ui.common.RatesSpinnerAdapter
 import com.nbrk.rates.data.local.domain.model.RatesItem
+import com.nbrk.rates.ui.common.RatesSpinnerAdapter
 import com.nbrk.rates.ui.common.RatesViewModel
 import kotlinx.android.synthetic.main.fragment_chart.*
 import org.jetbrains.anko.sdk25.listeners.onItemSelectedListener
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * Created by Roman Shakirov on 21-Jun-17.
@@ -32,94 +31,119 @@ import java.util.*
  */
 class ChartFragment : Fragment() {
 
-  private val ratesViewModel by lazy {
-    ViewModelProviders.of(activity!!).get(RatesViewModel::class.java)
-  }
-  private val adapter = RatesSpinnerAdapter()
-  private var currencies = ArrayList<RatesItem>()
-  private val periodDays = listOf(7, 30, 365)
+  private val ratesViewModel by lazy { ViewModelProviders.of(activity!!).get(RatesViewModel::class.java) }
+  private val ratesSpinnerAdapter = RatesSpinnerAdapter()
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                             savedInstanceState: Bundle?): View? {
-    return inflater?.inflate(R.layout.fragment_chart, container, false)
+    return inflater.inflate(R.layout.fragment_chart, container, false)
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    spCurrency.adapter = adapter
-    spCurrency.setSelection(0, false)
-    spCurrency.onItemSelectedListener { onItemSelected { _, _, _, _ -> load() } }
+    spCurrency.apply {
+      adapter = ratesSpinnerAdapter
+      setSelection(0, false)
+      onItemSelectedListener { onItemSelected { _, _, _, _ -> setCurrencyAndPeriod() } }
+    }
 
-    val period = resources.getStringArray(R.array.period)
+    val periods = listOf(
+      7 to resources.getString(R.string.week),
+      30 to resources.getString(R.string.month),
+      365 to resources.getString(R.string.year)
+    )
 
-    spPeriod.adapter = ArrayAdapter(activity, R.layout.spinner_item_period, period)
-    spPeriod.setSelection(0, false)
-    spPeriod.onItemSelectedListener { onItemSelected { _, _, _, _ -> load() } }
+    val periodSpinnerAdapter = PeriodSpinnerAdapter().apply { dataSource = periods }
 
+    spPeriod.apply {
+      adapter = periodSpinnerAdapter
+      setSelection(0, false)
+      onItemSelectedListener { onItemSelected { _, _, _, _ -> setCurrencyAndPeriod() } }
+    }
+
+    configChart()
     observeLiveData()
   }
 
-  private fun load() {
-    if (currencies.size > 0) {
-      val currency = currencies[spCurrency.selectedItemPosition].currencyCode
-      val period = periodDays[spPeriod.selectedItemPosition]
-
-      ratesViewModel.currencyAndPeriod.value = Pair(currency, period)
-    }
+  private fun setCurrencyAndPeriod() {
+    val currency = (spCurrency.selectedItem as RatesItem).currencyCode
+    val period = spPeriod.selectedItem as Int
+    ratesViewModel.currencyAndPeriod.value = Pair(currency, period)
   }
 
   private fun observeLiveData() {
     ratesViewModel.rates.observe(this, Observer<List<RatesItem>> {
-      it?.let {
-        adapter.dataSource = it
-        currencies = it as ArrayList<RatesItem>
-      }
+      it?.let { ratesSpinnerAdapter.dataSource = it }
     })
 
     ratesViewModel.chartRates.observe(this, Observer<List<RatesItem>> {
-      it?.let {
-        showRates(it)
+      it?.let { rates ->
+        resetXAxisFormatter(rates)
+        setChartData(rates)
+        chart.invalidate()
       }
     })
   }
 
-  private fun showRates(rates: List<RatesItem>) {
+  private fun configChart() {
 
-    val formatter = DecimalFormat("###,###,##0.##")
-    val valRates = rates.sortedBy { it.date }
-      .mapIndexed { index, ratesItem -> Entry(index.toFloat(), ratesItem.price.toFloat()) }
-    val quantity = rates.firstOrNull()?.quantity
-    val currency = rates.firstOrNull()?.currencyName
-    val legend = "$quantity $currency"
-    val setRates = LineDataSet(valRates, legend)
-    var sdf = SimpleDateFormat("dd MMM")
+    val yAxisFormatter = IAxisValueFormatter { yValue, _ ->
+      val formatter = DecimalFormat("###,###,##0.##")
+      formatter.format(yValue)
+    }
 
-    setRates.axisDependency = YAxis.AxisDependency.LEFT
-    setRates.setDrawFilled(true)
-    setRates.lineWidth = 4f
-    setRates.valueFormatter = IValueFormatter { value, _, _, _ -> formatter.format(value) }
+//    val xAxisFormatter = IAxisValueFormatter { xValue, _ -> "$xValue" }
 
-    if (rates.size == 7)
-      sdf = SimpleDateFormat("EEE")
+    val lineLength = 10f
+    val spaceLength = 10f
+    val phase = 0f
 
-    chart.axisLeft.enableGridDashedLine(10f, 10f, 0f)
-    chart.axisLeft.valueFormatter = IAxisValueFormatter { value, axis -> formatter.format(value) }
+    chart.axisLeft.enableGridDashedLine(lineLength, spaceLength, phase)
+    chart.axisLeft.valueFormatter = yAxisFormatter
 
     chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-    chart.xAxis.enableGridDashedLine(10f, 10f, 0f)
-    chart.xAxis.valueFormatter = IAxisValueFormatter {
-      value, axis -> rates
-        .sortedBy { it.date }
-        .map { sdf.format(it.date) }[value.toInt()]
-    }
+    chart.xAxis.enableGridDashedLine(lineLength, spaceLength, phase)
+//    chart.xAxis.valueFormatter = xAxisFormatter
+
     chart.axisRight.isEnabled = false
-
-    chart.setDrawGridBackground(false)
     chart.description.isEnabled = false
+    chart.setDrawGridBackground(false)
+  }
 
-    val lineData = LineData(setRates)
-    chart.data = lineData
-    chart.invalidate() // refresh
+  private fun setChartData(rates: List<RatesItem>) {
+    val lineDataSet = prepareLineDataSet(rates)
+    chart.data = LineData(lineDataSet)
+  }
+
+  private fun prepareLineDataSet(rates: List<RatesItem>): LineDataSet {
+    val entries = rates.sortedBy { it.date }
+      .mapIndexed { index, ratesItem -> Entry(index.toFloat(), ratesItem.price.toFloat()) }
+
+    val label = with(rates.first()) { "$quantity $currencyName" }
+
+    val lineDataSet = LineDataSet(entries, label).apply {
+      axisDependency = YAxis.AxisDependency.LEFT
+      setDrawFilled(true)
+      lineWidth = 4f
+      val formatter = DecimalFormat("###,###,##0.##")
+      valueFormatter = IValueFormatter { value, _, _, _ -> formatter.format(value) }
+    }
+
+    return lineDataSet
+  }
+
+  private fun resetXAxisFormatter(rates: List<RatesItem>) {
+    var xAxisFormatter = DateTimeFormatter.ofPattern("dd MMM")
+    if (rates.size == 7)
+      xAxisFormatter = DateTimeFormatter.ofPattern("EEE")
+    val xLabels = rates.sortedBy { it.date }.map { xAxisFormatter.format(it.date) }
+    chart.xAxis.valueFormatter = XAxisFormatter(xLabels)
+  }
+
+  class XAxisFormatter(private val labels: List<String>) : IAxisValueFormatter {
+    override fun getFormattedValue(value: Float, axis: AxisBase?): String {
+      return labels[value.toInt()]
+    }
   }
 }

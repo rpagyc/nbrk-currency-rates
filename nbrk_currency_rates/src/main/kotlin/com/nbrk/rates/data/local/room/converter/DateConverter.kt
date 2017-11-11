@@ -1,7 +1,8 @@
 package com.nbrk.rates.data.local.room.converter
 
 import android.arch.persistence.room.TypeConverter
-import java.util.*
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 
 
 /**
@@ -10,18 +11,12 @@ import java.util.*
  * support@digittonic.com
  */
 class DateConverter {
-  @TypeConverter
-  fun fromTimestamp(value: Long): Date = Date(value)
+
+  private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
 
   @TypeConverter
-  fun dateToTimestamp(date: Date): Long {
-    val cal = Calendar.getInstance().apply {
-      time = date
-      set(Calendar.HOUR_OF_DAY, 0)
-      set(Calendar.MINUTE, 0)
-      set(Calendar.SECOND, 0)
-      set(Calendar.MILLISECOND, 0)
-    }
-    return cal.time.time
-  }
+  fun toLocalDate(value: String): LocalDate = formatter.parse(value, LocalDate::from)
+
+  @TypeConverter
+  fun fromLocalDate(date: LocalDate): String = date.format(formatter)
 }

@@ -2,7 +2,7 @@ package com.nbrk.rates.data.local.room.model
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
-import java.util.*
+import org.threeten.bp.LocalDate
 
 /**
  * Created by Roman Shakirov on 27-Oct-17.
@@ -14,7 +14,7 @@ import java.util.*
 data class RoomRatesItem(
   @PrimaryKey(autoGenerate = true)
   val id: Long,
-  val date: Date,
+  val date: LocalDate,
   val currencyCode: String,
   val currencyName: String,
   val price: Double,

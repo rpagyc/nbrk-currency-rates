@@ -23,6 +23,9 @@ android {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
+    debug {
+      testCoverageEnabled = true
+    }
   }
   sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
@@ -82,6 +85,8 @@ dependencies {
   implementation "com.facebook.stetho:stetho:$rootProject.stethoVersion"
   implementation "com.facebook.stetho:stetho-okhttp3:$rootProject.stethoVersion"
 
+  implementation "com.jakewharton.threetenabp:threetenabp:1.0.5"
+
   // Android Testing Support Library's runner and rules   
   androidTestImplementation "com.android.support.test:runner:1.0.1"
   androidTestImplementation "com.android.support.test:rules:1.0.1"
@@ -90,8 +95,8 @@ dependencies {
 
   // Dependencies for Android unit tests
   androidTestImplementation "junit:junit:$rootProject.junitVersion"
-  androidTestCompile "org.mockito:mockito-core:$rootProject.mockito", { exclude group: 'net.bytebuddy' }
-  androidTestCompile "com.linkedin.dexmaker:dexmaker-mockito:$rootProject.dexmaker"
+  androidTestImplementation "org.mockito:mockito-core:$rootProject.mockito", { exclude group: 'net.bytebuddy' }
+  androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$rootProject.dexmaker"
 
   // Dependencies for local unit tests
   testImplementation "junit:junit:$rootProject.junitVersion"
@@ -107,4 +112,7 @@ dependencies {
   androidTestImplementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
   androidTestImplementation "com.android.support:design:$rootProject.supportLibraryVersion"
 
+  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.0', {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  }
 }
