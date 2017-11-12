@@ -28,6 +28,7 @@ class RatesFragment : Fragment() {
   private val ratesViewModel by lazy {
     ViewModelProviders.of(activity!!, viewModelFactory).get(RatesViewModel::class.java)
   }
+
   private val title by lazy { resources.getString(R.string.last_updated) }
   private val adapter = RatesAdapter()
 

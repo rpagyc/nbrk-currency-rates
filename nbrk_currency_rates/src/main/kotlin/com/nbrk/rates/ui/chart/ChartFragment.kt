@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IValueFormatter
+import com.nbrk.rates.Injection
 import com.nbrk.rates.R
 import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.ui.common.RatesSpinnerAdapter
@@ -31,7 +32,11 @@ import java.text.DecimalFormat
  */
 class ChartFragment : Fragment() {
 
-  private val ratesViewModel by lazy { ViewModelProviders.of(activity!!).get(RatesViewModel::class.java) }
+  private val viewModelFactory by lazy { Injection.provideViewModelFactory(activity!!) }
+  private val ratesViewModel by lazy {
+    ViewModelProviders.of(activity!!, viewModelFactory).get(RatesViewModel::class.java)
+  }
+
   private val ratesSpinnerAdapter = RatesSpinnerAdapter()
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -79,9 +84,11 @@ class ChartFragment : Fragment() {
 
     ratesViewModel.chartRates.observe(this, Observer<List<RatesItem>> {
       it?.let { rates ->
-        resetXAxisFormatter(rates)
-        setChartData(rates)
-        chart.invalidate()
+        if (rates.isNotEmpty()) {
+          resetXAxisFormatter(rates)
+          setChartData(rates)
+          chart.invalidate()
+        }
       }
     })
   }
@@ -93,44 +100,44 @@ class ChartFragment : Fragment() {
       formatter.format(yValue)
     }
 
-//    val xAxisFormatter = IAxisValueFormatter { xValue, _ -> "$xValue" }
-
     val lineLength = 10f
     val spaceLength = 10f
     val phase = 0f
 
-    chart.axisLeft.enableGridDashedLine(lineLength, spaceLength, phase)
-    chart.axisLeft.valueFormatter = yAxisFormatter
+    chart.apply {
+      axisLeft.enableGridDashedLine(lineLength, spaceLength, phase)
+      axisLeft.valueFormatter = yAxisFormatter
 
-    chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-    chart.xAxis.enableGridDashedLine(lineLength, spaceLength, phase)
-//    chart.xAxis.valueFormatter = xAxisFormatter
+      xAxis.position = XAxis.XAxisPosition.BOTTOM
+      xAxis.enableGridDashedLine(lineLength, spaceLength, phase)
 
-    chart.axisRight.isEnabled = false
-    chart.description.isEnabled = false
-    chart.setDrawGridBackground(false)
+      axisRight.isEnabled = false
+      description.isEnabled = false
+      setDrawGridBackground(false)
+    }
   }
 
   private fun setChartData(rates: List<RatesItem>) {
-    val lineDataSet = prepareLineDataSet(rates)
-    chart.data = LineData(lineDataSet)
-  }
-
-  private fun prepareLineDataSet(rates: List<RatesItem>): LineDataSet {
     val entries = rates.sortedBy { it.date }
       .mapIndexed { index, ratesItem -> Entry(index.toFloat(), ratesItem.price.toFloat()) }
-
-    val label = with(rates.first()) { "$quantity $currencyName" }
-
-    val lineDataSet = LineDataSet(entries, label).apply {
-      axisDependency = YAxis.AxisDependency.LEFT
-      setDrawFilled(true)
-      lineWidth = 4f
-      val formatter = DecimalFormat("###,###,##0.##")
-      valueFormatter = IValueFormatter { value, _, _, _ -> formatter.format(value) }
+    val label = rates.firstOrNull()?.let { "${it.quantity} ${it.currencyName}" }
+    var lineDataSet: LineDataSet
+    if (chart.data != null && chart.data.dataSetCount > 0) {
+      lineDataSet = chart.data.getDataSetByIndex(0) as LineDataSet
+      lineDataSet.values = entries
+      chart.data.notifyDataChanged()
+      chart.notifyDataSetChanged()
+    } else {
+      lineDataSet = LineDataSet(entries, label).apply {
+        valueTextSize = 10f
+        axisDependency = YAxis.AxisDependency.LEFT
+        setDrawFilled(true)
+        lineWidth = 4f
+        val formatter = DecimalFormat("###,###,##0.##")
+        valueFormatter = IValueFormatter { value, _, _, _ -> formatter.format(value) }
+      }
+      chart.data = LineData(lineDataSet)
     }
-
-    return lineDataSet
   }
 
   private fun resetXAxisFormatter(rates: List<RatesItem>) {

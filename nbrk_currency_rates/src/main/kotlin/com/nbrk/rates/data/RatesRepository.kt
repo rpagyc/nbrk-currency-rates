@@ -5,7 +5,6 @@ import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.data.local.room.AppDatabase
 import com.nbrk.rates.data.local.sharedpref.AppSettings
 import com.nbrk.rates.data.remote.rest.RestApi
-import com.nbrk.rates.util.applySchedulers
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDate
@@ -29,8 +28,9 @@ class RatesRepository(context: Context) {
       .parallel(period)
       .runOn(Schedulers.io())
       .map { LocalDate.now().minusDays(it.toLong()) }
-      .flatMap { getAppRates(it) }
+      .flatMap { getRates(it) }
       .map { it.filter { it.currencyCode == currency } }
+      .filter { it.isNotEmpty() }
       .sequential()
       .buffer(period)
       .map { it.flatten() }
@@ -40,14 +40,13 @@ class RatesRepository(context: Context) {
     return local.getRates(date)
       .map { mapper.roomRatesToDomain(it) }
       .distinctUntilChanged()
-      .compose(applySchedulers())
   }
 
   private fun fetchRates(date: LocalDate) {
     val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
     remote.getRates(date.format(formatter))
       .map { mapper.restRatesToRoom(it) }
-      .doOnSuccess{ local.saveRates(it)}
+      .doOnSuccess { local.saveRates(it) }
       .subscribe()
   }
 
@@ -65,6 +64,7 @@ class RatesRepository(context: Context) {
       .doOnNext { rates ->
         if (rates.isEmpty()) fetchRates(date)
       }
+//      .compose(applySchedulers())
   }
 
 }

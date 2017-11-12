@@ -21,6 +21,7 @@ import android.support.v7.preference.PreferenceScreen
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.nbrk.rates.Injection
 import com.nbrk.rates.R
 import com.nbrk.rates.ui.about.AboutFragment
 import com.nbrk.rates.ui.chart.ChartFragment
@@ -44,8 +45,9 @@ import java.io.FileOutputStream
  */
 class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
 
-  private val ratesViewModel: RatesViewModel by lazy {
-    ViewModelProviders.of(this).get(RatesViewModel::class.java)
+  private val viewModelFactory by lazy { Injection.provideViewModelFactory(this) }
+  private val ratesViewModel by lazy {
+    ViewModelProviders.of(this, viewModelFactory).get(RatesViewModel::class.java)
   }
 
   companion object {
