@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -22,6 +21,7 @@ import com.nbrk.rates.ui.common.RatesSpinnerAdapter
 import com.nbrk.rates.ui.common.RatesViewModel
 import kotlinx.android.synthetic.main.fragment_chart.*
 import org.jetbrains.anko.sdk25.listeners.onItemSelectedListener
+import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import java.text.DecimalFormat
 
@@ -85,7 +85,6 @@ class ChartFragment : Fragment() {
     ratesViewModel.chartRates.observe(this, Observer<List<RatesItem>> {
       it?.let { rates ->
         if (rates.isNotEmpty()) {
-          resetXAxisFormatter(rates)
           setChartData(rates)
           chart.invalidate()
         }
@@ -100,6 +99,21 @@ class ChartFragment : Fragment() {
       formatter.format(yValue)
     }
 
+    val xAxisFormatter = IAxisValueFormatter { xValue, _ ->
+      var formatter = DateTimeFormatter.ofPattern("dd MMM")
+      val lineDataSet = chart.data.getDataSetByIndex(0) as LineDataSet
+      val entriesCount = lineDataSet.values.size
+      if (entriesCount == 7)
+        formatter = DateTimeFormatter.ofPattern("EEE")
+      var label = ""
+      if (entriesCount > xValue.toInt())
+      {
+        val date = lineDataSet.values[xValue.toInt()].data as LocalDate
+        label = date.format(formatter)
+      }
+      label
+    }
+
     val lineLength = 10f
     val spaceLength = 10f
     val phase = 0f
@@ -110,6 +124,7 @@ class ChartFragment : Fragment() {
 
       xAxis.position = XAxis.XAxisPosition.BOTTOM
       xAxis.enableGridDashedLine(lineLength, spaceLength, phase)
+      xAxis.valueFormatter = xAxisFormatter
 
       axisRight.isEnabled = false
       description.isEnabled = false
@@ -118,8 +133,9 @@ class ChartFragment : Fragment() {
   }
 
   private fun setChartData(rates: List<RatesItem>) {
-    val entries = rates.sortedBy { it.date }
-      .mapIndexed { index, ratesItem -> Entry(index.toFloat(), ratesItem.price.toFloat()) }
+    chart.clear()
+    val entries: List<Entry> = rates.sortedBy { it.date }
+      .mapIndexed { index, ratesItem -> Entry(index.toFloat(), ratesItem.price.toFloat(), ratesItem.date) }
     val label = rates.firstOrNull()?.let { "${it.quantity} ${it.currencyName}" }
     var lineDataSet: LineDataSet
     if (chart.data != null && chart.data.dataSetCount > 0) {
@@ -139,18 +155,5 @@ class ChartFragment : Fragment() {
       chart.data = LineData(lineDataSet)
     }
   }
-
-  private fun resetXAxisFormatter(rates: List<RatesItem>) {
-    var xAxisFormatter = DateTimeFormatter.ofPattern("dd MMM")
-    if (rates.size == 7)
-      xAxisFormatter = DateTimeFormatter.ofPattern("EEE")
-    val xLabels = rates.sortedBy { it.date }.map { xAxisFormatter.format(it.date) }
-    chart.xAxis.valueFormatter = XAxisFormatter(xLabels)
-  }
-
-  class XAxisFormatter(private val labels: List<String>) : IAxisValueFormatter {
-    override fun getFormattedValue(value: Float, axis: AxisBase?): String {
-      return labels[value.toInt()]
-    }
-  }
 }
+
