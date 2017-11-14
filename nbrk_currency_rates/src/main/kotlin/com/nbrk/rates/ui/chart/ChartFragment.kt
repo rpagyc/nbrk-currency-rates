@@ -100,14 +100,15 @@ class ChartFragment : Fragment() {
     }
 
     val xAxisFormatter = IAxisValueFormatter { xValue, _ ->
-      var formatter = DateTimeFormatter.ofPattern("dd MMM")
       val lineDataSet = chart.data.getDataSetByIndex(0) as LineDataSet
       val entriesCount = lineDataSet.values.size
-      if (entriesCount == 7)
-        formatter = DateTimeFormatter.ofPattern("EEE")
+      val formatter = if (entriesCount == 7) {
+        DateTimeFormatter.ofPattern("EEE")
+      } else {
+        DateTimeFormatter.ofPattern("dd MMM")
+      }
       var label = ""
-      if (entriesCount > xValue.toInt())
-      {
+      if (entriesCount > xValue.toInt()) {
         val date = lineDataSet.values[xValue.toInt()].data as LocalDate
         label = date.format(formatter)
       }
