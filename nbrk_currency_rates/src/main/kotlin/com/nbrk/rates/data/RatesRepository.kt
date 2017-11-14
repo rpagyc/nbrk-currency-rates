@@ -5,6 +5,7 @@ import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.data.local.room.AppDatabase
 import com.nbrk.rates.data.local.sharedpref.AppSettings
 import com.nbrk.rates.data.remote.rest.RestApi
+import com.nbrk.rates.util.error
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDate
@@ -47,6 +48,10 @@ class RatesRepository(context: Context) {
     remote.getRates(date.format(formatter))
       .map { mapper.restRatesToRoom(it) }
       .doOnSuccess { local.saveRates(it) }
+      .onErrorReturn {
+        error(it.message)
+        emptyList()
+      }
       .subscribe()
   }
 
@@ -64,7 +69,6 @@ class RatesRepository(context: Context) {
       .doOnNext { rates ->
         if (rates.isEmpty()) fetchRates(date)
       }
-//      .compose(applySchedulers())
   }
 
 }

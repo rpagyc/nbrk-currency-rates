@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceS
     nav_view.setNavigationItemSelectedListener(navigationItemSelectedListener)
 
     if (savedInstanceState == null) {
+      ratesViewModel.refresh()
       showScreen(getString(R.string.rates), RatesFragment())
     }
   }
@@ -103,7 +104,10 @@ class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceS
 
   private val navigationItemSelectedListener: (MenuItem) -> Boolean = {
     when (it.itemId) {
-      R.id.nav_rates -> showScreen(getString(R.string.rates), RatesFragment())
+      R.id.nav_rates -> {
+        ratesViewModel.refresh()
+        showScreen(getString(R.string.rates), RatesFragment())
+      }
       R.id.nav_history -> showCalendar()
       R.id.nav_chart -> showScreen(getString(R.string.chart), ChartFragment())
       R.id.nav_convert -> showScreen(getString(R.string.convert), ConverterFragment())
@@ -123,8 +127,9 @@ class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceS
       { _, y, m, d ->
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         val dateTitle = LocalDate.of(y, m + 1, d).format(formatter)
-        title = "${getString(R.string.history)} $dateTitle"
+        val title = "${getString(R.string.history)} $dateTitle"
         ratesViewModel.date.value = LocalDate.of(y, m + 1, d)
+        showScreen(title, RatesFragment())
       },
       today.year,
       today.monthValue - 1,

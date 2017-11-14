@@ -51,7 +51,7 @@ class RatesFragment : Fragment() {
     val adRequest = AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build()
     adView.loadAd(adRequest)
 
-    ratesViewModel.refresh()
+//    ratesViewModel.refresh()
 
     observeLiveData()
   }

@@ -133,7 +133,6 @@ class ChartFragment : Fragment() {
   }
 
   private fun setChartData(rates: List<RatesItem>) {
-    chart.clear()
     val entries: List<Entry> = rates.sortedBy { it.date }
       .mapIndexed { index, ratesItem -> Entry(index.toFloat(), ratesItem.price.toFloat(), ratesItem.date) }
     val label = rates.firstOrNull()?.let { "${it.quantity} ${it.currencyName}" }
