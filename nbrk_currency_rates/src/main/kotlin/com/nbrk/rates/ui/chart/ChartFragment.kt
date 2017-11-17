@@ -137,23 +137,18 @@ class ChartFragment : Fragment() {
     val entries: List<Entry> = rates.sortedBy { it.date }
       .mapIndexed { index, ratesItem -> Entry(index.toFloat(), ratesItem.price.toFloat(), ratesItem.date) }
     val label = rates.firstOrNull()?.let { "${it.quantity} ${it.currencyName}" }
-    var lineDataSet: LineDataSet
-    if (chart.data != null && chart.data.dataSetCount > 0) {
-      lineDataSet = chart.data.getDataSetByIndex(0) as LineDataSet
-      lineDataSet.values = entries
-      chart.data.notifyDataChanged()
-      chart.notifyDataSetChanged()
-    } else {
-      lineDataSet = LineDataSet(entries, label).apply {
+    val lineDataSet = LineDataSet(entries, label).apply {
+      if (entries.size == 7) {
         valueTextSize = 10f
-        axisDependency = YAxis.AxisDependency.LEFT
-        setDrawFilled(true)
-        lineWidth = 4f
-        val formatter = DecimalFormat("###,###,##0.##")
-        valueFormatter = IValueFormatter { value, _, _, _ -> formatter.format(value) }
+        circleRadius = 6f
       }
-      chart.data = LineData(lineDataSet)
+      lineWidth = 4f
+      axisDependency = YAxis.AxisDependency.LEFT
+      val formatter = DecimalFormat("###,###,##0.##")
+      valueFormatter = IValueFormatter { value, _, _, _ -> formatter.format(value) }
+      setDrawFilled(true)
     }
+    chart.data = LineData(lineDataSet)
   }
 }
 
