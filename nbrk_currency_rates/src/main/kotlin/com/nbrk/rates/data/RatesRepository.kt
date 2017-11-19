@@ -5,6 +5,7 @@ import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.data.local.room.AppDatabase
 import com.nbrk.rates.data.local.sharedpref.AppSettings
 import com.nbrk.rates.data.remote.rest.RestApi
+import com.nbrk.rates.util.debug
 import com.nbrk.rates.util.error
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -39,8 +40,8 @@ class RatesRepository(context: Context) {
 
   private fun getRatesFromLocal(date: LocalDate): Flowable<List<RatesItem>> {
     return local.getRates(date)
-      .map { mapper.roomRatesToDomain(it) }
       .distinctUntilChanged()
+      .map { mapper.roomRatesToDomain(it) }
   }
 
   private fun fetchRates(date: LocalDate) {

@@ -21,6 +21,7 @@ import android.support.v7.preference.PreferenceScreen
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.DatePicker
 import com.nbrk.rates.Injection
 import com.nbrk.rates.R
 import com.nbrk.rates.ui.about.AboutFragment
@@ -108,7 +109,10 @@ class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceS
         ratesViewModel.refresh()
         showScreen(getString(R.string.rates), RatesFragment())
       }
-      R.id.nav_history -> showCalendar()
+      R.id.nav_history -> {
+        showScreen("${getString(R.string.history)}", RatesFragment())
+        showCalendar()
+      }
       R.id.nav_chart -> showScreen(getString(R.string.chart), ChartFragment())
       R.id.nav_convert -> showScreen(getString(R.string.convert), ConverterFragment())
       R.id.nav_settings -> showScreen(getString(R.string.settings), SettingsFragment())
@@ -122,15 +126,14 @@ class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceS
 
   private fun showCalendar() {
     val today = LocalDate.now()
-
+    val onDateSet: (p0: DatePicker?, p1: Int, p2: Int, p3: Int) -> Unit = { _, y, m, d ->
+      val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+      val dateTitle = LocalDate.of(y, m + 1, d).format(formatter)
+      title = "${getString(R.string.history)} $dateTitle"
+      ratesViewModel.date.value = LocalDate.of(y, m + 1, d)
+    }
     DatePickerDialog(this,
-      { _, y, m, d ->
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-        val dateTitle = LocalDate.of(y, m + 1, d).format(formatter)
-        val title = "${getString(R.string.history)} $dateTitle"
-        ratesViewModel.date.value = LocalDate.of(y, m + 1, d)
-        showScreen(title, RatesFragment())
-      },
+      onDateSet,
       today.year,
       today.monthValue - 1,
       today.dayOfMonth).show()

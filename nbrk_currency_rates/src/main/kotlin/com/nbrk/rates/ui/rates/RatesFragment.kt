@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.ads.AdRequest
-import com.nbrk.rates.Injection
 import com.nbrk.rates.R
 import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.ui.common.RatesViewModel
@@ -24,13 +23,20 @@ import org.threeten.bp.format.DateTimeFormatter
  */
 class RatesFragment : Fragment() {
 
-  private val viewModelFactory by lazy { Injection.provideViewModelFactory(activity!!) }
+//  private val viewModelFactory by lazy { Injection.provideViewModelFactory(activity!!) }
   private val ratesViewModel by lazy {
-    ViewModelProviders.of(activity!!, viewModelFactory).get(RatesViewModel::class.java)
+    ViewModelProviders.of(activity!!).get(RatesViewModel::class.java)
   }
+
+//  private lateinit var ratesViewModel: RatesViewModel
 
   private val title by lazy { resources.getString(R.string.last_updated) }
   private val adapter = RatesAdapter()
+
+//  override fun onCreate(savedInstanceState: Bundle?) {
+//    super.onCreate(savedInstanceState)
+//    ratesViewModel = ViewModelProviders.of(activity!!).get(RatesViewModel::class.java)
+//  }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                             savedInstanceState: Bundle?): View? {

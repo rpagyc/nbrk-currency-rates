@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+  compile 'com.android.support:multidex:1.0.2'
   // Support libraries
   implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
   implementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"
