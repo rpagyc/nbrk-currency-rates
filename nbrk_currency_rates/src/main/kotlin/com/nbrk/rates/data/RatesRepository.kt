@@ -5,7 +5,6 @@ import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.data.local.room.AppDatabase
 import com.nbrk.rates.data.local.sharedpref.AppSettings
 import com.nbrk.rates.data.remote.rest.RestApi
-import com.nbrk.rates.util.debug
 import com.nbrk.rates.util.error
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
