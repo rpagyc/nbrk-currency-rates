@@ -8,7 +8,7 @@ import android.widget.RemoteViewsService
 import com.nbrk.rates.Injection
 import com.nbrk.rates.R
 import com.nbrk.rates.data.local.domain.model.RatesItem
-import com.nbrk.rates.util.getDrawable
+import com.nbrk.rates.util.getImageId
 
 /**
 * Created by Roman Shakirov on 30.10.2015.
@@ -45,7 +45,8 @@ class WidgetFactory(private val context: Context) :
       remoteViews.setTextViewText(R.id.tvCurrencyName, "${ratesItem.quantity} ${ratesItem.currencyName.toLowerCase()}")
       remoteViews.setTextViewText(R.id.tvPrice, ratesItem.price.toString())
       remoteViews.setTextViewText(R.id.tvChange, ratesItem.change.toString())
-      remoteViews.setImageViewResource(R.id.flag, ratesItem.currencyCode.getDrawable())
+      val imageId = context.getImageId(ratesItem.currencyCode)
+      remoteViews.setImageViewResource(R.id.flag, imageId)
       remoteViews.setViewVisibility(R.id.imgChange, View.VISIBLE)
       when {
         ratesItem.index == "UP" -> {

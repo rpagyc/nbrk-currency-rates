@@ -8,10 +8,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Color.alpha
 import android.net.Uri
-import android.preference.PreferenceManager
 import android.widget.RemoteViews
 import com.nbrk.rates.R
-import com.nbrk.rates.base.BaseApplication
+import org.jetbrains.anko.defaultSharedPreferences
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,7 +29,7 @@ class   WidgetProvider : AppWidgetProvider() {
     super.onUpdate(context, appWidgetManager, appWidgetIds)
     for (appWidgetId in appWidgetIds) {
       val widget = RemoteViews(context.packageName, R.layout.widget_layout)
-      configureBackground(widget)
+      configureBackground(widget, context)
       configureRefresh(context, widget, appWidgetIds)
       configureTitle(context, widget)
       configureList(context, widget, appWidgetId)
@@ -39,8 +38,8 @@ class   WidgetProvider : AppWidgetProvider() {
     }
   }
 
-  private fun configureBackground(rv: RemoteViews) {
-    val sharedPref = PreferenceManager.getDefaultSharedPreferences(BaseApplication.INSTANCE)
+  private fun configureBackground(rv: RemoteViews, context: Context) {
+    val sharedPref = context.defaultSharedPreferences
     val color = sharedPref.getString("widgetBackgroundColor", "#ffffff")
     val opacity = sharedPref.getInt("sbOpacity", 100) * 255 / 100 * 0x01000000
     val widgetBackground = Color.parseColor(color) + opacity

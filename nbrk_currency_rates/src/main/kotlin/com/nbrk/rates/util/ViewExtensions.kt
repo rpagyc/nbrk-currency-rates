@@ -1,10 +1,9 @@
 package com.nbrk.rates.util
 
-import com.nbrk.rates.base.BaseApplication
+import android.content.Context
 
-fun String?.getDrawable(): Int {
-  val ctx = BaseApplication.INSTANCE
-  return ctx.resources.getIdentifier(this?.replace("TRY", "YTL")?.toLowerCase(),
-    "drawable", ctx.packageName)
+fun Context.getImageId(fileName: String): Int {
+  return this.resources.getIdentifier(fileName.replace("TRY", "YTL").toLowerCase(),
+    "drawable", this.packageName)
 }
 

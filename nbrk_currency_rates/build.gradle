@@ -60,7 +60,7 @@ dependencies {
 
   implementation "org.jetbrains.anko:anko-sdk25:$rootProject.ankoVersion"
   implementation "org.jetbrains.anko:anko-sdk25-listeners:$rootProject.ankoVersion"
-  implementation "org.jetbrains.anko:anko-appcompat-v7:$rootProject.ankoVersion" 
+  implementation "org.jetbrains.anko:anko-appcompat-v7:$rootProject.ankoVersion"
 
   // Google play services
   implementation "com.google.android.gms:play-services-ads:$rootProject.playServicesVersion"

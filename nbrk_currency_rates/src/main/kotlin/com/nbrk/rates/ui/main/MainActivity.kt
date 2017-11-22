@@ -99,7 +99,8 @@ class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceS
     this.title = title
     supportFragmentManager
       .beginTransaction()
-      .replace(R.id.content_main, fragment, fragment.TAG())
+      .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+      .replace(R.id.content_main, fragment, fragment.TAG())                                   
       .commit()
   }
 

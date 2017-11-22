@@ -6,7 +6,7 @@ import com.nbrk.rates.R
 import com.nbrk.rates.base.BaseAdapter
 import com.nbrk.rates.base.BaseViewHolder
 import com.nbrk.rates.data.local.domain.model.RatesItem
-import com.nbrk.rates.util.getDrawable
+import com.nbrk.rates.util.getImageId
 import kotlinx.android.synthetic.main.list_item_rates.view.*
 
 /**
@@ -22,7 +22,8 @@ class RatesAdapter : BaseAdapter<RatesItem, RatesAdapter.RatesViewHolder>() {
 
   class RatesViewHolder(itemView: View?) : BaseViewHolder<RatesItem>(itemView) {
     override fun onBind(item: RatesItem) {
-      itemView.flag.setImageResource(item.currencyCode.getDrawable())
+      val imageId = itemView.context.getImageId(item.currencyCode)
+      itemView.flag.setImageResource(imageId)
       itemView.tvCurrencyCode.text = item.currencyCode
       itemView.tvCurrencyName.text = "${item.quantity} ${item.currencyName.toLowerCase()}"
       itemView.tvPrice.text = "${item.price}"

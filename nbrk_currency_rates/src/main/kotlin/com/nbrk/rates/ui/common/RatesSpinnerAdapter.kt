@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.nbrk.rates.R
 import com.nbrk.rates.data.local.domain.model.RatesItem
-import com.nbrk.rates.util.getDrawable
+import com.nbrk.rates.util.getImageId
 import kotlinx.android.synthetic.main.spinner_item_rates.view.*
 
 /**
@@ -25,7 +25,8 @@ class RatesSpinnerAdapter : BaseAdapter() {
   override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
     val itemView = LayoutInflater.from(parent.context).inflate(R.layout.spinner_item_rates,
       parent, false)
-    itemView.flag.setImageResource(dataSource[position].currencyCode.getDrawable())
+    val imageId = parent.context.getImageId(dataSource[position].currencyCode)
+    itemView.flag.setImageResource(imageId)
     itemView.tvCurrencyCode.text = dataSource[position].currencyCode
     return itemView
   }
