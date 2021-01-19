@@ -7,7 +7,6 @@ import android.widget.BaseAdapter
 import com.nbrk.rates.R
 import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.util.getImageId
-import kotlinx.android.synthetic.main.spinner_item_rates.view.*
 
 /**
 * Created by Roman Shakirov on 25-Jan-16.
@@ -26,8 +25,8 @@ class RatesSpinnerAdapter : BaseAdapter() {
     val itemView = LayoutInflater.from(parent.context).inflate(R.layout.spinner_item_rates,
       parent, false)
     val imageId = parent.context.getImageId(dataSource[position].currencyCode)
-    itemView.flag.setImageResource(imageId)
-    itemView.tvCurrencyCode.text = dataSource[position].currencyCode
+    //itemView.flag.setImageResource(imageId)
+    //itemView.tvCurrencyCode.text = dataSource[position].currencyCode
     return itemView
   }
 

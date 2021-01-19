@@ -57,7 +57,7 @@ class Preference<T>(val context: Context, val name: String, val default: T)
       is Boolean -> getBoolean(name, default)
       is Float -> getFloat(name, default)
       else -> throw IllegalArgumentException("This type can be saved into Preferences")
-    }
+    }!!
     @Suppress("UNCHECKED_CAST")
     res as T
   }

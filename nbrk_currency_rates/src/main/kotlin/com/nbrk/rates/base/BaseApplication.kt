@@ -1,7 +1,7 @@
 package com.nbrk.rates.base
 
 import android.os.StrictMode
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import com.facebook.stetho.Stetho
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.nbrk.rates.BuildConfig

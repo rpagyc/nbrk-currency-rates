@@ -2,7 +2,6 @@ package com.nbrk.rates.ui.main
 
 import android.Manifest
 import android.app.DatePickerDialog
-import android.arch.lifecycle.ViewModelProviders
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,19 +10,21 @@ import android.graphics.Canvas
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.preference.PreferenceFragmentCompat
-import android.support.v7.preference.PreferenceScreen
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.DatePicker
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceScreen
 import com.nbrk.rates.Injection
 import com.nbrk.rates.R
+import com.nbrk.rates.databinding.ActivityMainBinding
 import com.nbrk.rates.ui.about.AboutFragment
 import com.nbrk.rates.ui.chart.ChartFragment
 import com.nbrk.rates.ui.common.RatesViewModel
@@ -31,13 +32,11 @@ import com.nbrk.rates.ui.converter.ConverterFragment
 import com.nbrk.rates.ui.rates.RatesFragment
 import com.nbrk.rates.ui.settings.SettingsFragment
 import com.nbrk.rates.util.TAG
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
+import org.jetbrains.anko.toolbar
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import java.io.File
 import java.io.FileOutputStream
-
 
 /**
  * Created by Roman Shakirov on 14-Jun-17.
@@ -55,18 +54,21 @@ class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceS
     const val REQUEST_STORAGE = 1
   }
 
+  private lateinit var binding: ActivityMainBinding
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+    binding = ActivityMainBinding.inflate(layoutInflater)
+    setContentView(binding.root)
 
-    setSupportActionBar(toolbar)
+    setSupportActionBar(findViewById(R.id.toolbar))
 
-    val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.navigation_drawer_open,
+    val toggle = ActionBarDrawerToggle(this, binding.drawerLayout, findViewById(R.id.toolbar), R.string.navigation_drawer_open,
       R.string.navigation_drawer_close)
-    drawer_layout.addDrawerListener(toggle)
+    binding.drawerLayout.addDrawerListener(toggle)
     toggle.syncState()
 
-    nav_view.setNavigationItemSelectedListener(navigationItemSelectedListener)
+    binding.navView.setNavigationItemSelectedListener(navigationItemSelectedListener)
 
     if (savedInstanceState == null) {
       ratesViewModel.refresh()
@@ -75,8 +77,8 @@ class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceS
   }
 
   override fun onBackPressed() {
-    if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-      drawer_layout.closeDrawer(GravityCompat.START)
+    if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+      binding.drawerLayout.closeDrawer(GravityCompat.START)
     } else {
       super.onBackPressed()
     }
@@ -121,7 +123,7 @@ class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceS
       R.id.nav_rating -> rateAppOnMarket()
       R.id.nav_about -> showScreen(getString(R.string.about), AboutFragment())
     }
-    drawer_layout.closeDrawer(GravityCompat.START)
+    binding.drawerLayout.closeDrawer(GravityCompat.START)
     true
   }
 

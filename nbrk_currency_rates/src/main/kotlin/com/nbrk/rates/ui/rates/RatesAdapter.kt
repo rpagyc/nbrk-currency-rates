@@ -7,7 +7,6 @@ import com.nbrk.rates.base.BaseAdapter
 import com.nbrk.rates.base.BaseViewHolder
 import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.util.getImageId
-import kotlinx.android.synthetic.main.list_item_rates.view.*
 
 /**
  * Created by Roman Shakirov on 11-Jun-17.
@@ -20,7 +19,7 @@ class RatesAdapter : BaseAdapter<RatesItem, RatesAdapter.RatesViewHolder>() {
 
   override fun instantiateViewHolder(view: View?): RatesViewHolder = RatesViewHolder(view)
 
-  class RatesViewHolder(itemView: View?) : BaseViewHolder<RatesItem>(itemView) {
+  class RatesViewHolder(itemView: View) : BaseViewHolder<RatesItem>(itemView) {
     override fun onBind(item: RatesItem) {
       val imageId = itemView.context.getImageId(item.currencyCode)
       itemView.flag.setImageResource(imageId)

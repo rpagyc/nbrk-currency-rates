@@ -1,9 +1,9 @@
 package com.nbrk.rates.base
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by Roman Shakirov on 11-Jun-17.
@@ -20,8 +20,8 @@ abstract class BaseAdapter<D, VH : BaseViewHolder<D>> : RecyclerView.Adapter<VH>
 
   override fun getItemCount() = dataSource.size
 
-  override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): VH {
-    val inflater = LayoutInflater.from(parent?.context)
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+    val inflater = LayoutInflater.from(parent.context)
     val view = inflater.inflate(getItemViewId(), parent, false)
     return instantiateViewHolder(view)
   }
