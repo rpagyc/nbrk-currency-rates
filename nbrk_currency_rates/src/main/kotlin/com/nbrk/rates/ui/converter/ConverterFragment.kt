@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.nbrk.rates.R
 import com.nbrk.rates.data.local.domain.model.RatesItem
-import com.nbrk.rates.databinding.FragmentAboutBinding
 import com.nbrk.rates.databinding.FragmentConverterBinding
 import com.nbrk.rates.ui.common.RatesSpinnerAdapter
 import com.nbrk.rates.ui.common.RatesViewModel
@@ -22,9 +20,13 @@ import org.threeten.bp.LocalDate
  * DigitTonic Studio
  * support@digittonic.com
  */
-class ConverterFragment : Fragment(R.layout.fragment_converter) {
+class ConverterFragment : Fragment() {
 
-  private val ratesViewModel by lazy { ViewModelProviders.of(requireActivity()).get(RatesViewModel::class.java) }
+  private val ratesViewModel: RatesViewModel by activityViewModels()
+  
+  private var _binding: FragmentConverterBinding? = null
+  private val binding get() = _binding!!
+  
   private val ratesSpinnerAdapter = RatesSpinnerAdapter()
   private var rates = mutableListOf<RatesItem>()
   private val kzt = RatesItem(
@@ -36,12 +38,14 @@ class ConverterFragment : Fragment(R.layout.fragment_converter) {
     index = "",
     change = 0.0
   )
-  private var fragmentConverterBinding: FragmentConverterBinding? = null
 
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    _binding = FragmentConverterBinding.inflate(inflater, container, false)
+    return binding.root
+  }
+  
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    val binding = FragmentConverterBinding.bind(view)
-    fragmentConverterBinding = binding
 
     binding.spFromCurrency.apply {
       adapter = ratesSpinnerAdapter
@@ -73,8 +77,8 @@ class ConverterFragment : Fragment(R.layout.fragment_converter) {
 
   private fun convert() {
     if (rates.isNotEmpty()) {
-      val fromCurrency = fragmentConverterBinding!!.spFromCurrency.selectedItem as RatesItem
-      val toCurrency = fragmentConverterBinding!!.spToCurrency.selectedItem as RatesItem
+      val fromCurrency = binding.spFromCurrency.selectedItem as RatesItem
+      val toCurrency = binding.spToCurrency.selectedItem as RatesItem
 
       val fromPrice = fromCurrency.price
       val fromQuant = fromCurrency.quantity
@@ -82,12 +86,17 @@ class ConverterFragment : Fragment(R.layout.fragment_converter) {
       val toPrice = toCurrency.price
       val toQuant = toCurrency.quantity
 
-      if (fragmentConverterBinding!!.etFromAmount.text.toString().isNotBlank()) {
-        val amount = fragmentConverterBinding!!.etFromAmount.text.toString().toDouble()
-        fragmentConverterBinding!!.etToAmount.setText("%.2f".format(amount * (fromPrice / fromQuant) / (toPrice / toQuant)))
+      if (binding.etFromAmount.text.toString().isNotBlank()) {
+        val amount = binding.etFromAmount.text.toString().toDouble()
+        binding.etToAmount.setText("%.2f".format(amount * (fromPrice / fromQuant) / (toPrice / toQuant)))
       } else {
-        fragmentConverterBinding!!.etToAmount.setText("")
+        binding.etToAmount.setText("")
       }
     }
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    _binding = null
   }
 }

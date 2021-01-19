@@ -1,11 +1,13 @@
 package com.nbrk.rates.ui.rates
 
 import android.graphics.Color
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.nbrk.rates.R
-import com.nbrk.rates.base.BaseAdapter
-import com.nbrk.rates.base.BaseViewHolder
 import com.nbrk.rates.data.local.domain.model.RatesItem
+import com.nbrk.rates.databinding.ListItemRatesBinding
 import com.nbrk.rates.util.getImageId
 
 /**
@@ -13,39 +15,55 @@ import com.nbrk.rates.util.getImageId
  * DigitTonic Studio
  * support@digittonic.com
  */
-class RatesAdapter : BaseAdapter<RatesItem, RatesAdapter.RatesViewHolder>() {
+class RatesAdapter : RecyclerView.Adapter<RatesAdapter.RatesViewHolder>() {
 
-  override fun getItemViewId(): Int = R.layout.list_item_rates
+  var dataSource : List<RatesItem> = emptyList()
+    set(value) {
+      field = value
+      notifyDataSetChanged()
+    }
 
-  override fun instantiateViewHolder(view: View?): RatesViewHolder = RatesViewHolder(view)
-
-  class RatesViewHolder(itemView: View) : BaseViewHolder<RatesItem>(itemView) {
-    override fun onBind(item: RatesItem) {
+  class RatesViewHolder(private val itemRatesBinding: ListItemRatesBinding) : RecyclerView.ViewHolder(itemRatesBinding.root)
+  {
+    fun bind(item: RatesItem) {
       val imageId = itemView.context.getImageId(item.currencyCode)
-      itemView.flag.setImageResource(imageId)
-      itemView.tvCurrencyCode.text = item.currencyCode
-      itemView.tvCurrencyName.text = "${item.quantity} ${item.currencyName.toLowerCase()}"
-      itemView.tvPrice.text = "${item.price}"
-      itemView.tvChange.text = "${item.change}"
-      itemView.imgChange.visibility = View.VISIBLE
-      itemView.tvChange.visibility = View.VISIBLE
+      itemRatesBinding.flag.setImageResource(imageId)
+      itemRatesBinding.tvCurrencyCode.text = item.currencyCode
+      itemRatesBinding.tvCurrencyName.text = "${item.quantity} ${item.currencyName.toLowerCase()}"
+      itemRatesBinding.tvPrice.text = "${item.price}"
+      itemRatesBinding.tvChange.text = "${item.change}"
+      itemRatesBinding.imgChange.visibility = View.VISIBLE
+      itemRatesBinding.tvChange.visibility = View.VISIBLE
 
       when {
         item.index == "UP" -> {
-          itemView.tvChange.setTextColor(Color.rgb(90, 150, 55))
-          itemView.tvChange.text = "+${item.change}"
-          itemView.imgChange.setImageResource(R.mipmap.ic_up)
+          itemRatesBinding.tvChange.setTextColor(Color.rgb(90, 150, 55))
+          itemRatesBinding.tvChange.text = "+${item.change}"
+          itemRatesBinding.imgChange.setImageResource(R.mipmap.ic_up)
         }
         item.index == "DOWN" -> {
-          itemView.tvChange.setTextColor(Color.RED)
-          itemView.imgChange.setImageResource(R.mipmap.ic_down)
+          itemRatesBinding.tvChange.setTextColor(Color.RED)
+          itemRatesBinding.imgChange.setImageResource(R.mipmap.ic_down)
         }
         else -> {
-          itemView.tvChange.setTextColor(Color.LTGRAY)
-          itemView.imgChange.visibility = View.GONE
-          itemView.tvChange.visibility = View.GONE
+          itemRatesBinding.tvChange.setTextColor(Color.LTGRAY)
+          itemRatesBinding.imgChange.visibility = View.GONE
+          itemRatesBinding.tvChange.visibility = View.GONE
         }
       }
     }
   }
+
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RatesViewHolder {
+    val itemRatesBinding = ListItemRatesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    return RatesViewHolder(itemRatesBinding)
+  }
+
+  override fun onBindViewHolder(holder: RatesViewHolder, position: Int) {
+    val item = dataSource[position]
+    holder.bind(item)
+  }
+
+  override fun getItemCount(): Int = dataSource.size
+
 }

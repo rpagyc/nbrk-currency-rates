@@ -1,13 +1,19 @@
 package com.nbrk.rates.ui.rates
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.*
 import com.google.android.gms.ads.AdRequest
+import com.nbrk.rates.Injection
 import com.nbrk.rates.R
 import com.nbrk.rates.data.local.domain.model.RatesItem
+import com.nbrk.rates.databinding.FragmentRatesBinding
 import com.nbrk.rates.ui.common.RatesViewModel
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
@@ -18,21 +24,23 @@ import org.threeten.bp.format.DateTimeFormatter
  * DigitTonic Studio
  * support@digittonic.com
  */
-class RatesFragment : Fragment(R.layout.fragment_rates) {
+class RatesFragment : Fragment() {
 
-  private val ratesViewModel by lazy {
-    ViewModelProviders.of(requireActivity()).get(RatesViewModel::class.java)
-  }
+  private val ratesViewModel: RatesViewModel by activityViewModels()
+
+  private var _binding: FragmentRatesBinding? = null
+  private val binding get() = _binding!!
 
   private val title by lazy { resources.getString(R.string.last_updated) }
   private val adapter = RatesAdapter()
-  private var ratesFragmentBinding: RatesFragmentBinding? = null
+
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    _binding = FragmentRatesBinding.inflate(inflater, container, false)
+    return binding.root
+  }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-
-    val binding = RatesFragmentBinding.bind(view)
-    ratesFragmentBinding = binding
 
     binding.ratesList.setHasFixedSize(true)
     binding.ratesList.adapter = adapter
@@ -45,28 +53,33 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
     val adRequest = AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build()
     binding.adView.loadAd(adRequest)
 
-//    ratesViewModel.refresh()
+    //ratesViewModel.refresh()
 
     observeLiveData()
   }
 
   private fun observeLiveData() {
 
-    ratesViewModel.rates.observe(viewLifecycleOwner, Observer<List<RatesItem>> {
+    ratesViewModel.rates.observe(viewLifecycleOwner, Observer {
       it?.let {
         adapter.dataSource = it
       }
     })
 
-    ratesViewModel.isLoading.observe(viewLifecycleOwner, Observer<Boolean> {
-      it?.let { ratesFragmentBinding!!.lRefresh.isRefreshing = it }
+    ratesViewModel.isLoading.observe(viewLifecycleOwner, Observer {
+      it?.let { binding.lRefresh.isRefreshing = it }
     })
 
     val formatter = DateTimeFormatter.ofPattern("dd MMM HH:mm")
-    ratesViewModel.date.observe(viewLifecycleOwner, Observer<LocalDate> {
-      it?.let { ratesFragmentBinding!!.tvTitle.text = "$title ${LocalDateTime.now().format(formatter)}" }
+    ratesViewModel.date.observe(viewLifecycleOwner, Observer {
+      it?.let { binding.tvTitle.text = "$title ${LocalDateTime.now().format(formatter)}" }
     })
 
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    _binding = null
   }
 
 }

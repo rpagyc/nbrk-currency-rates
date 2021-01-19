@@ -2,7 +2,9 @@ package com.nbrk.rates.ui.about
 
 import android.os.Bundle
 import android.text.Html
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.multidex.BuildConfig
 import com.nbrk.rates.R
@@ -15,18 +17,22 @@ import com.nbrk.rates.databinding.FragmentAboutBinding
  */
 class AboutFragment : Fragment() {
 
-  private var fragmentAboutBinding: FragmentAboutBinding? = null
+  private var _binding: FragmentAboutBinding? = null
+  private val binding get() = _binding!!
+
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    _binding = FragmentAboutBinding.inflate(inflater, container, false)
+    return binding.root
+  }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    val binding = FragmentAboutBinding.bind(view)
-    fragmentAboutBinding = binding
     binding.tvAbout.text = Html.fromHtml(getString(R.string.about_text).replace("VERSION_NUMBER",
       BuildConfig.VERSION_NAME))
   }
 
   override fun onDestroy() {
     super.onDestroy()
-    fragmentAboutBinding = null
+    _binding = null
   }
 }

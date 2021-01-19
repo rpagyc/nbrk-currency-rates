@@ -1,10 +1,12 @@
 package com.nbrk.rates.ui.chart
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -12,7 +14,6 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IValueFormatter
-import com.nbrk.rates.Injection
 import com.nbrk.rates.R
 import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.databinding.FragmentChartBinding
@@ -28,21 +29,22 @@ import java.text.DecimalFormat
  * DigitTonic Studio
  * support@digittonic.com
  */
-class ChartFragment : Fragment(R.layout.fragment_chart) {
+class ChartFragment : Fragment() {
 
-  private var fragmentChartBinding: FragmentChartBinding? = null
+  private var _binding: FragmentChartBinding? = null
+  private val binding get() = _binding!!
 
-  private val viewModelFactory by lazy { Injection.provideViewModelFactory(requireActivity()) }
-  private val ratesViewModel by lazy {
-    ViewModelProviders.of(requireActivity(), viewModelFactory).get(RatesViewModel::class.java)
-  }
+  private val ratesViewModel: RatesViewModel by activityViewModels()
 
   private val ratesSpinnerAdapter = RatesSpinnerAdapter()
 
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    _binding = FragmentChartBinding.inflate(inflater, container, false)
+    return binding.root
+  }
+
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    val binding = FragmentChartBinding.bind(view)
-    fragmentChartBinding = binding
     binding.spCurrency.apply {
       adapter = ratesSpinnerAdapter
       setSelection(0, false)
@@ -68,8 +70,8 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
   }
 
   private fun setCurrencyAndPeriod() {
-    val currency = (fragmentChartBinding!!.spCurrency.selectedItem as RatesItem).currencyCode
-    val period = fragmentChartBinding!!.spPeriod.selectedItem as Int
+    val currency = (binding.spCurrency.selectedItem as RatesItem).currencyCode
+    val period = binding.spPeriod.selectedItem as Int
     ratesViewModel.currencyAndPeriod.value = Pair(currency, period)
   }
 
@@ -82,7 +84,7 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
       it?.let { rates ->
         if (rates.isNotEmpty()) {
           setChartData(rates)
-          fragmentChartBinding!!.chart.invalidate()
+          binding.chart.invalidate()
         }
       }
     })
@@ -96,7 +98,7 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
     }
 
     val xAxisFormatter = IAxisValueFormatter { xValue, _ ->
-      val lineDataSet = fragmentChartBinding!!.chart.data.getDataSetByIndex(0) as LineDataSet
+      val lineDataSet = binding.chart.data.getDataSetByIndex(0) as LineDataSet
       val entriesCount = lineDataSet.values.size
       val formatter = if (entriesCount == 7) {
         DateTimeFormatter.ofPattern("EEE")
@@ -115,7 +117,7 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
     val spaceLength = 10f
     val phase = 0f
 
-    fragmentChartBinding!!.chart.apply {
+    binding.chart.apply {
       axisLeft.enableGridDashedLine(lineLength, spaceLength, phase)
       axisLeft.valueFormatter = yAxisFormatter
 
@@ -144,12 +146,12 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
       valueFormatter = IValueFormatter { value, _, _, _ -> formatter.format(value) }
       setDrawFilled(true)
     }
-    fragmentChartBinding!!.chart.data = LineData(lineDataSet)
+    binding.chart.data = LineData(lineDataSet)
   }
 
   override fun onDestroy() {
     super.onDestroy()
-    fragmentChartBinding = null
+    _binding = null
   }
 }
 

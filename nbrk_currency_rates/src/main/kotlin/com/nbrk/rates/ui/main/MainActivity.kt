@@ -14,14 +14,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.DatePicker
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
+import com.google.android.gms.ads.MobileAds
 import com.nbrk.rates.Injection
 import com.nbrk.rates.R
 import com.nbrk.rates.databinding.ActivityMainBinding
@@ -32,7 +33,6 @@ import com.nbrk.rates.ui.converter.ConverterFragment
 import com.nbrk.rates.ui.rates.RatesFragment
 import com.nbrk.rates.ui.settings.SettingsFragment
 import com.nbrk.rates.util.TAG
-import org.jetbrains.anko.toolbar
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import java.io.File
@@ -46,9 +46,7 @@ import java.io.FileOutputStream
 class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
 
   private val viewModelFactory by lazy { Injection.provideViewModelFactory(this) }
-  private val ratesViewModel by lazy {
-    ViewModelProviders.of(this, viewModelFactory).get(RatesViewModel::class.java)
-  }
+  private val ratesViewModel: RatesViewModel by viewModels { viewModelFactory }
 
   companion object {
     const val REQUEST_STORAGE = 1
@@ -60,6 +58,7 @@ class MainActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceS
     super.onCreate(savedInstanceState)
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding.root)
+    MobileAds.initialize(this) {}
 
     setSupportActionBar(findViewById(R.id.toolbar))
 

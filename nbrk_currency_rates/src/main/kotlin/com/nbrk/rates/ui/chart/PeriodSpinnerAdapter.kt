@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.nbrk.rates.R
+import com.nbrk.rates.databinding.SpinnerItemPeriodBinding
 
 /**
  * Created by Roman Shakirov on 10-Nov-17.
@@ -20,10 +21,9 @@ class PeriodSpinnerAdapter : BaseAdapter() {
     }
 
   override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-    val itemView = LayoutInflater.from(parent.context).inflate(R.layout.spinner_item_period,
-      parent, false)
-    //binding.itemView.label.text = dataSource[position].second
-    return itemView
+    val binding = SpinnerItemPeriodBinding.inflate(LayoutInflater.from(parent.context))
+    binding.label.text = dataSource[position].second
+    return binding.root
   }
 
   override fun getItem(position: Int): Any {
