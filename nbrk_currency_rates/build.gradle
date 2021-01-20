@@ -1,5 +1,5 @@
 plugins {
-  id 'com.gladed.androidgitversion' version '0.3.4'
+  id 'com.gladed.androidgitversion' version '0.4.14'
   id 'com.android.application'
   id 'kotlin-android'
 }
@@ -10,7 +10,7 @@ android {
   compileSdkVersion rootProject.ext.compileSdkVersion
   defaultConfig {
     applicationId "com.nbrk.rates"
-    minSdkVersion 21
+    minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
     versionName androidGitVersion.name()
     versionCode androidGitVersion.code()
