@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.multidex.BuildConfig
+import com.nbrk.rates.BuildConfig
 import com.nbrk.rates.R
 import com.nbrk.rates.databinding.FragmentAboutBinding
 

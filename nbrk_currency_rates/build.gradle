@@ -10,9 +10,8 @@ android {
   compileSdkVersion rootProject.ext.compileSdkVersion
   defaultConfig {
     applicationId "com.nbrk.rates"
-    minSdkVersion 16
+    minSdkVersion 21
     targetSdkVersion rootProject.ext.targetSdkVersion
-    multiDexEnabled true
     versionName androidGitVersion.name()
     versionCode androidGitVersion.code()
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -46,7 +45,6 @@ android {
 }
 
 dependencies {
-  implementation 'com.android.support:multidex:1.0.3'
   // Support libraries
   implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
   implementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"

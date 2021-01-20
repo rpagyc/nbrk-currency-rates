@@ -1,7 +1,7 @@
 package com.nbrk.rates.base
 
+import android.app.Application
 import android.os.StrictMode
-import androidx.multidex.MultiDexApplication
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 /**
@@ -9,7 +9,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 * DigitTonic Studio
 * support@digittonic.com
 */
-class BaseApplication : MultiDexApplication() {
+class BaseApplication : Application() {
 
   override fun onCreate() {
     super.onCreate()
