@@ -1,14 +1,14 @@
 package com.nbrk.rates.ui.about
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.nbrk.rates.BuildConfig
+import androidx.fragment.app.Fragment
+import androidx.multidex.BuildConfig
 import com.nbrk.rates.R
-import kotlinx.android.synthetic.main.fragment_about.*
+import com.nbrk.rates.databinding.FragmentAboutBinding
 
 /**
  * Created by Roman Shakirov on 02-Jul-17.
@@ -16,14 +16,23 @@ import kotlinx.android.synthetic.main.fragment_about.*
  * support@digittonic.com
  */
 class AboutFragment : Fragment() {
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                            savedInstanceState: Bundle?): View? {
-    return inflater.inflate(R.layout.fragment_about, container, false)
+
+  private var _binding: FragmentAboutBinding? = null
+  private val binding get() = _binding!!
+
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    _binding = FragmentAboutBinding.inflate(inflater, container, false)
+    return binding.root
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    tvAbout.text = Html.fromHtml(getString(R.string.about_text).replace("VERSION_NUMBER",
+    binding.tvAbout.text = Html.fromHtml(getString(R.string.about_text).replace("VERSION_NUMBER",
       BuildConfig.VERSION_NAME))
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    _binding = null
   }
 }

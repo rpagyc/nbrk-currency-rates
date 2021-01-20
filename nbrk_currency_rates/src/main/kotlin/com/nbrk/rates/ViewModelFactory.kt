@@ -1,7 +1,7 @@
 package com.nbrk.rates
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.nbrk.rates.data.RatesRepository
 import com.nbrk.rates.ui.common.RatesViewModel
 

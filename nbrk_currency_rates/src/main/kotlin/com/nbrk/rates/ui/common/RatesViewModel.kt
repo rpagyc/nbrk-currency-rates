@@ -1,6 +1,6 @@
 package com.nbrk.rates.ui.common
 
-import android.arch.lifecycle.*
+import androidx.lifecycle.*
 import com.nbrk.rates.data.RatesRepository
 import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.util.toLiveData

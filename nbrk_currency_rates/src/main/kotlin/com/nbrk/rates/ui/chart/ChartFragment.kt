@@ -1,12 +1,12 @@
 package com.nbrk.rates.ui.chart
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -14,12 +14,11 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IValueFormatter
-import com.nbrk.rates.Injection
 import com.nbrk.rates.R
 import com.nbrk.rates.data.local.domain.model.RatesItem
+import com.nbrk.rates.databinding.FragmentChartBinding
 import com.nbrk.rates.ui.common.RatesSpinnerAdapter
 import com.nbrk.rates.ui.common.RatesViewModel
-import kotlinx.android.synthetic.main.fragment_chart.*
 import org.jetbrains.anko.sdk25.listeners.onItemSelectedListener
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
@@ -32,22 +31,21 @@ import java.text.DecimalFormat
  */
 class ChartFragment : Fragment() {
 
-  private val viewModelFactory by lazy { Injection.provideViewModelFactory(activity!!) }
-  private val ratesViewModel by lazy {
-    ViewModelProviders.of(activity!!, viewModelFactory).get(RatesViewModel::class.java)
-  }
+  private var _binding: FragmentChartBinding? = null
+  private val binding get() = _binding!!
+
+  private val ratesViewModel: RatesViewModel by activityViewModels()
 
   private val ratesSpinnerAdapter = RatesSpinnerAdapter()
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                            savedInstanceState: Bundle?): View? {
-    return inflater.inflate(R.layout.fragment_chart, container, false)
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    _binding = FragmentChartBinding.inflate(inflater, container, false)
+    return binding.root
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-
-    spCurrency.apply {
+    binding.spCurrency.apply {
       adapter = ratesSpinnerAdapter
       setSelection(0, false)
       onItemSelectedListener { onItemSelected { _, _, _, _ -> setCurrencyAndPeriod() } }
@@ -61,7 +59,7 @@ class ChartFragment : Fragment() {
 
     val periodSpinnerAdapter = PeriodSpinnerAdapter().apply { dataSource = periods }
 
-    spPeriod.apply {
+    binding.spPeriod.apply {
       adapter = periodSpinnerAdapter
       setSelection(0, false)
       onItemSelectedListener { onItemSelected { _, _, _, _ -> setCurrencyAndPeriod() } }
@@ -72,21 +70,21 @@ class ChartFragment : Fragment() {
   }
 
   private fun setCurrencyAndPeriod() {
-    val currency = (spCurrency.selectedItem as RatesItem).currencyCode
-    val period = spPeriod.selectedItem as Int
+    val currency = (binding.spCurrency.selectedItem as RatesItem).currencyCode
+    val period = binding.spPeriod.selectedItem as Int
     ratesViewModel.currencyAndPeriod.value = Pair(currency, period)
   }
 
   private fun observeLiveData() {
-    ratesViewModel.rates.observe(this, Observer<List<RatesItem>> {
+    ratesViewModel.rates.observe(viewLifecycleOwner, Observer<List<RatesItem>> {
       it?.let { ratesSpinnerAdapter.dataSource = it }
     })
 
-    ratesViewModel.chartRates.observe(this, Observer<List<RatesItem>> {
+    ratesViewModel.chartRates.observe(viewLifecycleOwner, Observer<List<RatesItem>> {
       it?.let { rates ->
         if (rates.isNotEmpty()) {
           setChartData(rates)
-          chart.invalidate()
+          binding.chart.invalidate()
         }
       }
     })
@@ -100,7 +98,7 @@ class ChartFragment : Fragment() {
     }
 
     val xAxisFormatter = IAxisValueFormatter { xValue, _ ->
-      val lineDataSet = chart.data.getDataSetByIndex(0) as LineDataSet
+      val lineDataSet = binding.chart.data.getDataSetByIndex(0) as LineDataSet
       val entriesCount = lineDataSet.values.size
       val formatter = if (entriesCount == 7) {
         DateTimeFormatter.ofPattern("EEE")
@@ -119,7 +117,7 @@ class ChartFragment : Fragment() {
     val spaceLength = 10f
     val phase = 0f
 
-    chart.apply {
+    binding.chart.apply {
       axisLeft.enableGridDashedLine(lineLength, spaceLength, phase)
       axisLeft.valueFormatter = yAxisFormatter
 
@@ -148,7 +146,12 @@ class ChartFragment : Fragment() {
       valueFormatter = IValueFormatter { value, _, _, _ -> formatter.format(value) }
       setDrawFilled(true)
     }
-    chart.data = LineData(lineDataSet)
+    binding.chart.data = LineData(lineDataSet)
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    _binding = null
   }
 }
 

@@ -1,17 +1,16 @@
 package com.nbrk.rates.ui.converter
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.nbrk.rates.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.nbrk.rates.data.local.domain.model.RatesItem
+import com.nbrk.rates.databinding.FragmentConverterBinding
 import com.nbrk.rates.ui.common.RatesSpinnerAdapter
 import com.nbrk.rates.ui.common.RatesViewModel
-import kotlinx.android.synthetic.main.fragment_converter.*
 import org.jetbrains.anko.sdk25.listeners.onItemSelectedListener
 import org.jetbrains.anko.sdk25.listeners.textChangedListener
 import org.threeten.bp.LocalDate
@@ -23,7 +22,11 @@ import org.threeten.bp.LocalDate
  */
 class ConverterFragment : Fragment() {
 
-  private val ratesViewModel by lazy { ViewModelProviders.of(activity!!).get(RatesViewModel::class.java) }
+  private val ratesViewModel: RatesViewModel by activityViewModels()
+  
+  private var _binding: FragmentConverterBinding? = null
+  private val binding get() = _binding!!
+  
   private val ratesSpinnerAdapter = RatesSpinnerAdapter()
   private var rates = mutableListOf<RatesItem>()
   private val kzt = RatesItem(
@@ -37,20 +40,24 @@ class ConverterFragment : Fragment() {
   )
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    return inflater.inflate(R.layout.fragment_converter, container, false)
+    _binding = FragmentConverterBinding.inflate(inflater, container, false)
+    return binding.root
   }
-
+  
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    spFromCurrency.apply {
+
+    binding.spFromCurrency.apply {
       adapter = ratesSpinnerAdapter
       onItemSelectedListener { onItemSelected { _, _, _, _ -> convert() } }
     }
-    spToCurrency.apply {
+
+    binding.spToCurrency.apply {
       adapter = ratesSpinnerAdapter
       onItemSelectedListener { onItemSelected { _, _, _, _ -> convert() } }
     }
-    etFromAmount.apply {
+
+    binding.etFromAmount.apply {
       setText("1.00")
       textChangedListener { onTextChanged { _, _, _, _ -> convert() } }
     }
@@ -59,7 +66,7 @@ class ConverterFragment : Fragment() {
   }
 
   private fun observeLiveData() {
-    ratesViewModel.rates.observe(this, Observer<List<RatesItem>> {
+    ratesViewModel.rates.observe(viewLifecycleOwner, Observer<List<RatesItem>> {
       it?.let {
         rates = it.toMutableList()
         rates.add(kzt)
@@ -70,8 +77,8 @@ class ConverterFragment : Fragment() {
 
   private fun convert() {
     if (rates.isNotEmpty()) {
-      val fromCurrency = spFromCurrency.selectedItem as RatesItem
-      val toCurrency = spToCurrency.selectedItem as RatesItem
+      val fromCurrency = binding.spFromCurrency.selectedItem as RatesItem
+      val toCurrency = binding.spToCurrency.selectedItem as RatesItem
 
       val fromPrice = fromCurrency.price
       val fromQuant = fromCurrency.quantity
@@ -79,12 +86,17 @@ class ConverterFragment : Fragment() {
       val toPrice = toCurrency.price
       val toQuant = toCurrency.quantity
 
-      if (etFromAmount.text.toString().isNotBlank()) {
-        val amount = etFromAmount.text.toString().toDouble()
-        etToAmount.setText("%.2f".format(amount * (fromPrice / fromQuant) / (toPrice / toQuant)))
+      if (binding.etFromAmount.text.toString().isNotBlank()) {
+        val amount = binding.etFromAmount.text.toString().toDouble()
+        binding.etToAmount.setText("%.2f".format(amount * (fromPrice / fromQuant) / (toPrice / toQuant)))
       } else {
-        etToAmount.setText("")
+        binding.etToAmount.setText("")
       }
     }
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    _binding = null
   }
 }

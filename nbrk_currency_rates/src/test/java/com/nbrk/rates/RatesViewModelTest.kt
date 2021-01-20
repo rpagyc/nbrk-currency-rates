@@ -1,6 +1,6 @@
 package com.nbrk.rates
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nbrk.rates.data.local.room.dao.RatesDao
 import org.junit.Before
 import org.junit.Rule

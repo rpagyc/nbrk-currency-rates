@@ -1,7 +1,7 @@
 package com.nbrk.rates.data.local.room
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.support.test.runner.AndroidJUnit4
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.runner.AndroidJUnit4
 import com.nbrk.rates.data.local.domain.model.RatesItem
 import org.junit.Rule
 import org.junit.Test

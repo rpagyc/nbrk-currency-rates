@@ -1,6 +1,5 @@
 package com.nbrk.rates.data.remote.rest
 
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.nbrk.rates.BuildConfig
 import com.nbrk.rates.data.remote.rest.model.RestRates
 import io.reactivex.Single
@@ -34,7 +33,6 @@ interface RestApi {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BASIC
         httpClient.addInterceptor(logging)
-        httpClient.addNetworkInterceptor(StethoInterceptor())
       }
 
       val retrofit = Retrofit.Builder()
