@@ -6,16 +6,17 @@ Android application to view currency rates provided by National Bank of Kazakhst
 ![Build](https://github.com/rpagyc/nbrk-currency-rates/workflows/Build/badge.svg?branch=master)
 
 ## Get it on
-[<img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="230"/>](https://play.google.com/store/apps/details?id=com.nbrk.rates)
+[<img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="200"/>](https://play.google.com/store/apps/details?id=com.nbrk.rates)
 
 ## Main features
 - Get currency rates for current day
 - View chart for dynamic changes
 - Currency converter
-- 
+- Get rates on selected date
 
 ## Screenshots
-
+[<img src="./images/screenshot_1.png" width="200">]()
+[<img src="./images/screenshot_2.png" width="200">]()
 
 ## License
 ```
