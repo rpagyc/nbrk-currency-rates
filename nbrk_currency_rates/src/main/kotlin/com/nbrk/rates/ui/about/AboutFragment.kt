@@ -1,12 +1,13 @@
 package com.nbrk.rates.ui.about
 
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.nbrk.rates.BuildConfig
 import com.nbrk.rates.R
 import com.nbrk.rates.databinding.FragmentAboutBinding
 
@@ -27,8 +28,9 @@ class AboutFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    val packageInfo: PackageInfo = requireActivity().packageManager.getPackageInfo(requireActivity().packageName, 0)
     binding.tvAbout.text = Html.fromHtml(getString(R.string.about_text).replace("VERSION_NUMBER",
-      BuildConfig.VERSION_NAME))
+      packageInfo.versionCode.toString()))
   }
 
   override fun onDestroy() {

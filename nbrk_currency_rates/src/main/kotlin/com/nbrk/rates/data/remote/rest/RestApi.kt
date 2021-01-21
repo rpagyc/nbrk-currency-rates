@@ -25,7 +25,7 @@ interface RestApi {
 
     fun getInstance(): RestApi {
 
-      val API_BASE_URL = "http://www.nationalbank.kz/rss/"
+      val API_BASE_URL = "https://www.nationalbank.kz/rss/"
 
       val httpClient = OkHttpClient.Builder()
 

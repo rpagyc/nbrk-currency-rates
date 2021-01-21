@@ -4,18 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import com.google.android.gms.ads.AdRequest
-import com.nbrk.rates.Injection
 import com.nbrk.rates.R
-import com.nbrk.rates.data.local.domain.model.RatesItem
 import com.nbrk.rates.databinding.FragmentRatesBinding
 import com.nbrk.rates.ui.common.RatesViewModel
-import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
