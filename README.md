@@ -1,1 +1,1 @@
-[![build status](https://gitlab.com/rpagyc/nbrk_currency_rates/badges/master/build.svg)](https://gitlab.com/rpagyc/nbrk_currency_rates/commits/master)
+![Build](https://github.com/rpagyc/nbrk-currency-rates/workflows/Build/badge.svg?branch=master)
