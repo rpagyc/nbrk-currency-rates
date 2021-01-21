@@ -28,9 +28,7 @@ class AboutFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    val packageInfo: PackageInfo = requireActivity().packageManager.getPackageInfo(requireActivity().packageName, 0)
-    binding.tvAbout.text = Html.fromHtml(getString(R.string.about_text).replace("VERSION_NUMBER",
-      packageInfo.versionCode.toString()))
+    binding.tvAbout.text = Html.fromHtml(getString(R.string.about_text))
   }
 
   override fun onDestroy() {
