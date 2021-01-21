@@ -28,7 +28,7 @@ class AboutFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     binding.tvAbout.text = Html.fromHtml(getString(R.string.about_text).replace("VERSION_NUMBER",
-      BuildConfig.VERSION_NAME))
+      ""))
   }
 
   override fun onDestroy() {
