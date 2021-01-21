@@ -1,5 +1,4 @@
 plugins {
-  id 'com.gladed.androidgitversion' version '0.4.14'
   id 'com.android.application'
   id 'kotlin-android'
 }
@@ -12,8 +11,8 @@ android {
     applicationId "com.nbrk.rates"
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
-    versionName androidGitVersion.name()
-    versionCode androidGitVersion.code()
+    versionName getVersionName()
+    versionCode getVersionCode()
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
@@ -136,4 +135,61 @@ dependencies {
   androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   }
+}
+
+def getCommits = {
+  def stdout
+  stdout = new ByteArrayOutputStream()
+  exec {
+    commandLine "git", "rev-list", "HEAD", "--count"
+    standardOutput = stdout
+  }
+  def commits = stdout.toString().trim()
+  return Integer.parseInt(commits)
+}
+
+def getVersionCode = {
+  def stdout
+  stdout = new ByteArrayOutputStream()
+  exec {
+    commandLine "git", "describe", "--tag"
+    standardOutput = stdout
+  }
+  def longTag = stdout.toString().trim()
+  def tag = longTag.tokenize('-')[0]
+
+  def parts = tag.tokenize('.')
+  if(parts.size() != 3 || parts[1].length() > 2 || parts[2].length() > 2) {
+    throw new RuntimeException("Invalid version tag \"${tag}\", format \"x.y.z\" expected.")
+  }
+  if(parts[1].length() == 1) {
+    parts[1] = "0" + parts[1]
+  }
+  if(parts[2].length() == 1) {
+    parts[2] = "0" + parts[2]
+  }
+  
+  return Integer.parseInt(parts[0] + parts[1] + parts[2]) + getCommits()
+}
+
+def getVersionName = {
+  def stdout
+  try {
+    stdout = new ByteArrayOutputStream()
+    exec {
+      commandLine "git", "describe", "--tag"
+      standardOutput = stdout
+    }
+    def longTag = stdout.toString().trim()
+
+    return longTag
+  } catch (exception) {
+    return "0.0.1";
+  }
+}
+
+task printVersion {
+  def myVersionCode = getVersionCode()
+  def myVersionName = getVersionName()
+  println "[" + myVersionCode + ", " + myVersionName + "]"
 }
