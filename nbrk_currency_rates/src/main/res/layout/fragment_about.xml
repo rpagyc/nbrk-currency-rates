@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:orientation="vertical"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/white"
+  android:orientation="vertical"
   >
 
   <TextView
     android:id="@+id/tvAbout"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:layout_marginBottom="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="18dp"
+    android:textSize="14sp"
+    app:layout_constraintTop_toTopOf="parent"
     tools:text='Курсы Валют KZ - актуальные курсы у вас в телефоне!
 
 Ничего лишнего, только функционал при простом интерфейсе:
@@ -26,10 +26,13 @@
 - график изменения курсов;
 
 О найденных ошибках и пожеланиях пишите, пожалуйста, в отзывах или на почту support@digittonic.com'
-    android:textSize="14sp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
+    />
+
+  <ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:src="@drawable/banner"
     app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tvAbout"
     />
 </androidx.constraintlayout.widget.ConstraintLayout>
