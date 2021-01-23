@@ -15,8 +15,8 @@ Android application to view currency rates provided by National Bank of Kazakhst
 - Get rates on selected date
 
 ## Screenshots
-[<img src="./images/screenshot_1.png" width="200">]()
-[<img src="./images/screenshot_2.png" width="200">]()
+[<img src="./images/screenshot_1.png" width="200">](https://github.com/rpagyc/nbrk-currency-rates/blob/master/images/screenshot_1.png)
+[<img src="./images/screenshot_2.png" width="200">](https://github.com/rpagyc/nbrk-currency-rates/blob/master/images/screenshot_2.png)
 
 ## License
 ```
